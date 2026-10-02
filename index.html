@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>하늘에서 본 대전展 도슨트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃 콘셉트: 문서보관소 색인카드 — 상단 고정 진행바 + 전면 구역 카드가 URL 해시로 전환 */
+:root{
+  --bg:#f3efe4;
+  --surface:#eae3d2;
+  --fg:#2b2620;
+  --muted:#8a7f63;
+  --line:#c9bea0;
+  --accent:#b23a2e;
+  --accent-fg:#faf3e4;
+  --display:'Noto Serif KR',serif;
+  --body:'Noto Sans KR',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1b1815;
+    --surface:#262119;
+    --fg:#ece4d3;
+    --muted:#a0937a;
+    --line:#443c2f;
+    --accent:#e07a63;
+    --accent-fg:#1b1815;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1b1815;
+  --surface:#262119;
+  --fg:#ece4d3;
+  --muted:#a0937a;
+  --line:#443c2f;
+  --accent:#e07a63;
+  --accent-fg:#1b1815;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);margin:0;padding-inline:0;line-height:1.7}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0 0 .4em}
+.mono{font-family:var(--mono)}
+a{color:var(--accent)}
+.wrap{max-width:640px;margin:0 auto;padding-inline:20px}
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:20;
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px));
+  background:var(--bg);border-bottom:1px solid var(--line);
+}
+#topbar .home-btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em;
+  border:1px solid var(--line);background:var(--surface);color:var(--fg);
+  padding:6px 10px;border-radius:3px;cursor:pointer;flex:none;
+}
+#topbar .meta{flex:1;min-width:0}
+#topbar .progress{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+#topbar .ztitle{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#topbar .nav-btn{
+  font-family:var(--mono);font-size:18px;line-height:1;
+  border:1px solid var(--line);background:var(--surface);color:var(--fg);
+  width:34px;height:34px;border-radius:3px;cursor:pointer;flex:none;
+}
+#topbar .nav-btn:disabled{opacity:.25;cursor:default}
+main{padding-top:64px}
+.zone{padding-block:28px 64px}
+.zone[hidden]{display:none}
+.badge{
+  display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  color:var(--accent-fg);background:var(--accent);padding:3px 8px;border-radius:2px;
+  margin-bottom:10px;text-transform:uppercase;
+}
+.draft-banner{
+  background:var(--surface);border:1px dashed var(--line);border-radius:4px;
+  padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:22px;
+}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:16px 18px;margin-block:14px;
+}
+.card h3{font-size:15px;margin-bottom:.5em}
+.card p{margin:.4em 0;font-size:14px;color:var(--fg)}
+.photo-slot{
+  border:1.5px dashed var(--line);border-radius:4px;padding:14px;
+  font-size:12.5px;color:var(--muted);margin-block:10px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.photo-slot svg{flex:none;margin-top:2px}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{
+  display:flex;gap:12px;padding:8px 0;border-top:1px solid var(--line);
+  font-size:13.5px;
+}
+.timeline li:first-child{border-top:none}
+.timeline .date{font-family:var(--mono);font-size:12px;color:var(--accent);flex:none;width:92px}
+.home-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.home-list a{
+  display:block;text-decoration:none;color:var(--fg);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:14px 16px;
+}
+.home-list a:hover{border-color:var(--accent)}
+.home-list .num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em}
+.home-list .ztitle2{font-weight:700;font-size:15px;margin:.2em 0}
+.home-list .teaser{font-size:13px;color:var(--muted)}
+.review-list{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+.review-list li{margin-block:4px}
+.zone-footer{
+  display:flex;justify-content:space-between;gap:10px;margin-top:36px;
+  padding-top:14px;border-top:1px solid var(--line);
+}
+.zone-footer button{
+  font-family:var(--mono);font-size:12px;background:none;border:1px solid var(--line);
+  color:var(--fg);padding:8px 12px;border-radius:3px;cursor:pointer;
+}
+.zone-footer button:disabled{opacity:.3}
+.source{font-size:11.5px;color:var(--muted);font-family:var(--mono)}
+p.lead{font-size:15px}
+hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
+</style>
+</head>
+<body>
+
+
+<div id="topbar">
+  <button class="nav-btn" id="prevBtn" aria-label="이전 구역">‹</button>
+  <div class="meta">
+    <div class="progress" id="progressLabel">전체 목차</div>
+    <div class="ztitle" id="titleLabel">「하늘에서 본 대전展」 도슨트</div>
+  </div>
+  <button class="nav-btn" id="nextBtn" aria-label="다음 구역">›</button>
+  <button class="home-btn" id="homeBtn">목차</button>
+</div>
+
+<main class="wrap">
+
+  <!-- 홈 / 목차 -->
+  <section id="home" class="zone">
+    <span class="badge">도슨트 초안</span>
+    <h1>「하늘에서 본 대전展」</h1>
+    <p class="lead">-해방과 전쟁 사이</p>
+    <div class="draft-banner">제작 중인 초안입니다. 사진·캡션 등 실제 전시 자료는 배치 확정 후 보강됩니다. 구조와 동선 검토용으로 먼저 공유합니다.</div>
+
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:24px">
+      <tr><td class="mono" style="color:var(--muted);padding:4px 0;width:72px">기간</td><td>2026.10.29(목) – 11.30(월) · 10:00–16:00 · 휴관 토·일</td></tr>
+      <tr><td class="mono" style="color:var(--muted);padding:4px 0">장소</td><td>테미마을박물관 1층 (대전 중구 보문로 184)</td></tr>
+      <tr><td class="mono" style="color:var(--muted);padding:4px 0">주최</td><td>(사)평화통일교육문화센터 · (사)대전문화유산울림</td></tr>
+    </table>
+
+    <h2 style="font-size:15px;margin-bottom:10px">구역 안내</h2>
+    <ul class="home-list">
+      <li><a href="#intro"><div class="num">1 / 5구역</div><div class="ztitle2">진입부 — 서문과 연표</div><div class="teaser">전시의 문제의식과 1945–1950년 연표</div></a></li>
+      <li><a href="#battle"><div class="num">2 / 5구역</div><div class="ztitle2">대전전투</div><div class="teaser">1945년 정찰사진과 1950년 7월 20일 전투 경과</div></a></li>
+      <li><a href="#infra"><div class="num">3 / 5구역</div><div class="ztitle2">파괴된 기반시설</div><div class="teaser">철도 조차장 · 대전비행장 · 하천과 교량 · 항공폭격 연표</div></a></li>
+      <li><a href="#ruins"><div class="num">4 / 5구역</div><div class="ztitle2">폐허와 결과</div><div class="teaser">1950년 9월 폐허 사진과 1951년 LIFE 항공사진</div></a></li>
+      <li><a href="#now"><div class="num">5 / 5구역</div><div class="ztitle2">그때와 지금</div><div class="teaser">비교사진과 위성사진 체험 코너</div></a></li>
+    </ul>
+
+    <hr class="rule">
+    <h2 style="font-size:14px;color:var(--muted)">팀 검토 필요 사항</h2>
+    <ul class="review-list">
+      <li>연표 최종본 확정 (현재 예시 항목 상태)</li>
+      <li>위성사진 체험 코너 — 대전역 외 추가 지점 선정</li>
+      <li>5구역(그때와 지금) 시각적 비중 — 단독 확대 배치 여부</li>
+      <li>입구 통로 기존 집기 철거, 2구역 인접 작업공간 가림막 설치</li>
+      <li>철도·하천 자료는 공간상 3구역 '미공군 공격목표' 패널에 통합</li>
+    </ul>
+  </section>
+
+  <!-- 1구역 -->
+  <section id="intro" class="zone" hidden>
+    <span class="badge">1 / 5구역</span>
+    <h1>진입부 — 서문과 연표</h1>
+    <p class="lead">기록되지 않으면 오래도록 기억되기 어렵다.</p>
+    <p>일제 36년 동안 식민지배를 겪으며 해방을 맞이한 우리는 안타깝게도 미군정 3년을 살았다. 3년 만에 미군정은 끝났지만, 자주독립국가의 꿈을 이루지 못한 채 남과 북에는 서로 다른 정부가 수립되었다. 그러고는 2년 채 되기 전에 전쟁을 맞이했다.</p>
+    <p>우리의 현대사 속에서 해방과 전쟁은 매우 중차대한 사건이었다. 하지만 당시 상황은 제대로 기록되지 않았다. 혼란한 상황 속에서 기록할 여유가 어디 있었겠는가? 나름 해방사와 전쟁사가 편찬되었지만 기록의 부족 속에 빈틈이 많았고, 특히 지역사의 입장에서는 기록이 턱없이 부족했다.</p>
+    <p>그러던 중 미국에 의해 생산된 기록이 의외로 많다는 것을 알게 되었다. 미국은 해방 전부터 상공에서 대전을 촬영했고, 해방 후에도 항공사진 촬영을 이어갔다. 전쟁시기에도 수많은 사진을 생산해냈다.</p>
+    <p>이 전시는 해방 전후뿐 아니라 한국전쟁 초기 격전지였던 대전전투(1950년 7월) 당시의 항공사진을 통해, 전쟁이 남긴 도시의 상흔과 대전의 역사적 의미를 재조명하는 데 목적이 있다. 이를 통해 전쟁의 참상과 평화의 가치를 되새기고, 대전이 지닌 전쟁사적·도시사적 위치를 시민과 함께 공유하고자 한다.</p>
+
+    <hr class="rule">
+    <h2 style="font-size:15px">연표 — 8.16 해방 ~ 1950년 한국전쟁<span class="mono" style="font-size:11px;color:var(--muted);margin-left:8px">(예시 · 확정 예정)</span></h2>
+    <ul class="timeline">
+      <li><span class="date">1945.08.15</span><span>해방</span></li>
+      <li><span class="date">1945.08.16–17</span><span>건국준비위원회(건준) 대전지부 결성</span></li>
+      <li><span class="date">1945.10.20경</span><span>미군정 진주, 충남도청에 군정청 설치</span></li>
+      <li><span class="date">1945.11</span><span>좌·우익 청년단체·정당 창당 본격화</span></li>
+      <li><span class="date">1945.12 말</span><span>신탁통치 반대(반탁) 시민 궐기대회</span></li>
+      <li><span class="date">1946.09</span><span>철도 총파업 (대전 조차장 중심)</span></li>
+      <li><span class="date">1947.03.01</span><span>3·1절 기념식, 좌·우익 단체 별도 집회·충돌</span></li>
+      <li><span class="date">1948.05.10</span><span>5·10 총선 — 성낙서(무소속) 당선</span></li>
+      <li><span class="date">1948.08.15</span><span>대한민국 정부 수립 경축대회</span></li>
+      <li><span class="date">1949.08.15</span><span>'대전부'에서 '대전시'로 개칭</span></li>
+      <li><span class="date">1949.10–11</span><span>국민보도연맹 대전·충남지부 결성</span></li>
+      <li><span class="date">1950.05.30</span><span>제2대 국회의원 선거 — 김종열(무소속) 당선</span></li>
+      <li><span class="date">1950.06.25</span><span>한국전쟁 전면전 발발</span></li>
+    </ul>
+
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>사진 삽입 예정 — 전쟁 전 대전역 일대 항공사진</div>
+    </div>
+
+    <div class="zone-footer">
+      <button disabled>‹ 이전 구역</button>
+      <button onclick="location.hash='battle'">다음 구역 — 대전전투 ›</button>
+    </div>
+  </section>
+
+  <!-- 2구역 -->
+  <section id="battle" class="zone" hidden>
+    <span class="badge">2 / 5구역</span>
+    <h1>대전전투</h1>
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>사진 삽입 예정 — 1945.1.30 정찰사진 5장 (LO98–LO103, 촬영고도 28,000ft) · 사진 발굴: 전갑생</div>
+    </div>
+
+    <p class="lead">1950년 7월 20일, 인민군 주력부대의 총공격이 새벽 3시 유성에서 시작됐다.</p>
+    <p>인민군 제4사단 제5연대가 갑천을 건너 야간공격을 개시하자, 방어진지를 구축하던 미군 제34연대 1대대와 제19연대 2대대는 통신이 두절된 채 보문산을 경유해 철수했다. 같은 시각 인민군 전차 두 대가 기습적으로 시내에 진입해 대전역의 기관차와 연유창고를 폭파하고 미군 지휘부를 마비시켰다.</p>
+    <p>미군은 막 보급된 3.5인치 로켓포로 대응에 나섰고, 이날 하루 동안 시내에 진입한 인민군 전차 15대 이상이 파괴됐다. 그러나 오후 늦게 제24사단은 전면 퇴각을 결정했고, 250여 대의 철수 차량 행렬은 옥천·금산 가도에서 매복한 인민군의 공격을 받아 큰 피해를 입었다.</p>
+    <p>사단장 딘 소장은 철수 도중 경호차가 길을 잘못 들어 금산 가도로 접어들었고, 도로가 봉쇄되자 차량을 버리고 산으로 피신했다가 실종됐다. 대전은 7월 21일 아침 완전히 인민군의 수중에 들어갔다.</p>
+    <p class="source">전문 20쪽 분량 「대전전투 개요」는 현장 QR로 연결 예정</p>
+
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>사진 삽입 예정 — 1950.7.20 전술정찰사진(제5공군 제8전술정찰비행대대) 및 시가전 사진 4장 (SC343705·343706·344278·344281)</div>
+    </div>
+
+    <div class="zone-footer">
+      <button onclick="location.hash='intro'">‹ 이전 구역</button>
+      <button onclick="location.hash='infra'">다음 구역 — 파괴된 기반시설 ›</button>
+    </div>
+  </section>
+
+  <!-- 3구역 -->
+  <section id="infra" class="zone" hidden>
+    <span class="badge">3 / 5구역</span>
+    <h1>파괴된 기반시설</h1>
+    <div class="draft-banner">실제 전시 공간에서는 아래 네 내용이 '미공군 공격목표' 패널 하나에 통합 배치됩니다. 이 페이지에서는 이해를 돕기 위해 구분해 둡니다.</div>
+
+    <div class="card">
+      <h3>철도 — 대전역 조차장</h3>
+      <p>1949년 사진첩보 판독 보고서에 따르면 조차장은 선로 30개, 병목지점 간 거리 3,492피트(약 1,064m) 규모였다. 5개 통과선, 7개 대기선, 9개 분류선, 8개 유치선으로 구성. 7월 21일 미군의 폭격으로 후송에 실패한 탄약·보급 열차가 파괴됐다.</p>
+    </div>
+
+    <div class="card">
+      <h3>대전비행장</h3>
+      <p>1948.9.24 · 1949.11.6 · 1950.8.13 세 시기의 사진으로 시간에 따른 변화를 비교. 1949년 11월 16일 기밀해제 사진첩보 보고서에는 활주로 규격(3,720×108ft), 막사 약 75개동 등이 기록돼 있다.</p>
+    </div>
+
+    <div class="card">
+      <h3>하천과 교량</h3>
+      <p>갑천·유등천·대전천을 가로지르는 유등교·호남선철교·수침교·대전선교 등이 7월 24일 기준 미 공군의 교량 파괴·손상 대상이었다.</p>
+    </div>
+
+    <hr class="rule">
+    <h3 style="font-size:15px">항공폭격 연표</h3>
+    <ul class="timeline">
+      <li><span class="date">07.20</span><span>F-80 4대, 유성 일대 건물·학교 기총소사 및 로켓 7발</span></li>
+      <li><span class="date">07.21</span><span>대전역 공중 폭격, 탄약·보급 열차 파괴</span></li>
+      <li><span class="date">07.26</span><span>인동 정미소 기총소사 (3명 즉사)</span></li>
+      <li><span class="date">07.30</span><span>구즉인민학교 기총소사</span></li>
+      <li><span class="date">08.02</span><span>양조장·고무공장·산업회사 창고동 폭격</span></li>
+      <li><span class="date">08.03</span><span>신안동 거리 기총소사</span></li>
+      <li><span class="date">08.06</span><span>연필공장 폭격</span></li>
+      <li><span class="date">09.15</span><span>B-29 9대, 약 90톤 폭탄 투하</span></li>
+    </ul>
+
+    <div class="zone-footer">
+      <button onclick="location.hash='battle'">‹ 이전 구역</button>
+      <button onclick="location.hash='ruins'">다음 구역 — 폐허와 결과 ›</button>
+    </div>
+  </section>
+
+  <!-- 4구역 -->
+  <section id="ruins" class="zone" hidden>
+    <span class="badge">4 / 5구역</span>
+    <h1>폐허와 결과</h1>
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>사진 삽입 예정 — 1950.9.30 불탄 대전 시가지 (AP Photo, Jim Pringle)</div>
+    </div>
+    <p>1950년 9월 15일, 미 극동공군 폭격기사령부 B-29 17대는 전선과 무관한 후방 도시 대전과 안동의 조차장·창고를 공격했다.</p>
+    <blockquote style="margin:16px 0;padding-left:14px;border-left:3px solid var(--accent);font-size:13.5px;color:var(--muted)">
+      "...폭격기사령부의 B-29 17대는 전선과 무관한 남한 지역 후방 도시인 대전과 안동의 조차장과 창고를 공격했다."<br>
+      <span class="mono">— A Day by Day History of Far East Air Forces Operations, p.167</span>
+    </blockquote>
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>사진 삽입 예정 — 1951년 6월 LIFE 항공사진</div>
+    </div>
+
+    <div class="zone-footer">
+      <button onclick="location.hash='infra'">‹ 이전 구역</button>
+      <button onclick="location.hash='now'">다음 구역 — 그때와 지금 ›</button>
+    </div>
+  </section>
+
+  <!-- 5구역 -->
+  <section id="now" class="zone" hidden>
+    <span class="badge">5 / 5구역</span>
+    <h1>그때와 지금</h1>
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>사진 삽입 예정 — 1950.9.30 폐허 사진 / 2020.9.8 동일 지점 (photo by 임재근) 비교</div>
+    </div>
+    <p>전쟁의 참상과 평화의 가치를 되새기며, 대전이 지닌 전쟁사적·도시사적 위치를 함께 공유하는 전시의 마무리 지점.</p>
+
+    <hr class="rule">
+    <h3 style="font-size:15px">위성사진 체험 코너</h3>
+    <div class="photo-slot">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <div>현재 위치를 가리키는 손피켓을 들어 올려 배경의 옛 항공사진과 겹쳐보는 체험 코너. 대전역 자리는 확정, 나머지 지점은 추가 선정 중.</div>
+    </div>
+
+    <div class="zone-footer">
+      <button onclick="location.hash='ruins'">‹ 이전 구역</button>
+      <button onclick="location.hash=''">처음으로</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var order = ['intro','battle','infra','ruins','now'];
+  var titles = {
+    intro:'1/5구역 — 진입부',
+    battle:'2/5구역 — 대전전투',
+    infra:'3/5구역 — 파괴된 기반시설',
+    ruins:'4/5구역 — 폐허와 결과',
+    now:'5/5구역 — 그때와 지금'
+  };
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var homeBtn = document.getElementById('homeBtn');
+  var progressLabel = document.getElementById('progressLabel');
+  var titleLabel = document.getElementById('titleLabel');
+
+  function currentZone(){
+    var raw = (location.hash || '').replace('#','');
+    return order.indexOf(raw) !== -1 ? raw : 'home';
+  }
+
+  function render(){
+    var zone = currentZone();
+    document.querySelectorAll('.zone').forEach(function(el){
+      el.hidden = el.id !== zone;
+    });
+    if(zone === 'home'){
+      progressLabel.textContent = '전체 목차';
+      titleLabel.textContent = '「하늘에서 본 대전展」 도슨트';
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+    } else {
+      var idx = order.indexOf(zone);
+      progressLabel.textContent = (idx+1) + ' / ' + order.length + '구역';
+      titleLabel.textContent = titles[zone];
+      prevBtn.disabled = false;
+      nextBtn.disabled = false;
+    }
+    window.scrollTo(0,0);
+  }
+
+  prevBtn.addEventListener('click', function(){
+    var zone = currentZone();
+    if(zone === 'home') return;
+    var idx = order.indexOf(zone);
+    location.hash = idx === 0 ? '' : order[idx-1];
+    if(idx === 0) render();
+  });
+  nextBtn.addEventListener('click', function(){
+    var zone = currentZone();
+    if(zone === 'home') return;
+    var idx = order.indexOf(zone);
+    if(idx < order.length-1) location.hash = order[idx+1];
+  });
+  homeBtn.addEventListener('click', function(){
+    if(!location.hash){ render(); } else { location.hash = ''; }
+  });
+  window.addEventListener('hashchange', render);
+  render();
+})();
+</script>
+
+</body>
+</html>
