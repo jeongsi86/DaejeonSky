@@ -46,7 +46,7 @@ button{font-family:inherit}
 }
 .ctl:hover:not(:disabled){border-color:var(--accent)}
 .ctl:disabled{opacity:.28;cursor:default}
-.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:0 16px 8px}
+.seg{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;padding:0 16px 8px}
 .seg span{height:2px;background:var(--line)}
 .seg span.on{background:var(--accent)}
 
@@ -139,6 +139,10 @@ blockquote.cite .src{display:block;margin-top:8px;font-family:var(--mono);font-s
 @media (prefers-reduced-motion:no-preference){
   .ctl,.home-list a{transition:border-color .15s,background .15s,color .15s}
 }
+.zone{scroll-margin-top:110px}
+.xref{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.card ul{margin:.4em 0;padding-left:18px;font-size:13.5px;color:var(--fg)}
+.card li{margin-block:3px}
 </style></head><body>
 
 <div id="topbar">
@@ -151,184 +155,95 @@ blockquote.cite .src{display:block;margin-top:8px;font-family:var(--mono);font-s
     <button class="ctl" id="nextBtn" aria-label="다음 구역">›</button>
     <button class="ctl" id="homeBtn">목차</button>
   </div>
-  <div class="seg" id="seg" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="seg" id="seg" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 </div>
 
 <main class="wrap">
-
-  <!-- 홈 / 목차 -->
-  <section id="home" class="zone">
-    <div class="eyebrow"><span class="badge">도슨트 초안</span><span>NARA 소장 항공사진 · 1945–1951</span></div>
-    <h1>「하늘에서 본 대전展」</h1>
-    <p class="lead">-해방과 전쟁 사이</p>
-    <div class="draft-banner"><b>DRAFT</b><span>제작 중인 초안입니다. 사진·캡션 등 실제 전시 자료는 배치 확정 후 보강됩니다. 구조와 동선 검토용으로 먼저 공유합니다.</span></div>
-
-    <dl class="meta">
-      <dt>기간</dt><dd>2026.10.29(목) – 11.30(월) · 10:00–16:00 · 휴관 토·일</dd>
-      <dt>장소</dt><dd>테미마을박물관 1층 (대전 중구 보문로 184)</dd>
-      <dt>주최</dt><dd>(사)평화통일교육문화센터 · (사)대전문화유산울림</dd>
-    </dl>
-
-    <h2 class="sec-title">구역 안내</h2>
-    <ul class="home-list">
-      <li><a href="#intro"><div class="txt"><div class="num">1 / 5구역</div><div class="ztitle2">진입부 — 서문과 연표</div><div class="teaser">전시의 문제의식과 1945–1950년 연표</div></div><span class="arrow">→</span></a></li>
-      <li><a href="#battle"><div class="txt"><div class="num">2 / 5구역</div><div class="ztitle2">대전전투</div><div class="teaser">1945년 정찰사진과 1950년 7월 20일 전투 경과</div></div><span class="arrow">→</span></a></li>
-      <li><a href="#infra"><div class="txt"><div class="num">3 / 5구역</div><div class="ztitle2">파괴된 기반시설</div><div class="teaser">철도 조차장 · 대전비행장 · 하천과 교량 · 항공폭격 연표</div></div><span class="arrow">→</span></a></li>
-      <li><a href="#ruins"><div class="txt"><div class="num">4 / 5구역</div><div class="ztitle2">폐허와 결과</div><div class="teaser">1950년 9월 폐허 사진과 1951년 LIFE 항공사진</div></div><span class="arrow">→</span></a></li>
-      <li><a href="#now"><div class="txt"><div class="num">5 / 5구역</div><div class="ztitle2">그때와 지금</div><div class="teaser">비교사진과 위성사진 체험 코너</div></div><span class="arrow">→</span></a></li>
-    </ul>
-
-    <hr class="rule">
-    <h2 class="sec-title">팀 검토 필요 사항</h2>
-    <ul class="review-list">
-      <li>연표 최종본 확정 (현재 예시 항목 상태)</li>
-      <li>위성사진 체험 코너 — 대전역 외 추가 지점 선정</li>
-      <li>5구역(그때와 지금) 시각적 비중 — 단독 확대 배치 여부</li>
-      <li>입구 통로 기존 집기 철거, 2구역 인접 작업공간 가림막 설치</li>
-      <li>철도·하천 자료는 공간상 3구역 '미공군 공격목표' 패널에 통합</li>
-    </ul>
-  </section>
-
-  <!-- 1구역 -->
-  <section id="intro" class="zone" hidden>
-    <div class="eyebrow"><span class="badge">ZONE 01</span><span>1 / 5구역</span></div>
-    <h1>진입부 — 서문과 연표</h1>
-    <p class="lead">기록되지 않으면 오래도록 기억되기 어렵다.</p>
-    <p>일제 36년 동안 식민지배를 겪으며 해방을 맞이한 우리는 안타깝게도 미군정 3년을 살았다. 3년 만에 미군정은 끝났지만, 자주독립국가의 꿈을 이루지 못한 채 남과 북에는 서로 다른 정부가 수립되었다. 그러고는 2년 채 되기 전에 전쟁을 맞이했다.</p>
-    <p>우리의 현대사 속에서 해방과 전쟁은 매우 중차대한 사건이었다. 하지만 당시 상황은 제대로 기록되지 않았다. 혼란한 상황 속에서 기록할 여유가 어디 있었겠는가? 나름 해방사와 전쟁사가 편찬되었지만 기록의 부족 속에 빈틈이 많았고, 특히 지역사의 입장에서는 기록이 턱없이 부족했다.</p>
-    <p>그러던 중 미국에 의해 생산된 기록이 의외로 많다는 것을 알게 되었다. 미국은 해방 전부터 상공에서 대전을 촬영했고, 해방 후에도 항공사진 촬영을 이어갔다. 전쟁시기에도 수많은 사진을 생산해냈다.</p>
-    <p>이 전시는 해방 전후뿐 아니라 한국전쟁 초기 격전지였던 대전전투(1950년 7월) 당시의 항공사진을 통해, 전쟁이 남긴 도시의 상흔과 대전의 역사적 의미를 재조명하는 데 목적이 있다. 이를 통해 전쟁의 참상과 평화의 가치를 되새기고, 대전이 지닌 전쟁사적·도시사적 위치를 시민과 함께 공유하고자 한다.</p>
-
-    <hr class="rule">
-    <h2 class="sec-title">연표 — 8.16 해방 ~ 1950년 한국전쟁 <span style="letter-spacing:.04em">(예시 · 확정 예정)</span></h2>
-    <ul class="timeline">
-      <li><span class="date">1945.08.15</span><span>해방</span></li>
-      <li><span class="date">1945.08.16–17</span><span>건국준비위원회(건준) 대전지부 결성</span></li>
-      <li><span class="date">1945.10.20경</span><span>미군정 진주, 충남도청에 군정청 설치</span></li>
-      <li><span class="date">1945.11</span><span>좌·우익 청년단체·정당 창당 본격화</span></li>
-      <li><span class="date">1945.12 말</span><span>신탁통치 반대(반탁) 시민 궐기대회</span></li>
-      <li><span class="date">1946.09</span><span>철도 총파업 (대전 조차장 중심)</span></li>
-      <li><span class="date">1947.03.01</span><span>3·1절 기념식, 좌·우익 단체 별도 집회·충돌</span></li>
-      <li><span class="date">1948.05.10</span><span>5·10 총선 — 성낙서(무소속) 당선</span></li>
-      <li><span class="date">1948.08.15</span><span>대한민국 정부 수립 경축대회</span></li>
-      <li><span class="date">1949.08.15</span><span>'대전부'에서 '대전시'로 개칭</span></li>
-      <li><span class="date">1949.10–11</span><span>국민보도연맹 대전·충남지부 결성</span></li>
-      <li><span class="date">1950.05.30</span><span>제2대 국회의원 선거 — 김종열(무소속) 당선</span></li>
-      <li><span class="date">1950.06.25</span><span>한국전쟁 전면전 발발</span></li>
-    </ul>
-
-    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>전쟁 전 대전역 일대 항공사진</figcaption></figure>
-
-    <div class="zone-footer">
-      <button class="ctl" disabled>‹ 이전 구역</button>
-      <button class="ctl next" onclick="location.hash='battle'">다음 구역 — 대전전투 ›</button>
-    </div>
-  </section>
-
-  <!-- 2구역 -->
-  <section id="battle" class="zone" hidden>
-    <div class="eyebrow"><span class="badge">ZONE 02</span><span>2 / 5구역</span></div>
-    <h1>대전전투</h1>
-    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1945.1.30 정찰사진 5장 (LO98–LO103, 촬영고도 28,000ft) · 사진 발굴: 전갑생</figcaption></figure>
-
-    <p class="lead">1950년 7월 20일, 인민군 주력부대의 총공격이 새벽 3시 유성에서 시작됐다.</p>
-    <p>인민군 제4사단 제5연대가 갑천을 건너 야간공격을 개시하자, 방어진지를 구축하던 미군 제34연대 1대대와 제19연대 2대대는 통신이 두절된 채 보문산을 경유해 철수했다. 같은 시각 인민군 전차 두 대가 기습적으로 시내에 진입해 대전역의 기관차와 연유창고를 폭파하고 미군 지휘부를 마비시켰다.</p>
-    <p>미군은 막 보급된 3.5인치 로켓포로 대응에 나섰고, 이날 하루 동안 시내에 진입한 인민군 전차 15대 이상이 파괴됐다. 그러나 오후 늦게 제24사단은 전면 퇴각을 결정했고, 250여 대의 철수 차량 행렬은 옥천·금산 가도에서 매복한 인민군의 공격을 받아 큰 피해를 입었다.</p>
-    <p>사단장 딘 소장은 철수 도중 경호차가 길을 잘못 들어 금산 가도로 접어들었고, 도로가 봉쇄되자 차량을 버리고 산으로 피신했다가 실종됐다. 대전은 7월 21일 아침 완전히 인민군의 수중에 들어갔다.</p>
-    <p class="source">전문 20쪽 분량 「대전전투 개요」는 현장 QR로 연결 예정</p>
-
-    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.7.20 전술정찰사진(제5공군 제8전술정찰비행대대) 및 시가전 사진 4장 (SC343705·343706·344278·344281)</figcaption></figure>
-
-    <div class="zone-footer">
-      <button class="ctl" onclick="location.hash='intro'">‹ 이전 구역</button>
-      <button class="ctl next" onclick="location.hash='infra'">다음 구역 — 파괴된 기반시설 ›</button>
-    </div>
-  </section>
-
-  <!-- 3구역 -->
-  <section id="infra" class="zone" hidden>
-    <div class="eyebrow"><span class="badge">ZONE 03</span><span>3 / 5구역</span></div>
-    <h1>파괴된 기반시설</h1>
-    <div class="draft-banner"><b>DRAFT</b><span>실제 전시 공간에서는 아래 네 내용이 '미공군 공격목표' 패널 하나에 통합 배치됩니다. 이 페이지에서는 이해를 돕기 위해 구분해 둡니다.</span></div>
-
-    <div class="card">
-      <h3>철도 — 대전역 조차장</h3>
-      <p>1949년 사진첩보 판독 보고서에 따르면 조차장은 선로 30개, 병목지점 간 거리 3,492피트(약 1,064m) 규모였다. 5개 통과선, 7개 대기선, 9개 분류선, 8개 유치선으로 구성. 7월 21일 미군의 폭격으로 후송에 실패한 탄약·보급 열차가 파괴됐다.</p>
-    </div>
-
-    <div class="card">
-      <h3>대전비행장</h3>
-      <p>1948.9.24 · 1949.11.6 · 1950.8.13 세 시기의 사진으로 시간에 따른 변화를 비교. 1949년 11월 16일 기밀해제 사진첩보 보고서에는 활주로 규격(3,720×108ft), 막사 약 75개동 등이 기록돼 있다.</p>
-    </div>
-
-    <div class="card">
-      <h3>하천과 교량</h3>
-      <p>갑천·유등천·대전천을 가로지르는 유등교·호남선철교·수침교·대전선교 등이 7월 24일 기준 미 공군의 교량 파괴·손상 대상이었다.</p>
-    </div>
-
-    <hr class="rule">
-    <h2 class="sec-title">항공폭격 연표</h2>
-    <ul class="timeline">
-      <li><span class="date">07.20</span><span>F-80 4대, 유성 일대 건물·학교 기총소사 및 로켓 7발</span></li>
-      <li><span class="date">07.21</span><span>대전역 공중 폭격, 탄약·보급 열차 파괴</span></li>
-      <li><span class="date">07.26</span><span>인동 정미소 기총소사 (3명 즉사)</span></li>
-      <li><span class="date">07.30</span><span>구즉인민학교 기총소사</span></li>
-      <li><span class="date">08.02</span><span>양조장·고무공장·산업회사 창고동 폭격</span></li>
-      <li><span class="date">08.03</span><span>신안동 거리 기총소사</span></li>
-      <li><span class="date">08.06</span><span>연필공장 폭격</span></li>
-      <li><span class="date">09.15</span><span>B-29 9대, 약 90톤 폭탄 투하</span></li>
-    </ul>
-
-    <div class="zone-footer">
-      <button class="ctl" onclick="location.hash='battle'">‹ 이전 구역</button>
-      <button class="ctl next" onclick="location.hash='ruins'">다음 구역 — 폐허와 결과 ›</button>
-    </div>
-  </section>
-
-  <!-- 4구역 -->
-  <section id="ruins" class="zone" hidden>
-    <div class="eyebrow"><span class="badge">ZONE 04</span><span>4 / 5구역</span></div>
-    <h1>폐허와 결과</h1>
-    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.9.30 불탄 대전 시가지 (AP Photo, Jim Pringle)</figcaption></figure>
-    <p>1950년 9월 15일, 미 극동공군 폭격기사령부 B-29 17대는 전선과 무관한 후방 도시 대전과 안동의 조차장·창고를 공격했다.</p>
-    <blockquote class="cite">
-      "...폭격기사령부의 B-29 17대는 전선과 무관한 남한 지역 후방 도시인 대전과 안동의 조차장과 창고를 공격했다."<span class="src">— A Day by Day History of Far East Air Forces Operations, p.167</span>
-    </blockquote>
-    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1951년 6월 LIFE 항공사진</figcaption></figure>
-
-    <div class="zone-footer">
-      <button class="ctl" onclick="location.hash='infra'">‹ 이전 구역</button>
-      <button class="ctl next" onclick="location.hash='now'">다음 구역 — 그때와 지금 ›</button>
-    </div>
-  </section>
-
-  <!-- 5구역 -->
-  <section id="now" class="zone" hidden>
-    <div class="eyebrow"><span class="badge">ZONE 05</span><span>5 / 5구역</span></div>
-    <h1>그때와 지금</h1>
-    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.9.30 폐허 사진 / 2020.9.8 동일 지점 (photo by 임재근) 비교</figcaption></figure>
-    <p>전쟁의 참상과 평화의 가치를 되새기며, 대전이 지닌 전쟁사적·도시사적 위치를 함께 공유하는 전시의 마무리 지점.</p>
-
-    <hr class="rule">
-    <h2 class="sec-title">위성사진 체험 코너</h2>
-    <div class="note"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg><div>현재 위치를 가리키는 손피켓을 들어 올려 배경의 옛 항공사진과 겹쳐보는 체험 코너. 대전역 자리는 확정, 나머지 지점은 추가 선정 중.</div></div>
-
-    <div class="zone-footer">
-      <button class="ctl" onclick="location.hash='ruins'">‹ 이전 구역</button>
-      <button class="ctl next" onclick="location.hash=''">처음으로</button>
-    </div>
-  </section>
-
+<section id="home" class="zone">
+<div class="eyebrow"><span class="badge">도슨트 초안</span><span>NARA 소장 항공사진 · 1945–1951</span></div>
+<h1>「하늘에서 본 대전展」</h1>
+<p class="lead">-해방과 전쟁 사이</p>
+<div class="draft-banner"><b>DRAFT</b><span>제작 중인 초안입니다. 사진·캡션 등 실제 전시 자료는 배치 확정 후 보강됩니다. 구조와 동선 검토용으로 먼저 공유합니다.</span></div>
+<dl class="meta">
+<dt>기간</dt><dd>2026.10.29(목) – 11.30(월) · 10:00–16:00 · 휴관 토·일</dd>
+<dt>장소</dt><dd>테미마을박물관 1층 (대전 중구 보문로 184)</dd>
+<dt>주최</dt><dd>(사)평화통일교육문화센터 · (사)대전문화유산울림</dd>
+</dl>
+<h2 class="sec-title">구역 안내</h2>
+<ul class="home-list"><li><a href="#intro"><div class="txt"><div class="num">1 / 8구역</div><div class="ztitle2">진입부 — 서문</div><div class="teaser">전시의 문제의식</div></div><span class="arrow">→</span></a></li><li><a href="#timeline"><div class="txt"><div class="num">2 / 8구역</div><div class="ztitle2">연표</div><div class="teaser">1945–1950 해방에서 전쟁까지</div></div><span class="arrow">→</span></a></li><li><a href="#station"><div class="txt"><div class="num">3 / 8구역</div><div class="ztitle2">전쟁 전 대전역</div><div class="teaser">1945년 정찰사진과 조차장 판독 보고서</div></div><span class="arrow">→</span></a></li><li><a href="#battle"><div class="txt"><div class="num">4 / 8구역</div><div class="ztitle2">대전전투</div><div class="teaser">1950년 7월 20일 전투 경과</div></div><span class="arrow">→</span></a></li><li><a href="#bombing"><div class="txt"><div class="num">5 / 8구역</div><div class="ztitle2">항공폭격</div><div class="teaser">7월 20일–9월 15일 폭격 연표</div></div><span class="arrow">→</span></a></li><li><a href="#targets"><div class="txt"><div class="num">6 / 8구역</div><div class="ztitle2">미공군 공격목표</div><div class="teaser">하천·교량·철도 표적</div></div><span class="arrow">→</span></a></li><li><a href="#airfield"><div class="txt"><div class="num">7 / 8구역</div><div class="ztitle2">대전 비행장</div><div class="teaser">대전비행장과 기밀해제 보고서</div></div><span class="arrow">→</span></a></li><li><a href="#now"><div class="txt"><div class="num">8 / 8구역</div><div class="ztitle2">그때와 지금</div><div class="teaser">1950년과 오늘, 위성사진 체험</div></div><span class="arrow">→</span></a></li></ul>
+<hr class="rule">
+<h2 class="sec-title">팀 검토 필요 사항</h2>
+<ul class="review-list">
+<li>연표 최종본 확정 (현재 예시 항목 상태)</li>
+<li>위성사진 체험 코너 — 대전역 외 추가 지점 선정</li>
+<li>'그때와 지금' 시각적 비중 — 단독 확대 배치 여부</li>
+<li>입구 통로 기존 집기 철거, 대전전투 패널 인접 작업공간 가림막 설치</li>
+<li>철도·하천 자료는 공간상 '미공군 공격목표' 패널에 통합</li>
+<li>9월 15일 B-29 출격 대수 출처 대조 (9대 / 17대)</li>
+<li>세션명 '전쟁 전 대전역' 표기 확인</li>
+</ul>
+</section>
+<section id="intro" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 01</span><span>1 / 8구역</span></div>
+<h1>진입부 — 서문</h1>
+<p class="lead">기록되지 않으면 오래도록 기억되기 어렵다.</p><p>일제 36년 동안 식민지배를 겪으며 해방을 맞이한 우리는 안타깝게도 미군정 3년을 살았다. 3년 만에 미군정은 끝났지만, 자주독립국가의 꿈을 이루지 못한 채 남과 북에는 서로 다른 정부가 수립되었다. 그러고는 2년 채 되기 전에 전쟁을 맞이했다.</p><p>우리의 현대사 속에서 해방과 전쟁은 매우 중차대한 사건이었다. 하지만 당시 상황은 제대로 기록되지 않았다. 혼란한 상황 속에서 기록할 여유가 어디 있었겠는가? 나름 해방사와 전쟁사가 편찬되었지만 기록의 부족 속에 빈틈이 많았고, 특히 지역사의 입장에서는 기록이 턱없이 부족했다.</p><p>그러던 중 미국에 의해 생산된 기록이 의외로 많다는 것을 알게 되었다. 미국은 해방 전부터 상공에서 대전을 촬영했고, 해방 후에도 항공사진 촬영을 이어갔다. 전쟁시기에도 수많은 사진을 생산해냈다.</p><p>이 전시는 해방 전후뿐 아니라 한국전쟁 초기 격전지였던 대전전투(1950년 7월) 당시의 항공사진을 통해, 전쟁이 남긴 도시의 상흔과 대전의 역사적 의미를 재조명하는 데 목적이 있다. 이를 통해 전쟁의 참상과 평화의 가치를 되새기고, 대전이 지닌 전쟁사적·도시사적 위치를 시민과 함께 공유하고자 한다.</p>
+<div class="zone-footer"><button class="ctl" disabled>‹ 이전 구역</button><button class="ctl next" onclick="location.hash='timeline'">다음 구역 — 연표 ›</button></div>
+</section>
+<section id="timeline" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 02</span><span>2 / 8구역</span></div>
+<h1>연표 — 8.16 해방 ~ 1950</h1>
+<p class="lead">해방에서 전쟁 발발까지, 대전의 5년.</p><div class="draft-banner"><b>DRAFT</b><span>연표 항목은 예시입니다. 최종본 확정 후 교체됩니다.</span></div><ul class="timeline"><li><span class="date">1945.08.15</span><span>해방</span></li><li><span class="date">1945.08.16–17</span><span>건국준비위원회(건준) 대전지부 결성</span></li><li><span class="date">1945.10.20경</span><span>미군정 진주, 충남도청에 군정청 설치</span></li><li><span class="date">1945.11</span><span>좌·우익 청년단체·정당 창당 본격화</span></li><li><span class="date">1945.12 말</span><span>신탁통치 반대(반탁) 시민 궐기대회</span></li><li><span class="date">1946.09</span><span>철도 총파업 (대전 조차장 중심)</span></li><li><span class="date">1947.03.01</span><span>3·1절 기념식, 좌·우익 단체 별도 집회·충돌</span></li><li><span class="date">1948.05.10</span><span>5·10 총선 — 성낙서(무소속) 당선</span></li><li><span class="date">1948.08.15</span><span>대한민국 정부 수립 경축대회</span></li><li><span class="date">1949.08.15</span><span>'대전부'에서 '대전시'로 개칭</span></li><li><span class="date">1949.10–11</span><span>국민보도연맹 대전·충남지부 결성</span></li><li><span class="date">1950.05.30</span><span>제2대 국회의원 선거 — 김종열(무소속) 당선</span></li><li><span class="date">1950.06.25</span><span>한국전쟁 전면전 발발</span></li></ul>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='intro'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash='station'">다음 구역 — 전쟁 전 대전역 ›</button></div>
+</section>
+<section id="station" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 03</span><span>3 / 8구역</span></div>
+<h1>전쟁 전 대전역</h1>
+<p class="lead">전쟁이 닥치기 전의 대전역과 조차장을 하늘에서 본 기록.</p><p>미군은 해방 전부터 상공에서 대전을 촬영했다. 1945년 1월 30일 세종에서 대전, 금산 방향으로 비행하며 여러 장의 항공사진을 남겼고, 촬영고도는 2만 8천 피트(8,534m)였다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1945.1.30 정찰사진 5장 (LO98 · LO99 · LO101 · LO102 · LO103) · 사진 발굴: 전갑생</figcaption></figure><p>해방 후에도 촬영은 이어졌다. 1948년 9월 24일 제25전술정찰비행대대(임무 R90-2)가 촬영한 사진에는 대전역 조차장과 주변의 대전여고, 대전공업학교, 삼성국교, 원동국교 등이 보인다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1948.9.24 대전역 일대 항공사진 · 제25전술정찰비행대대</figcaption></figure><div class="card"><h3>대전역 조차장 판독 보고서</h3><p class="source">촬영 1948.9.24 · 작성 1949.11.16 (극동공군 제6사진기술전대) · 최종 접수 1950.9.5 (미 육군참모부 정보차장실 문서 보관 섹션)</p><p>조차장은 시 동쪽 구역에 있고 방향은 북북서–남남동이다. 선로는 30개, 병목지점 간 거리는 3,492피트(약 1,064m). 5개 통과선, 7개 대기선, 9개 분류선, 8개 유치선으로 이루어졌다.</p><p>여객 역사는 서쪽, 차량 정비 구역은 동쪽에 있다. 정비 구역에는 박공지붕 건물(72×232피트) 한 동과 전차대, 18칸짜리 선상차고가 붙어 있다. 경부본선(복선) 위에 있고, 호남본선이 대전 바로 북쪽에서 합류한다.</p></div><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>대전역 조차장 사진첩보 보고서 원문 (영문)</figcaption></figure><p>이 조차장은 1946년 9월 철도 총파업의 중심지였다. 1950년 7월 20일에는 인민군 전차가 들어와 기관차(군수열차)와 연유창고를 폭파했고, 이튿날 미군의 폭격으로 보급 열차가 파괴됐다. → <a class="xref" href="#battle">대전전투</a> · <a class="xref" href="#bombing">항공폭격</a></p>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='timeline'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash='battle'">다음 구역 — 대전전투 ›</button></div>
+</section>
+<section id="battle" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 04</span><span>4 / 8구역</span></div>
+<h1>대전전투</h1>
+<p class="lead">1950년 7월 20일, 인민군 주력부대의 총공격이 새벽 3시 유성에서 시작됐다.</p><p>인민군 제4사단 제5연대가 갑천을 건너 야간공격을 개시하자, 방어진지를 구축하던 미군 제34연대 1대대와 제19연대 2대대는 통신이 두절된 채 보문산을 경유해 철수했다. 같은 시각 인민군 전차 두 대가 기습적으로 시내에 진입해 대전역의 기관차와 연유창고를 폭파하고 미군 지휘부를 마비시켰다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.7.20 대전전투 공격로 지도 (인민군 공격 방향 표시) · 출처 확인 예정</figcaption></figure><p>미군은 막 보급된 3.5인치 로켓포로 대응에 나섰고, 이날 하루 동안 시내에 진입한 인민군 전차 15대 이상이 파괴됐다. 그러나 오후 늦게 제24사단은 전면 퇴각을 결정했고, 250여 대의 철수 차량 행렬은 옥천·금산 가도에서 매복한 인민군의 공격을 받아 큰 피해를 입었다.</p><p>사단장 딘 소장은 철수 도중 경호차가 길을 잘못 들어 금산 가도로 접어들었고, 도로가 봉쇄되자 차량을 버리고 산으로 피신했다가 실종됐다. 대전은 7월 21일 아침 완전히 인민군의 수중에 들어갔다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.7.20 17:30 촬영 · 미 제5공군 제8전술정찰비행대대 · 초점거리 152mm · 고도 5,000피트(약 1,524m) · 사진 발굴: 전갑생</figcaption></figure><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>SC343706 폐허가 된 한국의 시가지 (Turnbull, 07.20) · SC343705 미 공군 제트폭격기에 의해 폭격을 입은 한국의 시가지 (Turnbull, 07.20) · SC344278 대전 지역으로부터 퇴각을 준비하는 미군들 (Long, 07.21) · SC344281 북한군에 의해 함락되어 불타는 대전 시가 (Long, 07.21)</figcaption></figure><p class="source">전문 20쪽 분량 「대전전투 개요」는 현장 QR로 연결 예정</p>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='station'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash='bombing'">다음 구역 — 항공폭격 ›</button></div>
+</section>
+<section id="bombing" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 05</span><span>5 / 8구역</span></div>
+<h1>항공폭격</h1>
+<p class="lead">1950년 7월 20일부터 9월 15일까지, 하늘에서 내려온 폭격.</p><p>미군은 7월 20일 대전전투에서 인민군 T-34 전차 15대 이상을 파괴했다. 그중 제5공군 폭격기가 파괴한 전차 5대는 모두 유성에서 대전으로 오는 길목에 있었다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>항공폭격 사진 · 한반도와 대전 위치 지도 · 출처 확인 예정</figcaption></figure><ul class="timeline"><li><span class="date">07.20</span><span>F-80 4대, 유성 일대 큰 건물·학교에 기총소사, 로켓 7발 발사</span></li><li><span class="date">07.21</span><span>대전역 공중 폭격, 후송에 실패한 탄약·보급 열차 파괴</span></li><li><span class="date">07.26</span><span>인동 삼방사 앞 정미소 기총소사 (3명 즉사, 2명 중상)</span></li><li><span class="date">07.30</span><span>대덕군 구즉면 구즉인민학교 기총소사</span></li><li><span class="date">08.02</span><span>항공기 6대, 충남 양조장·고무공장·산업회사 제1공장 창고동에 다수 폭탄 투하</span></li><li><span class="date">08.03</span><span>신안동 거리 기총소사 (3명 즉사, 4명 중상)</span></li><li><span class="date">08.06</span><span>연필공장 폭격</span></li><li><span class="date">09.15</span><span>B-29 9대 출격, 약 90톤 폭탄 투하</span></li></ul><blockquote class="cite">"1950년 9월 15일 극동공군 폭격기사령부의 B-29 17대는 전선과 무관한 남한 지역 후방 도시인 대전과 안동의 조차장과 창고를 공격했다."<span class="src">— A Day by Day History of Far East Air Forces Operations, p.167</span></blockquote><div class="draft-banner"><b>DRAFT</b><span>9월 15일 출격 대수가 출처마다 다르게 적혀 있습니다(9대 / 17대). 대조 후 확정합니다.</span></div>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='battle'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash='targets'">다음 구역 — 미공군 공격목표 ›</button></div>
+</section>
+<section id="targets" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 06</span><span>6 / 8구역</span></div>
+<h1>미공군 공격목표</h1>
+<p class="lead">미군이 표적으로 삼은 대전의 하천, 교량, 철도.</p><p>7월 24일 기준으로 미 공군은 개전 이후 전선 지원과 차단 작전을 통해 수십 개의 교량을 파괴하거나 손상시켰다. 대전 일대로 향하는 적의 보급 흐름을 늦추기 위한 폭격이었다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>미공군 공격목표 도판</figcaption></figure><div class="card"><h3>하천과 교량</h3><p>대전천, 유등천, 갑천이 도시를 가로지르고, 그 위에 선화교·유등교·수침교·대전선철교·호남선철교가 놓여 있었다. 사진마다 대전역, 대동천, 공업학교, 삼성초, 대전법원, 대전형무소, 선화초, 목동성당 등 위치 표기를 달아 두었다.</p></div><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.07.24 · 1950.07 · 1950.07.27 지형 표기 항공사진 (대전역, 서대전역, 유등교, 호남선철교, 수침교 등)</figcaption></figure><p>철도 조차장도 주요 표적이었다. 조차장의 규모와 구조는 → <a class="xref" href="#station">전쟁 전 대전역</a>에서 볼 수 있다.</p><div class="draft-banner"><b>DRAFT</b><span>실제 전시장에서는 철도·하천 자료가 이 패널 한 곳에 통합 배치됩니다.</span></div>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='bombing'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash='airfield'">다음 구역 — 대전 비행장 ›</button></div>
+</section>
+<section id="airfield" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 07</span><span>7 / 8구역</span></div>
+<h1>대전 비행장</h1>
+<p class="lead">갑천 북쪽, 대전에서 북서쪽으로 3.5마일. 대전 비상착륙장.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1948.9 · 1949.11.06 · 1950.08.13 대전비행장 항공사진 (세 시기 비교) · 1950.8.13 사진 출처: RG 342, EN P29, B 144</figcaption></figure><div class="card"><h3>사진첩보 보고서 (1949.11.16)</h3><p class="source">극동공군 제6사진기술전대 · 표적번호 L551-J52T-5 · 접수 1950.8.22 · 기밀해제 NND 765081</p><p>위치는 북위 36°17′15″, 동경 127°23′00″. 갑천이 비행장 북쪽, 유등천이 동쪽에 있고 대전에서 유성으로 가는 주도로가 남쪽 끝을 스친다.</p><p>활주로는 서북서–동남동 방향, 3,720×108피트(1,134m×33m)로 다져진 흙 표면으로 보인다. 활주로 남쪽에 격납고 1동(100×80피트)이 있고, 북쪽 막사 지역에는 약 75개동(바닥 면적 약 145,000제곱피트), 남쪽 창고 지역에는 약 28개동(약 50,000제곱피트)이 있다.</p></div><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>사진첩보 보고서 원문 스캔 (기밀해제 문서)</figcaption></figure><p>이 보고서는 1949년에 작성됐지만 육군 문서 보관 부서에는 전쟁이 한창이던 1950년 8월 22일에야 접수됐다. 전쟁 초기에 미군이 비행장과 보급고, 교통망에 대한 과거의 기록을 서둘러 찾아 쓰고 있었음을 보여주는 흔적이다.</p><p>1950년 8월 13일 사진에는 보문산, 시루봉(457m), 보문산성(중봉 406m), 도솔산 등 주변 지형과 현재 대전시청 자리가 표기돼 있다.</p>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='targets'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash='now'">다음 구역 — 그때와 지금 ›</button></div>
+</section>
+<section id="now" class="zone" hidden>
+<div class="eyebrow"><span class="badge">ZONE 08</span><span>8 / 8구역</span></div>
+<h1>그때와 지금</h1>
+<p class="lead">1950년 9월 30일의 폐허와 오늘의 같은 자리.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.9.30 불탄 대전 시가지 (AP Photo, Jim Pringle) / 2020.9.8 대전 원도심 (photo by 임재근)</figcaption></figure><p>폭격의 결과는 1951년 6월 LIFE에서 촬영한 항공사진으로 확인할 수 있다.</p><figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1951.6 LIFE 항공사진 4장</figcaption></figure><hr class="rule"><h2 class="sec-title">위성사진 체험 코너</h2><div class="note"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg><div>현재 위치를 가리키는 손피켓을 들어 올려 배경의 옛 항공사진과 겹쳐보는 체험 코너. 대전역 자리는 확정, 나머지 지점은 추가 선정 중.</div></div><p>전쟁의 참상과 평화의 가치를 되새기며, 대전이 지닌 전쟁사적·도시사적 위치를 함께 공유하는 전시의 마무리 지점.</p>
+<div class="zone-footer"><button class="ctl" onclick="location.hash='airfield'">‹ 이전 구역</button><button class="ctl next" onclick="location.hash=''">처음으로</button></div>
+</section>
 </main>
 
 <script>
 (function(){
-  var order = ['intro','battle','infra','ruins','now'];
+  var order = ['intro', 'timeline', 'station', 'battle', 'bombing', 'targets', 'airfield', 'now'];
   var titles = {
-    intro:'진입부 — 서문과 연표',
+    intro:'진입부 — 서문',
+    timeline:'연표',
+    station:'전쟁 전 대전역',
     battle:'대전전투',
-    infra:'파괴된 기반시설',
-    ruins:'폐허와 결과',
+    bombing:'항공폭격',
+    targets:'미공군 공격목표',
+    airfield:'대전 비행장',
     now:'그때와 지금'
   };
   var prevBtn = document.getElementById('prevBtn');
@@ -337,12 +252,10 @@ blockquote.cite .src{display:block;margin-top:8px;font-family:var(--mono);font-s
   var progressLabel = document.getElementById('progressLabel');
   var titleLabel = document.getElementById('titleLabel');
   var segs = document.querySelectorAll('#seg span');
-
   function currentZone(){
     var raw = (location.hash || '').replace('#','');
     return order.indexOf(raw) !== -1 ? raw : 'home';
   }
-
   function render(){
     var zone = currentZone();
     document.querySelectorAll('.zone').forEach(function(el){ el.hidden = el.id !== zone; });
@@ -360,7 +273,6 @@ blockquote.cite .src{display:block;margin-top:8px;font-family:var(--mono);font-s
     window.scrollTo(0,0);
     requestAnimationFrame(function(){ window.scrollTo(0,0); });
   }
-
   prevBtn.addEventListener('click', function(){
     var zone = currentZone();
     if(zone === 'home') return;
@@ -376,6 +288,7 @@ blockquote.cite .src{display:block;margin-top:8px;font-family:var(--mono);font-s
     if(!location.hash){ render(); } else { location.hash = ''; }
   });
   window.addEventListener('hashchange', render);
+  window.addEventListener('load', function(){ setTimeout(function(){ window.scrollTo(0,0); }, 60); });
   render();
 })();
 </script>
