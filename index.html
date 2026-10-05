@@ -1,169 +1,185 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>하늘에서 본 대전展 도슨트</title>
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>하늘에서 본 대전展 도슨트</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* 레이아웃 콘셉트: 문서보관소 색인카드 — 상단 고정 진행바 + 전면 구역 카드가 URL 해시로 전환 */
+/* 레이아웃 콘셉트: 정찰 판독 보고서 — 청흑색 바탕, 얇은 괘선, 상단 고정 진행바와 구역 단위 전환 */
 :root{
-  --bg:#f3efe4;
-  --surface:#eae3d2;
-  --fg:#2b2620;
-  --muted:#8a7f63;
-  --line:#c9bea0;
-  --accent:#b23a2e;
-  --accent-fg:#faf3e4;
-  --display:'Noto Serif KR',serif;
-  --body:'Noto Sans KR',sans-serif;
-  --mono:'IBM Plex Mono',monospace;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#1b1815;
-    --surface:#262119;
-    --fg:#ece4d3;
-    --muted:#a0937a;
-    --line:#443c2f;
-    --accent:#e07a63;
-    --accent-fg:#1b1815;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#1b1815;
-  --surface:#262119;
-  --fg:#ece4d3;
-  --muted:#a0937a;
-  --line:#443c2f;
-  --accent:#e07a63;
-  --accent-fg:#1b1815;
+  --bg:#0d1218;
+  --surface:#141b23;
+  --surface-2:#1a232d;
+  --fg:#e2e6ea;
+  --muted:#8794a1;
+  --line:#26313c;
+  --accent:#cfa64f;
+  --accent-ink:#14110a;
+  --display:'Noto Serif KR','Nanum Myeongjo',serif;
+  --body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',monospace;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);margin:0;padding-inline:0;line-height:1.7}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0 0 .4em}
-.mono{font-family:var(--mono)}
+body{
+  background:var(--bg);color:var(--fg);font-family:var(--body);
+  font-size:15px;line-height:1.8;margin:0;
+  word-break:keep-all;overflow-wrap:break-word;
+}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0 0 .5em;font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.3}
 a{color:var(--accent)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wrap{max-width:640px;margin:0 auto;padding-inline:20px}
+.mono{font-family:var(--mono)}
+
 #topbar{
   position:fixed;top:0;left:0;right:0;z-index:20;
-  display:flex;align-items:center;gap:10px;
-  padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px));
   background:var(--bg);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top,0px);
 }
-#topbar .home-btn{
-  font-family:var(--mono);font-size:12px;letter-spacing:.03em;
-  border:1px solid var(--line);background:var(--surface);color:var(--fg);
-  padding:6px 10px;border-radius:3px;cursor:pointer;flex:none;
-}
+#topbar .row{display:flex;align-items:center;gap:10px;padding:10px 16px}
 #topbar .meta{flex:1;min-width:0}
-#topbar .progress{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
-#topbar .ztitle{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#topbar .nav-btn{
-  font-family:var(--mono);font-size:18px;line-height:1;
+#topbar .progress{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+#topbar .ztitle{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctl{
+  font-family:var(--mono);font-size:12px;line-height:1;
   border:1px solid var(--line);background:var(--surface);color:var(--fg);
-  width:34px;height:34px;border-radius:3px;cursor:pointer;flex:none;
+  min-width:36px;height:36px;padding:0 10px;border-radius:3px;cursor:pointer;flex:none;
 }
-#topbar .nav-btn:disabled{opacity:.25;cursor:default}
-main{padding-top:64px}
-.zone{padding-block:28px 64px}
+.ctl:hover:not(:disabled){border-color:var(--accent)}
+.ctl:disabled{opacity:.28;cursor:default}
+.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:0 16px 8px}
+.seg span{height:2px;background:var(--line)}
+.seg span.on{background:var(--accent)}
+
+main{padding-top:calc(78px + env(safe-area-inset-top,0px))}
+.zone{padding-block:28px 72px}
 .zone[hidden]{display:none}
+
+.eyebrow{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
 .badge{
-  display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-  color:var(--accent-fg);background:var(--accent);padding:3px 8px;border-radius:2px;
-  margin-bottom:10px;text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:2px;
 }
+.lead{font-family:var(--display);font-size:18px;line-height:1.6;margin:.4em 0 1em}
+p{margin:.7em 0}
+hr.rule{border:none;border-top:1px solid var(--line);margin:28px 0}
+
 .draft-banner{
-  background:var(--surface);border:1px dashed var(--line);border-radius:4px;
-  padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:22px;
+  display:flex;gap:12px;align-items:baseline;
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:11px 14px;font-size:13px;color:var(--muted);margin:18px 0 24px;
 }
-.card{
-  background:var(--surface);border:1px solid var(--line);border-radius:6px;
-  padding:16px 18px;margin-block:14px;
+.draft-banner b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--accent);flex:none;font-weight:500}
+
+dl.meta{display:grid;grid-template-columns:64px 1fr;gap:8px 12px;margin:0 0 28px;font-size:13.5px}
+dl.meta dt{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dl.meta dd{margin:0}
+
+.sec-title{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 12px;font-weight:500;
 }
-.card h3{font-size:15px;margin-bottom:.5em}
-.card p{margin:.4em 0;font-size:14px;color:var(--fg)}
-.photo-slot{
-  border:1.5px dashed var(--line);border-radius:4px;padding:14px;
-  font-size:12.5px;color:var(--muted);margin-block:10px;
-  display:flex;gap:10px;align-items:flex-start;
-}
-.photo-slot svg{flex:none;margin-top:2px}
-.timeline{list-style:none;margin:0;padding:0}
-.timeline li{
-  display:flex;gap:12px;padding:8px 0;border-top:1px solid var(--line);
-  font-size:13.5px;
-}
-.timeline li:first-child{border-top:none}
-.timeline .date{font-family:var(--mono);font-size:12px;color:var(--accent);flex:none;width:92px}
-.home-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.home-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .home-list a{
-  display:block;text-decoration:none;color:var(--fg);
-  background:var(--surface);border:1px solid var(--line);border-radius:6px;
-  padding:14px 16px;
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--fg);
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:14px 16px;
 }
 .home-list a:hover{border-color:var(--accent)}
-.home-list .num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em}
-.home-list .ztitle2{font-weight:700;font-size:15px;margin:.2em 0}
-.home-list .teaser{font-size:13px;color:var(--muted)}
-.review-list{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
-.review-list li{margin-block:4px}
-.zone-footer{
-  display:flex;justify-content:space-between;gap:10px;margin-top:36px;
-  padding-top:14px;border-top:1px solid var(--line);
-}
-.zone-footer button{
-  font-family:var(--mono);font-size:12px;background:none;border:1px solid var(--line);
-  color:var(--fg);padding:8px 12px;border-radius:3px;cursor:pointer;
-}
-.zone-footer button:disabled{opacity:.3}
-.source{font-size:11.5px;color:var(--muted);font-family:var(--mono)}
-p.lead{font-size:15px}
-hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
-</style>
-</head>
-<body>
+.home-list .txt{flex:1;min-width:0}
+.home-list .num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em}
+.home-list .ztitle2{font-family:var(--display);font-weight:700;font-size:16px;margin:.15em 0}
+.home-list .teaser{font-size:12.5px;color:var(--muted);line-height:1.6}
+.home-list .arrow{font-family:var(--mono);color:var(--muted);flex:none}
 
+.review-list{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+.review-list li{margin-block:5px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:16px 18px;margin-block:12px}
+.card h3{font-size:15px;margin-bottom:.4em}
+.card p{margin:.3em 0;font-size:14px}
+
+figure.frame{margin:20px 0}
+.frame-box{
+  position:relative;aspect-ratio:16/10;max-width:100%;
+  background:linear-gradient(135deg,var(--surface) 0%,var(--surface-2) 100%);
+  border:1px solid var(--line);border-radius:2px;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--muted);
+}
+.frame-box svg{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);color:var(--accent);opacity:.7}
+figure.frame figcaption{margin-top:8px;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--muted)}
+
+.note{
+  display:flex;gap:12px;align-items:flex-start;
+  border:1px solid var(--line);border-radius:3px;background:var(--surface);
+  padding:14px 16px;font-size:13.5px;color:var(--fg);margin:14px 0;
+}
+.note svg{flex:none;margin-top:3px;color:var(--accent)}
+
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{display:grid;grid-template-columns:104px 1fr;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px;line-height:1.65}
+.timeline li:first-child{border-top:none}
+.timeline .date{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.02em}
+
+blockquote.cite{margin:18px 0;padding:2px 0 2px 16px;border-left:2px solid var(--accent);font-size:14px;color:var(--fg)}
+blockquote.cite .src{display:block;margin-top:8px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.source{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+
+.zone-footer{display:flex;justify-content:space-between;gap:10px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line)}
+.zone-footer .ctl{height:40px;padding:0 14px}
+.zone-footer .ctl.next{border-color:var(--accent);color:var(--accent)}
+.zone-footer .ctl.next:hover{background:var(--accent);color:var(--accent-ink)}
+
+@media (max-width:420px){
+  .timeline li{grid-template-columns:88px 1fr;gap:10px}
+  dl.meta{grid-template-columns:52px 1fr}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ctl,.home-list a{transition:border-color .15s,background .15s,color .15s}
+}
+</style></head><body>
 
 <div id="topbar">
-  <button class="nav-btn" id="prevBtn" aria-label="이전 구역">‹</button>
-  <div class="meta">
-    <div class="progress" id="progressLabel">전체 목차</div>
-    <div class="ztitle" id="titleLabel">「하늘에서 본 대전展」 도슨트</div>
+  <div class="row">
+    <button class="ctl" id="prevBtn" aria-label="이전 구역">‹</button>
+    <div class="meta">
+      <div class="progress" id="progressLabel">전체 목차</div>
+      <div class="ztitle" id="titleLabel">「하늘에서 본 대전展」 도슨트</div>
+    </div>
+    <button class="ctl" id="nextBtn" aria-label="다음 구역">›</button>
+    <button class="ctl" id="homeBtn">목차</button>
   </div>
-  <button class="nav-btn" id="nextBtn" aria-label="다음 구역">›</button>
-  <button class="home-btn" id="homeBtn">목차</button>
+  <div class="seg" id="seg" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 </div>
 
 <main class="wrap">
 
   <!-- 홈 / 목차 -->
   <section id="home" class="zone">
-    <span class="badge">도슨트 초안</span>
+    <div class="eyebrow"><span class="badge">도슨트 초안</span><span>NARA 소장 항공사진 · 1945–1951</span></div>
     <h1>「하늘에서 본 대전展」</h1>
     <p class="lead">-해방과 전쟁 사이</p>
-    <div class="draft-banner">제작 중인 초안입니다. 사진·캡션 등 실제 전시 자료는 배치 확정 후 보강됩니다. 구조와 동선 검토용으로 먼저 공유합니다.</div>
+    <div class="draft-banner"><b>DRAFT</b><span>제작 중인 초안입니다. 사진·캡션 등 실제 전시 자료는 배치 확정 후 보강됩니다. 구조와 동선 검토용으로 먼저 공유합니다.</span></div>
 
-    <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:24px">
-      <tr><td class="mono" style="color:var(--muted);padding:4px 0;width:72px">기간</td><td>2026.10.29(목) – 11.30(월) · 10:00–16:00 · 휴관 토·일</td></tr>
-      <tr><td class="mono" style="color:var(--muted);padding:4px 0">장소</td><td>테미마을박물관 1층 (대전 중구 보문로 184)</td></tr>
-      <tr><td class="mono" style="color:var(--muted);padding:4px 0">주최</td><td>(사)평화통일교육문화센터 · (사)대전문화유산울림</td></tr>
-    </table>
+    <dl class="meta">
+      <dt>기간</dt><dd>2026.10.29(목) – 11.30(월) · 10:00–16:00 · 휴관 토·일</dd>
+      <dt>장소</dt><dd>테미마을박물관 1층 (대전 중구 보문로 184)</dd>
+      <dt>주최</dt><dd>(사)평화통일교육문화센터 · (사)대전문화유산울림</dd>
+    </dl>
 
-    <h2 style="font-size:15px;margin-bottom:10px">구역 안내</h2>
+    <h2 class="sec-title">구역 안내</h2>
     <ul class="home-list">
-      <li><a href="#intro"><div class="num">1 / 5구역</div><div class="ztitle2">진입부 — 서문과 연표</div><div class="teaser">전시의 문제의식과 1945–1950년 연표</div></a></li>
-      <li><a href="#battle"><div class="num">2 / 5구역</div><div class="ztitle2">대전전투</div><div class="teaser">1945년 정찰사진과 1950년 7월 20일 전투 경과</div></a></li>
-      <li><a href="#infra"><div class="num">3 / 5구역</div><div class="ztitle2">파괴된 기반시설</div><div class="teaser">철도 조차장 · 대전비행장 · 하천과 교량 · 항공폭격 연표</div></a></li>
-      <li><a href="#ruins"><div class="num">4 / 5구역</div><div class="ztitle2">폐허와 결과</div><div class="teaser">1950년 9월 폐허 사진과 1951년 LIFE 항공사진</div></a></li>
-      <li><a href="#now"><div class="num">5 / 5구역</div><div class="ztitle2">그때와 지금</div><div class="teaser">비교사진과 위성사진 체험 코너</div></a></li>
+      <li><a href="#intro"><div class="txt"><div class="num">1 / 5구역</div><div class="ztitle2">진입부 — 서문과 연표</div><div class="teaser">전시의 문제의식과 1945–1950년 연표</div></div><span class="arrow">→</span></a></li>
+      <li><a href="#battle"><div class="txt"><div class="num">2 / 5구역</div><div class="ztitle2">대전전투</div><div class="teaser">1945년 정찰사진과 1950년 7월 20일 전투 경과</div></div><span class="arrow">→</span></a></li>
+      <li><a href="#infra"><div class="txt"><div class="num">3 / 5구역</div><div class="ztitle2">파괴된 기반시설</div><div class="teaser">철도 조차장 · 대전비행장 · 하천과 교량 · 항공폭격 연표</div></div><span class="arrow">→</span></a></li>
+      <li><a href="#ruins"><div class="txt"><div class="num">4 / 5구역</div><div class="ztitle2">폐허와 결과</div><div class="teaser">1950년 9월 폐허 사진과 1951년 LIFE 항공사진</div></div><span class="arrow">→</span></a></li>
+      <li><a href="#now"><div class="txt"><div class="num">5 / 5구역</div><div class="ztitle2">그때와 지금</div><div class="teaser">비교사진과 위성사진 체험 코너</div></div><span class="arrow">→</span></a></li>
     </ul>
 
     <hr class="rule">
-    <h2 style="font-size:14px;color:var(--muted)">팀 검토 필요 사항</h2>
+    <h2 class="sec-title">팀 검토 필요 사항</h2>
     <ul class="review-list">
       <li>연표 최종본 확정 (현재 예시 항목 상태)</li>
       <li>위성사진 체험 코너 — 대전역 외 추가 지점 선정</li>
@@ -175,7 +191,7 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
 
   <!-- 1구역 -->
   <section id="intro" class="zone" hidden>
-    <span class="badge">1 / 5구역</span>
+    <div class="eyebrow"><span class="badge">ZONE 01</span><span>1 / 5구역</span></div>
     <h1>진입부 — 서문과 연표</h1>
     <p class="lead">기록되지 않으면 오래도록 기억되기 어렵다.</p>
     <p>일제 36년 동안 식민지배를 겪으며 해방을 맞이한 우리는 안타깝게도 미군정 3년을 살았다. 3년 만에 미군정은 끝났지만, 자주독립국가의 꿈을 이루지 못한 채 남과 북에는 서로 다른 정부가 수립되었다. 그러고는 2년 채 되기 전에 전쟁을 맞이했다.</p>
@@ -184,7 +200,7 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
     <p>이 전시는 해방 전후뿐 아니라 한국전쟁 초기 격전지였던 대전전투(1950년 7월) 당시의 항공사진을 통해, 전쟁이 남긴 도시의 상흔과 대전의 역사적 의미를 재조명하는 데 목적이 있다. 이를 통해 전쟁의 참상과 평화의 가치를 되새기고, 대전이 지닌 전쟁사적·도시사적 위치를 시민과 함께 공유하고자 한다.</p>
 
     <hr class="rule">
-    <h2 style="font-size:15px">연표 — 8.16 해방 ~ 1950년 한국전쟁<span class="mono" style="font-size:11px;color:var(--muted);margin-left:8px">(예시 · 확정 예정)</span></h2>
+    <h2 class="sec-title">연표 — 8.16 해방 ~ 1950년 한국전쟁 <span style="letter-spacing:.04em">(예시 · 확정 예정)</span></h2>
     <ul class="timeline">
       <li><span class="date">1945.08.15</span><span>해방</span></li>
       <li><span class="date">1945.08.16–17</span><span>건국준비위원회(건준) 대전지부 결성</span></li>
@@ -201,25 +217,19 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
       <li><span class="date">1950.06.25</span><span>한국전쟁 전면전 발발</span></li>
     </ul>
 
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>사진 삽입 예정 — 전쟁 전 대전역 일대 항공사진</div>
-    </div>
+    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>전쟁 전 대전역 일대 항공사진</figcaption></figure>
 
     <div class="zone-footer">
-      <button disabled>‹ 이전 구역</button>
-      <button onclick="location.hash='battle'">다음 구역 — 대전전투 ›</button>
+      <button class="ctl" disabled>‹ 이전 구역</button>
+      <button class="ctl next" onclick="location.hash='battle'">다음 구역 — 대전전투 ›</button>
     </div>
   </section>
 
   <!-- 2구역 -->
   <section id="battle" class="zone" hidden>
-    <span class="badge">2 / 5구역</span>
+    <div class="eyebrow"><span class="badge">ZONE 02</span><span>2 / 5구역</span></div>
     <h1>대전전투</h1>
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>사진 삽입 예정 — 1945.1.30 정찰사진 5장 (LO98–LO103, 촬영고도 28,000ft) · 사진 발굴: 전갑생</div>
-    </div>
+    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1945.1.30 정찰사진 5장 (LO98–LO103, 촬영고도 28,000ft) · 사진 발굴: 전갑생</figcaption></figure>
 
     <p class="lead">1950년 7월 20일, 인민군 주력부대의 총공격이 새벽 3시 유성에서 시작됐다.</p>
     <p>인민군 제4사단 제5연대가 갑천을 건너 야간공격을 개시하자, 방어진지를 구축하던 미군 제34연대 1대대와 제19연대 2대대는 통신이 두절된 채 보문산을 경유해 철수했다. 같은 시각 인민군 전차 두 대가 기습적으로 시내에 진입해 대전역의 기관차와 연유창고를 폭파하고 미군 지휘부를 마비시켰다.</p>
@@ -227,22 +237,19 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
     <p>사단장 딘 소장은 철수 도중 경호차가 길을 잘못 들어 금산 가도로 접어들었고, 도로가 봉쇄되자 차량을 버리고 산으로 피신했다가 실종됐다. 대전은 7월 21일 아침 완전히 인민군의 수중에 들어갔다.</p>
     <p class="source">전문 20쪽 분량 「대전전투 개요」는 현장 QR로 연결 예정</p>
 
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>사진 삽입 예정 — 1950.7.20 전술정찰사진(제5공군 제8전술정찰비행대대) 및 시가전 사진 4장 (SC343705·343706·344278·344281)</div>
-    </div>
+    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.7.20 전술정찰사진(제5공군 제8전술정찰비행대대) 및 시가전 사진 4장 (SC343705·343706·344278·344281)</figcaption></figure>
 
     <div class="zone-footer">
-      <button onclick="location.hash='intro'">‹ 이전 구역</button>
-      <button onclick="location.hash='infra'">다음 구역 — 파괴된 기반시설 ›</button>
+      <button class="ctl" onclick="location.hash='intro'">‹ 이전 구역</button>
+      <button class="ctl next" onclick="location.hash='infra'">다음 구역 — 파괴된 기반시설 ›</button>
     </div>
   </section>
 
   <!-- 3구역 -->
   <section id="infra" class="zone" hidden>
-    <span class="badge">3 / 5구역</span>
+    <div class="eyebrow"><span class="badge">ZONE 03</span><span>3 / 5구역</span></div>
     <h1>파괴된 기반시설</h1>
-    <div class="draft-banner">실제 전시 공간에서는 아래 네 내용이 '미공군 공격목표' 패널 하나에 통합 배치됩니다. 이 페이지에서는 이해를 돕기 위해 구분해 둡니다.</div>
+    <div class="draft-banner"><b>DRAFT</b><span>실제 전시 공간에서는 아래 네 내용이 '미공군 공격목표' 패널 하나에 통합 배치됩니다. 이 페이지에서는 이해를 돕기 위해 구분해 둡니다.</span></div>
 
     <div class="card">
       <h3>철도 — 대전역 조차장</h3>
@@ -260,7 +267,7 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
     </div>
 
     <hr class="rule">
-    <h3 style="font-size:15px">항공폭격 연표</h3>
+    <h2 class="sec-title">항공폭격 연표</h2>
     <ul class="timeline">
       <li><span class="date">07.20</span><span>F-80 4대, 유성 일대 건물·학교 기총소사 및 로켓 7발</span></li>
       <li><span class="date">07.21</span><span>대전역 공중 폭격, 탄약·보급 열차 파괴</span></li>
@@ -273,55 +280,42 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
     </ul>
 
     <div class="zone-footer">
-      <button onclick="location.hash='battle'">‹ 이전 구역</button>
-      <button onclick="location.hash='ruins'">다음 구역 — 폐허와 결과 ›</button>
+      <button class="ctl" onclick="location.hash='battle'">‹ 이전 구역</button>
+      <button class="ctl next" onclick="location.hash='ruins'">다음 구역 — 폐허와 결과 ›</button>
     </div>
   </section>
 
   <!-- 4구역 -->
   <section id="ruins" class="zone" hidden>
-    <span class="badge">4 / 5구역</span>
+    <div class="eyebrow"><span class="badge">ZONE 04</span><span>4 / 5구역</span></div>
     <h1>폐허와 결과</h1>
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>사진 삽입 예정 — 1950.9.30 불탄 대전 시가지 (AP Photo, Jim Pringle)</div>
-    </div>
+    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.9.30 불탄 대전 시가지 (AP Photo, Jim Pringle)</figcaption></figure>
     <p>1950년 9월 15일, 미 극동공군 폭격기사령부 B-29 17대는 전선과 무관한 후방 도시 대전과 안동의 조차장·창고를 공격했다.</p>
-    <blockquote style="margin:16px 0;padding-left:14px;border-left:3px solid var(--accent);font-size:13.5px;color:var(--muted)">
-      "...폭격기사령부의 B-29 17대는 전선과 무관한 남한 지역 후방 도시인 대전과 안동의 조차장과 창고를 공격했다."<br>
-      <span class="mono">— A Day by Day History of Far East Air Forces Operations, p.167</span>
+    <blockquote class="cite">
+      "...폭격기사령부의 B-29 17대는 전선과 무관한 남한 지역 후방 도시인 대전과 안동의 조차장과 창고를 공격했다."<span class="src">— A Day by Day History of Far East Air Forces Operations, p.167</span>
     </blockquote>
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>사진 삽입 예정 — 1951년 6월 LIFE 항공사진</div>
-    </div>
+    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1951년 6월 LIFE 항공사진</figcaption></figure>
 
     <div class="zone-footer">
-      <button onclick="location.hash='infra'">‹ 이전 구역</button>
-      <button onclick="location.hash='now'">다음 구역 — 그때와 지금 ›</button>
+      <button class="ctl" onclick="location.hash='infra'">‹ 이전 구역</button>
+      <button class="ctl next" onclick="location.hash='now'">다음 구역 — 그때와 지금 ›</button>
     </div>
   </section>
 
   <!-- 5구역 -->
   <section id="now" class="zone" hidden>
-    <span class="badge">5 / 5구역</span>
+    <div class="eyebrow"><span class="badge">ZONE 05</span><span>5 / 5구역</span></div>
     <h1>그때와 지금</h1>
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 2h6M2 2v6M18 2h-6M18 2v6M2 18h6M2 18v-6M18 18h-6M18 18v-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>사진 삽입 예정 — 1950.9.30 폐허 사진 / 2020.9.8 동일 지점 (photo by 임재근) 비교</div>
-    </div>
+    <figure class="frame"><div class="frame-box" role="img" aria-label="사진 삽입 예정"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7V0H5M95 0H100V7M100 93V100H95M5 100H0V93" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>PHOTO PENDING</span></div><figcaption>1950.9.30 폐허 사진 / 2020.9.8 동일 지점 (photo by 임재근) 비교</figcaption></figure>
     <p>전쟁의 참상과 평화의 가치를 되새기며, 대전이 지닌 전쟁사적·도시사적 위치를 함께 공유하는 전시의 마무리 지점.</p>
 
     <hr class="rule">
-    <h3 style="font-size:15px">위성사진 체험 코너</h3>
-    <div class="photo-slot">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
-      <div>현재 위치를 가리키는 손피켓을 들어 올려 배경의 옛 항공사진과 겹쳐보는 체험 코너. 대전역 자리는 확정, 나머지 지점은 추가 선정 중.</div>
-    </div>
+    <h2 class="sec-title">위성사진 체험 코너</h2>
+    <div class="note"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg><div>현재 위치를 가리키는 손피켓을 들어 올려 배경의 옛 항공사진과 겹쳐보는 체험 코너. 대전역 자리는 확정, 나머지 지점은 추가 선정 중.</div></div>
 
     <div class="zone-footer">
-      <button onclick="location.hash='ruins'">‹ 이전 구역</button>
-      <button onclick="location.hash=''">처음으로</button>
+      <button class="ctl" onclick="location.hash='ruins'">‹ 이전 구역</button>
+      <button class="ctl next" onclick="location.hash=''">처음으로</button>
     </div>
   </section>
 
@@ -331,17 +325,18 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
 (function(){
   var order = ['intro','battle','infra','ruins','now'];
   var titles = {
-    intro:'1/5구역 — 진입부',
-    battle:'2/5구역 — 대전전투',
-    infra:'3/5구역 — 파괴된 기반시설',
-    ruins:'4/5구역 — 폐허와 결과',
-    now:'5/5구역 — 그때와 지금'
+    intro:'진입부 — 서문과 연표',
+    battle:'대전전투',
+    infra:'파괴된 기반시설',
+    ruins:'폐허와 결과',
+    now:'그때와 지금'
   };
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
   var homeBtn = document.getElementById('homeBtn');
   var progressLabel = document.getElementById('progressLabel');
   var titleLabel = document.getElementById('titleLabel');
+  var segs = document.querySelectorAll('#seg span');
 
   function currentZone(){
     var raw = (location.hash || '').replace('#','');
@@ -350,36 +345,32 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
 
   function render(){
     var zone = currentZone();
-    document.querySelectorAll('.zone').forEach(function(el){
-      el.hidden = el.id !== zone;
-    });
+    document.querySelectorAll('.zone').forEach(function(el){ el.hidden = el.id !== zone; });
+    var idx = order.indexOf(zone);
     if(zone === 'home'){
       progressLabel.textContent = '전체 목차';
       titleLabel.textContent = '「하늘에서 본 대전展」 도슨트';
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
     } else {
-      var idx = order.indexOf(zone);
       progressLabel.textContent = (idx+1) + ' / ' + order.length + '구역';
       titleLabel.textContent = titles[zone];
-      prevBtn.disabled = false;
-      nextBtn.disabled = false;
     }
+    prevBtn.disabled = zone === 'home';
+    nextBtn.disabled = zone === 'home' || idx === order.length-1;
+    segs.forEach(function(sp,i){ sp.className = (idx !== -1 && i <= idx) ? 'on' : ''; });
     window.scrollTo(0,0);
+    requestAnimationFrame(function(){ window.scrollTo(0,0); });
   }
 
   prevBtn.addEventListener('click', function(){
     var zone = currentZone();
     if(zone === 'home') return;
     var idx = order.indexOf(zone);
-    location.hash = idx === 0 ? '' : order[idx-1];
-    if(idx === 0) render();
+    if(idx === 0){ location.hash = ''; render(); } else { location.hash = order[idx-1]; }
   });
   nextBtn.addEventListener('click', function(){
     var zone = currentZone();
-    if(zone === 'home') return;
     var idx = order.indexOf(zone);
-    if(idx < order.length-1) location.hash = order[idx+1];
+    if(idx !== -1 && idx < order.length-1) location.hash = order[idx+1];
   });
   homeBtn.addEventListener('click', function(){
     if(!location.hash){ render(); } else { location.hash = ''; }
@@ -388,6 +379,4 @@ hr.rule{border:none;border-top:1px solid var(--line);margin:22px 0}
   render();
 })();
 </script>
-
-</body>
-</html>
+</body></html>
