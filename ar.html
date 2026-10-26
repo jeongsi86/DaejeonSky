@@ -6,13 +6,13 @@
 <title>대전전투 AR · 하늘에서 본 대전展</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0d1218; --surface:#141b23; --surface-2:#1a232d; --fg:#e2e6ea; --muted:#8794a1;
-  --line:#26313c; --accent:#cfa64f; --accent-ink:#14110a;
-  --sans:'Noto Sans KR','Noto Sans CJK KR',system-ui,sans-serif;
-  --serif:'Noto Serif KR','Noto Serif CJK KR',serif;
+  --bg:#0b0b0c; --surface:#141b23; --surface-2:#1a232d; --fg:#e2e6ea; --muted:#8794a1;
+  --line:#26313c; --accent:#e0583a; --accent-ink:#ffffff;
+  --sans:'IBM Plex Sans KR','Noto Sans CJK KR',system-ui,sans-serif;
+  --serif:'Black Han Sans','IBM Plex Sans KR',sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -25,7 +25,7 @@ a{color:inherit}
 
 /* 인식된 사진 테두리 */
 #frame{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .25s}
-#frame polygon{fill:rgba(207,166,79,.06);stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+#frame polygon{fill:rgba(224,88,58,.08);stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
 
 /* 핀 */
 #pins{position:fixed;inset:0;pointer-events:none}
@@ -134,7 +134,7 @@ body.edit #coord{display:block}
   <div class="sub">사진에 휴대폰을 비춰 보세요</div>
   <ol>
     <li>아래 버튼으로 카메라를 켭니다.</li>
-    <li>벽에 걸린 대형 사진 전체가 화면에 들어오게 비춥니다.</li>
+    <li>벽에 걸린 대형 사진을 비춥니다. 멀리서 전체를 비춰도, 가까이서 일부만 비춰도 됩니다.</li>
     <li>사진 위에 나타나는 번호 표식을 누르면 설명이 열립니다.</li>
   </ol>
   <p class="note">카메라 영상은 휴대폰 안에서만 처리되며 어디에도 저장·전송되지 않습니다. 카카오톡·네이버 앱 안에서 열었다면 카메라가 막힐 수 있으니 사파리나 크롬으로 열어 주세요.</p>
@@ -162,10 +162,24 @@ import * as THREE from 'three';
 import { MindARThree } from './vendor/mindar-image-three.prod.js';
 
 /* ════════ 설정 영역 ════════
-   TARGET : 사진을 컴파일한 .mind 파일
-   PINS   : x, y 는 사진 왼쪽 위를 (0,0), 오른쪽 아래를 (1,1)로 본 비율 좌표
-            ?edit=1 로 열고 사진 위를 탭하면 좌표가 화면에 표시됩니다. */
-const TARGET = './targets/battle-main.mind';
+   TARGET  : 사진을 컴파일한 .mind 파일 (전체 사진 1개 + 겹치는 조각 8개가 한 파일에 들어 있음)
+   TARGETS : 각 인식 대상이 전체 사진에서 차지하는 범위(0~1 비율). 첫째가 전체 사진, 나머지는 조각.
+             조각 덕분에 사진에 가까이 가도(한 조각이 화면에 일부만 보여도) 인식이 이어집니다.
+   PINS    : x, y 는 사진 왼쪽 위를 (0,0), 오른쪽 아래를 (1,1)로 본 비율 좌표
+             ?edit=1 로 열고 사진 위를 탭하면 좌표가 화면에 표시됩니다. */
+const TARGET = './targets/battle-tiles.mind';
+const PHOTO_ASPECT = 2866 / 5494;            // 원본 사진의 세로/가로 비율
+const TARGETS = [
+  {x0:0.0000,y0:0.0000,x1:1.0000,y1:1.0000},
+  {x0:0.0000,y0:0.0000,x1:0.3094,y1:0.5932},
+  {x0:0.2303,y0:0.0000,x1:0.5397,y1:0.5932},
+  {x0:0.4603,y0:0.0000,x1:0.7697,y1:0.5932},
+  {x0:0.6906,y0:0.0000,x1:1.0000,y1:0.5932},
+  {x0:0.0000,y0:0.4068,x1:0.3094,y1:1.0000},
+  {x0:0.2303,y0:0.4068,x1:0.5397,y1:1.0000},
+  {x0:0.4603,y0:0.4068,x1:0.7697,y1:1.0000},
+  {x0:0.6906,y0:0.4068,x1:1.0000,y1:1.0000}
+];
 const PINS = [
   { x:0.525, y:0.360, title:'대전역과 역 앞 광장',
     text:'사진 가운데 위쪽, 긴 승강장 지붕 아래로 선로가 부채꼴로 모이는 곳이 대전역입니다. 역 앞 광장에서 남쪽으로 곧은 대로가 뻗어 있습니다. (초안 · 확인 필요)' },
@@ -178,15 +192,49 @@ const PINS = [
   { x:0.565, y:0.748, title:'연기가 퍼진 지역',
     text:'사진 아래쪽과 오른쪽에 연기가 번져 있습니다. 폭격이나 화재로 인한 것인지는 촬영 시각 기록과 함께 확인합니다. (초안 · 확인 필요)' },
 ];
+/* 떨림 줄이기(화면 좌표 필터): MIN_CUTOFF 를 낮추면 더 안정적이고 느려지며, BETA 를 높이면 움직일 때 덜 늦습니다.
+   주소 뒤에 ?mc=0.8&beta=0.05 처럼 붙여 현장에서 바로 시험할 수 있습니다. */
+const Q = new URLSearchParams(location.search);
+const MIN_CUTOFF = parseFloat(Q.get('mc')) || 0.7;
+const BETA = parseFloat(Q.get('beta')) || 0.03;
+const MISS_TOLERANCE = parseInt(Q.get('miss')) || 12;   // 인식을 잠깐 놓쳐도 유지하는 프레임 수
 /* ═══════════════════════════ */
+
+/* ?hq=1 : 카메라를 1280×720 으로 요청(정밀도↑, 휴대폰 부하↑) */
+if (Q.has('hq') && navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+  const orig = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+  navigator.mediaDevices.getUserMedia = c => {
+    if (c && c.video && typeof c.video === 'object') c.video = { ...c.video, width:{ ideal:1280 }, height:{ ideal:720 } };
+    return orig(c);
+  };
+}
 
 const $ = id => document.getElementById(id);
 const body = document.body, stage = $('stage'), pinsEl = $('pins');
 const poly = document.querySelector('#frame polygon'), frame = $('frame');
 const statusTxt = $('status').querySelector('span');
-if (new URLSearchParams(location.search).has('edit')) body.classList.add('edit');
+if (Q.has('edit')) body.classList.add('edit');
 
-let mindar, anchor, aspect = 0.65, found = false, sel = -1, started = false;
+let mindar, anchors = [], active = -1, sel = -1, started = false;
+const foundSet = new Set();
+const isFound = () => active >= 0;
+
+/* One-Euro 필터: 가만히 있을 땐 강하게 매끈하게, 빠르게 움직일 땐 덜 늦게 */
+class OneEuro{
+  constructor(){ this.t = null; this.x = 0; this.dx = 0; }
+  static a(c, dt){ const tau = 1 / (2 * Math.PI * c); return 1 / (1 + tau / dt); }
+  f(x, now){
+    if (this.t === null){ this.t = now; this.x = x; this.dx = 0; return x; }
+    const dt = Math.max(1e-3, (now - this.t) / 1000); this.t = now;
+    this.dx += OneEuro.a(1, dt) * ((x - this.x) / dt - this.dx);
+    this.x += OneEuro.a(MIN_CUTOFF + BETA * Math.abs(this.dx), dt) * (x - this.x);
+    return this.x;
+  }
+  reset(){ this.t = null; }
+}
+const pinF = PINS.map(() => [new OneEuro(), new OneEuro()]);
+const cornF = [0, 1, 2, 3].map(() => [new OneEuro(), new OneEuro()]);
+
 const pinEls = PINS.map((p, i) => {
   const el = document.createElement('button');
   el.className = 'pin';
@@ -199,7 +247,7 @@ const pinEls = PINS.map((p, i) => {
 
 function setState(s){
   body.dataset.state = s;
-  statusTxt.textContent = s === 'found' ? '사진을 인식했습니다' : '사진 전체가 보이게 비춰 주세요';
+  statusTxt.textContent = s === 'found' ? '사진을 인식했습니다' : '사진을 비춰 주세요';
 }
 function select(i){
   sel = i;
@@ -214,39 +262,64 @@ $('cX').onclick = () => select(-1);
 $('cPrev').onclick = () => select((sel - 1 + PINS.length) % PINS.length);
 $('cNext').onclick = () => select((sel + 1) % PINS.length);
 
+/* 사진 전체 기준 비율 좌표 → 현재 인식 중인 대상(전체/조각)의 로컬 좌표 */
+function local(nx, ny, t){
+  const w = t.x1 - t.x0, cx = (t.x0 + t.x1) / 2, cy = (t.y0 + t.y1) / 2;
+  return [(nx - cx) / w, -(ny - cy) * PHOTO_ASPECT / w];
+}
 const v = new THREE.Vector3();
-function toScreen(lx, ly){
-  v.set(lx, ly, 0).applyMatrix4(anchor.group.matrix).project(mindar.camera);
+function toScreen(lx, ly, g){
+  v.set(lx, ly, 0).applyMatrix4(g.matrix).project(mindar.camera);
   return { x:(v.x + 1) / 2 * stage.clientWidth, y:(1 - v.y) / 2 * stage.clientHeight, z:v.z };
 }
-function local(nx, ny){ return [nx - 0.5, (0.5 - ny) * aspect]; }
+
+function hideAll(){
+  frame.style.opacity = 0;
+  pinEls.forEach(el => el.style.opacity = 0);
+  pinF.concat(cornF).forEach(a => a.forEach(f => f.reset()));
+}
+function refreshActive(){
+  active = foundSet.size ? [...foundSet].pop() : -1;
+  if (active >= 0){ setState('found'); }
+  else { hideAll(); setState('lost'); }
+}
 
 function tick(){
   mindar.renderer.render(mindar.scene, mindar.camera);
-  if (!found){ return; }
-  const W = stage.clientWidth;
-  const corners = [[0,0],[1,0],[1,1],[0,1]].map(([a,b]) => toScreen(...local(a,b)));
-  poly.setAttribute('points', corners.map(c => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' '));
+  if (active < 0) return;
+  const now = performance.now(), t = TARGETS[active], g = anchors[active].group;
+  const W = stage.clientWidth, Hh = stage.clientHeight;
+  let behind = false;
+  const corners = [[0,0],[1,0],[1,1],[0,1]].map(([a,b], k) => {
+    const s = toScreen(...local(a, b, t), g);
+    if (s.z >= 1) behind = true;
+    return `${cornF[k][0].f(s.x, now).toFixed(1)},${cornF[k][1].f(s.y, now).toFixed(1)}`;
+  });
+  frame.style.opacity = behind ? 0 : 1;
+  poly.setAttribute('points', corners.join(' '));
   PINS.forEach((p, i) => {
-    const s = toScreen(...local(p.x, p.y)), el = pinEls[i];
-    const ok = s.z < 1 && s.x > -40 && s.x < W + 40 && s.y > -40 && s.y < stage.clientHeight + 40;
+    const s = toScreen(...local(p.x, p.y, t), g), el = pinEls[i];
+    const ok = s.z < 1 && s.x > -40 && s.x < W + 40 && s.y > -40 && s.y < Hh + 40;
+    const x = pinF[i][0].f(s.x, now), y = pinF[i][1].f(s.y, now);
     el.style.opacity = ok ? 1 : 0;
-    el.style.transform = `translate(${s.x.toFixed(1)}px,${s.y.toFixed(1)}px) translate(-50%,-50%)`;
-    el.classList.toggle('flip', s.x > W - 170);
+    el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(-50%,-50%)`;
+    el.classList.toggle('flip', x > W - 170);
   });
 }
 
-/* 편집 모드: 인식된 사진 위를 탭하면 비율 좌표 표시 */
+/* 편집 모드: 인식된 사진 위를 탭하면 전체 사진 기준 비율 좌표 표시 */
 stage.addEventListener('click', e => {
-  if (!body.classList.contains('edit') || !found) return;
+  if (!body.classList.contains('edit') || active < 0) return;
+  const t = TARGETS[active], g = anchors[active].group;
   const r = stage.getBoundingClientRect();
   const nx = ((e.clientX - r.left) / r.width) * 2 - 1, ny = -((e.clientY - r.top) / r.height) * 2 + 1;
-  const inv = anchor.group.matrix.clone().invert();
+  const inv = g.matrix.clone().invert();
   const p = new THREE.Vector3(nx, ny, 0.5).unproject(mindar.camera).applyMatrix4(inv);
   const o = new THREE.Vector3(0, 0, 0).applyMatrix4(inv), d = p.sub(o);
-  const t = -o.z / d.z, hx = o.x + t * d.x, hy = o.y + t * d.y;
-  const X = (hx + 0.5).toFixed(3), Y = (0.5 - hy / aspect).toFixed(3);
-  $('coord').textContent = `x: ${X}   y: ${Y}`; console.log(`PIN x:${X}, y:${Y}`);
+  const k = -o.z / d.z, lx = o.x + k * d.x, ly = o.y + k * d.y;
+  const w = t.x1 - t.x0, cx = (t.x0 + t.x1) / 2, cy = (t.y0 + t.y1) / 2;
+  const X = (lx * w + cx).toFixed(3), Y = (cy - ly * w / PHOTO_ASPECT).toFixed(3);
+  $('coord').textContent = `x: ${X}   y: ${Y}   (대상 ${active})`; console.log(`PIN x:${X}, y:${Y}`);
 });
 
 function showErr(e){
@@ -267,17 +340,14 @@ async function start(){
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw Object.assign(new Error('no mediaDevices'), { name:'SecurityError' });
     if (!mindar){
       mindar = new MindARThree({ container:stage, imageTargetSrc:TARGET, maxTrack:1,
-        uiLoading:'no', uiScanning:'no', uiError:'no', filterMinCF:0.0008, filterBeta:30 });
-      anchor = mindar.addAnchor(0);
-      anchor.onTargetFound = () => { found = true; frame.style.opacity = 1; setState('found'); };
-      anchor.onTargetLost = () => {
-        found = false; frame.style.opacity = 0; setState('lost');
-        pinEls.forEach(el => el.style.opacity = 0);
-      };
+        uiLoading:'no', uiScanning:'no', uiError:'no', missTolerance:MISS_TOLERANCE });
+      TARGETS.forEach((_, i) => {
+        const a = mindar.addAnchor(i); anchors.push(a);
+        a.onTargetFound = () => { foundSet.delete(i); foundSet.add(i); refreshActive(); };
+        a.onTargetLost = () => { foundSet.delete(i); refreshActive(); };
+      });
     }
     await mindar.start();
-    const dim = mindar.controller.markerDimensions && mindar.controller.markerDimensions[0];
-    if (dim) aspect = dim[1] / dim[0];
     started = true; setState('lost');
     $('loading').hidden = true;
     mindar.renderer.setAnimationLoop(tick);
@@ -289,7 +359,7 @@ document.addEventListener('visibilitychange', () => {
   if (!mindar || !started) return;
   if (document.hidden) mindar.renderer.setAnimationLoop(null); else mindar.renderer.setAnimationLoop(tick);
 });
-window.__ar = { get found(){ return found; }, get aspect(){ return aspect; } };
+window.__ar = { get found(){ return isFound(); }, get active(){ return active; } };
 </script>
 </body>
 </html>
