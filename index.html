@@ -143,6 +143,16 @@ p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
 .virtual-btn:active{background:#1d1d20}
 .meta{margin-top:26px}
 .menu .vl a{border-bottom:0;margin-top:14px;color:var(--ac)}
+
+/* 가상 전시장 (홈페이지 안에서 열기) */
+#z-virtual{position:fixed;inset:0;z-index:70;background:#000;display:flex;flex-direction:column;animation:none}
+.vbar{flex:none;display:flex;align-items:center;gap:10px;height:calc(52px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;background:#0b0b0c;border-bottom:1px solid var(--line)}
+.vback{display:inline-flex;align-items:center;height:36px;padding:0 14px;background:var(--ac);color:#fff;font:500 14px var(--serif);border-radius:2px;white-space:nowrap}
+.vt{flex:1;font:400 15px var(--disp);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vopen{display:inline-flex;align-items:center;height:36px;padding:0 12px;border:1px solid var(--line);font:500 12px var(--mono);color:var(--dim);white-space:nowrap}
+#vframe{flex:1;width:100%;border:0;background:#111}
+body.vmode{overflow:hidden;padding-bottom:0}
+body.vmode .top,body.vmode .pn,body.vmode .foot,body.vmode .bar{display:none}
 </style>
 </head>
 <body>
@@ -151,7 +161,7 @@ p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
   <a class="brand" href="#home">하늘에서 본 대전展</a>
   <button id="menuBtn" aria-label="메뉴" aria-expanded="false"><span></span><span></span></button>
 </nav>
-<div class="menu" id="menu" hidden><ol><li><a href="#home"><span>00</span>홈</a></li><li><a href="#prologue"><span>01</span>프롤로그</a></li><li><a href="#timeline"><span>02</span>연표</a></li><li><a href="#station"><span>03</span>전쟁 전 대전역</a></li><li><a href="#battle"><span>04</span>대전전투</a></li><li><a href="#bombing"><span>05</span>항공폭격</a></li><li><a href="#targets"><span>06</span>미공군 공격목표</a></li><li><a href="#airfield"><span>07</span>대전 비행장</a></li><li><a href="#now"><span>08</span>그때와 지금</a></li><li><a href="#epilogue"><span>09</span>에필로그</a></li><li class="vl"><a href="./virtual/"><span>▶</span>가상 전시 관람</a></li></ol></div>
+<div class="menu" id="menu" hidden><ol><li><a href="#home"><span>00</span>홈</a></li><li><a href="#prologue"><span>01</span>프롤로그</a></li><li><a href="#timeline"><span>02</span>연표</a></li><li><a href="#station"><span>03</span>전쟁 전 대전역</a></li><li><a href="#battle"><span>04</span>대전전투</a></li><li><a href="#bombing"><span>05</span>항공폭격</a></li><li><a href="#targets"><span>06</span>미공군 공격목표</a></li><li><a href="#airfield"><span>07</span>대전 비행장</a></li><li><a href="#now"><span>08</span>그때와 지금</a></li><li><a href="#epilogue"><span>09</span>에필로그</a></li><li class="vl"><a href="#virtual"><span>▶</span>가상 전시 관람</a></li></ol></div>
 <main class="zone" id="z-home" data-id="home" hidden>
 <section class="poster-hero">
   <div class="poster-bg" style="background-image:url(img/poster.jpg)"></div>
@@ -159,7 +169,7 @@ p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
   <button class="zoom poster" data-src="img/poster.jpg" aria-label="포스터 크게 보기"><img src="img/poster.jpg" alt="「하늘에서 본 대전展」 해방과 전쟁 사이 포스터 — 2026.10.29–11.30 테미마을박물관"></button>
 </section>
 <section class="wrap">
-  <a class="virtual-btn" href="./virtual/"><span class="vi" aria-hidden="true">▶</span><span><b>가상 전시 관람</b><small>전시장에 가지 않아도 온라인으로 둘러보세요</small></span></a>
+  <a class="virtual-btn" href="#virtual"><span class="vi" aria-hidden="true">▶</span><span><b>가상 전시 관람</b><small>전시장에 가지 않아도 온라인으로 둘러보세요</small></span></a>
   <dl class="meta">
     <div><dt>전시기간</dt><dd>2026년 10월 29일(목) ~ 11월 30일(월)</dd></div>
     <div><dt>관람시간</dt><dd>10:00 ~ 16:00 · 휴관 토·일</dd></div>
@@ -245,7 +255,10 @@ p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
     <div><dt>전시 설치</dt><dd>광고기획 푸른솔</dd></div>
     <div><dt>주최</dt><dd>(사)평화통일교육문화센터 · (사)대전문화유산울림</dd></div>
   </dl>
-</section></main>
+</section></main><main class="zone" id="z-virtual" data-id="virtual" hidden>
+  <div class="vbar"><a class="vback" href="#home">← 홈으로</a><span class="vt">가상 전시장</span><a class="vopen" href="./virtual/" target="_blank" rel="noopener">새 창</a></div>
+  <iframe id="vframe" title="하늘에서 본 대전展 가상 전시장" data-src="./virtual/" allow="fullscreen; accelerometer; gyroscope" allowfullscreen></iframe>
+</main>
 <nav class="pn" id="pn"></nav>
 <footer class="foot">「하늘에서 본 대전展」 해방과 전쟁 사이 · 주최 (사)평화통일교육문화센터 · (사)대전문화유산울림<br>사진 출처: 미국 국립문서기록관리청(NARA) 등 · 자료 제공 전갑생</footer>
 <div class="lb" id="lb" hidden><button class="lbx" aria-label="닫기">✕</button><div class="lbs"><img alt=""></div></div>
@@ -253,10 +266,18 @@ p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
 var Z=[["home","홈"],["prologue","프롤로그"],["timeline","연표"],["station","전쟁 전 대전역"],["battle","대전전투"],["bombing","항공폭격"],["targets","미공군 공격목표"],["airfield","대전 비행장"],["now","그때와 지금"],["epilogue","에필로그"]], ids=Z.map(function(z){return z[0]});
 var $=function(s,r){return (r||document).querySelector(s)};
 var zones=document.querySelectorAll('.zone');
-function cur(){var h=(location.hash||'').replace('#','');return ids.indexOf(h)>=0?h:'home'}
+var vf=document.getElementById('vframe');
+function cur(){var h=(location.hash||'').replace('#','');if(h==='virtual')return 'virtual';return ids.indexOf(h)>=0?h:'home'}
 function show(){
   var id=cur(), i=ids.indexOf(id);
   zones.forEach(function(z){z.hidden=z.dataset.id!==id});
+  if(id==='virtual'){
+    document.body.classList.add('vmode'); closeMenu(); document.body.style.overflow='hidden';
+    if(!vf.getAttribute('src')) vf.setAttribute('src',vf.dataset.src);
+    document.title='가상 전시장 · 하늘에서 본 대전展'; window.scrollTo(0,0); return;
+  }
+  document.body.classList.remove('vmode');
+  if(vf.getAttribute('src')) vf.removeAttribute('src');   // 나오면 3D 장면을 내려서 휴대폰 메모리를 비웁니다
   $('#bar').style.width=((i)/(ids.length-1)*100)+'%';
   var p=Z[i-1],n=Z[i+1],h='';
   h+=p?'<a class="p" href="#'+p[0]+'"><small>← PREV</small>'+p[1]+'</a>':'<span></span>';
