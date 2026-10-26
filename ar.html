@@ -29,17 +29,17 @@ a{color:inherit}
 
 /* 핀 */
 #pins{position:fixed;inset:0;pointer-events:none}
-.pin{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;pointer-events:auto;
-  transform:translate(-50%,-50%);will-change:transform;opacity:0}
-.pin .dot{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
-  background:var(--accent);color:var(--accent-ink);font:500 14px var(--mono);
-  box-shadow:0 0 0 3px rgba(13,18,24,.75),0 0 0 4px var(--accent);}
-.pin .lab{position:absolute;left:44px;top:50%;transform:translateY(-50%);white-space:nowrap;
-  padding:5px 10px;border-radius:3px;background:rgba(13,18,24,.88);border:1px solid var(--line);
+.pin{position:absolute;left:0;top:0;display:block;width:0;height:0;pointer-events:auto;will-change:transform;opacity:0;padding:0}
+.pin::before{content:"";position:absolute;left:-20px;top:-20px;width:40px;height:40px}
+.pin .dot{position:absolute;left:-8px;top:-8px;width:16px;height:16px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 2px rgba(11,11,12,.8),0 0 0 3px var(--accent)}
+.pin .lab{position:absolute;left:16px;top:-13px;white-space:nowrap;height:26px;line-height:24px;
+  padding:0 9px;border-radius:3px;background:rgba(11,11,12,.86);border:1px solid var(--line);
   font-size:13px;font-weight:500;letter-spacing:-.01em;display:none}
-.pin.on .lab{display:block}
-.pin.flip .lab{left:auto;right:44px}
-.pin.on .dot{background:#fff;box-shadow:0 0 0 3px rgba(13,18,24,.75),0 0 0 4px #fff}
+.pin.lb .lab,.pin.on .lab{display:block}
+.pin.flip .lab{left:auto;right:16px}
+.pin.on{z-index:2}
+.pin.on .dot{background:#fff;box-shadow:0 0 0 2px rgba(11,11,12,.8),0 0 0 3px #fff}
 .pin.on .lab{border-color:var(--accent);color:var(--accent)}
 
 /* 상단 바 */
@@ -119,7 +119,7 @@ body.edit #coord{display:block}
 </header>
 <div id="status"><i></i><span>사진을 비춰 주세요</span></div>
 <div id="coord">탭한 위치 —</div>
-<div id="hint">번호 표식을 눌러 보세요</div>
+<div id="hint">지점을 눌러 보세요</div>
 
 <aside id="card" aria-live="polite">
   <div class="row"><span class="eb" id="cEb"></span><button class="x" id="cX" aria-label="닫기">×</button></div>
@@ -135,7 +135,7 @@ body.edit #coord{display:block}
   <ol>
     <li>아래 버튼으로 카메라를 켭니다.</li>
     <li>벽에 걸린 대형 사진을 비춥니다. 멀리서 전체를 비춰도, 가까이서 일부만 비춰도 됩니다.</li>
-    <li>사진 위에 나타나는 번호 표식을 누르면 설명이 열립니다.</li>
+    <li>사진 위에 나타나는 점을 누르면 그 지점의 이름이 열립니다. 가까이 갈수록 더 많은 이름이 보입니다.</li>
   </ol>
   <p class="note">카메라 영상은 휴대폰 안에서만 처리되며 어디에도 저장·전송되지 않습니다. 카카오톡·네이버 앱 안에서 열었다면 카메라가 막힐 수 있으니 사파리나 크롬으로 열어 주세요.</p>
   <button class="btn" id="go">카메라 켜기</button>
@@ -180,17 +180,33 @@ const TARGETS = [
   {x0:0.4603,y0:0.4068,x1:0.7697,y1:1.0000},
   {x0:0.6906,y0:0.4068,x1:1.0000,y1:1.0000}
 ];
-const PINS = [
-  { x:0.525, y:0.360, title:'대전역과 역 앞 광장',
-    text:'사진 가운데 위쪽, 긴 승강장 지붕 아래로 선로가 부채꼴로 모이는 곳이 대전역입니다. 역 앞 광장에서 남쪽으로 곧은 대로가 뻗어 있습니다. (초안 · 확인 필요)' },
-  { x:0.350, y:0.273, title:'철도 선로와 조차장',
-    text:'역 서쪽으로 선로가 여러 갈래로 펼쳐진 구간입니다. 열차가 서 있는 것으로 보이는 조차장 시설입니다. (초안 · 확인 필요)' },
-  { x:0.528, y:0.518, title:'역에서 남쪽으로 뻗은 대로',
-    text:'역 앞에서 곧게 내려가는 큰길로, 도심의 중심축입니다. 중앙로로 추정되며 현재 지도와 대조해 확정합니다. (초안 · 확인 필요)' },
-  { x:0.600, y:0.594, title:'도심 남쪽의 하천',
-    text:'도심 남쪽을 가로지르는 넓은 하천 바닥입니다. 현재 위성사진과 겹쳐 보면 물길이 어떻게 달라졌는지 비교할 수 있습니다. (초안 · 확인 필요)' },
-  { x:0.565, y:0.748, title:'연기가 퍼진 지역',
-    text:'사진 아래쪽과 오른쪽에 연기가 번져 있습니다. 폭격이나 화재로 인한 것인지는 촬영 시각 기록과 함께 확인합니다. (초안 · 확인 필요)' },
+const PINS = [   // 이름표가 겹칠 때는 위쪽(앞쪽) 항목이 먼저 보입니다. 설명(text)은 비워 두면 이름만 표시됩니다.
+  { x:0.5382, y:0.2829, title:'대전역' },
+  { x:0.2615, y:0.7939, title:'대전천' },
+  { x:0.0460, y:0.3241, title:'경부선' },
+  { x:0.0380, y:0.3903, title:'호남선' },
+  { x:0.5405, y:0.1525, title:'기관차고' },
+  { x:0.5197, y:0.1429, title:'보급창고3호' },
+  { x:0.7610, y:0.6856, title:'충남도립병원' },
+  { x:0.3715, y:0.7498, title:'선화교' },
+  { x:0.9025, y:0.5571, title:'보문교' },
+  { x:0.5305, y:0.6194, title:'목척교' },
+  { x:0.7030, y:0.5916, title:'대흥교' },
+  { x:0.6200, y:0.6127, title:'중교' },
+  { x:0.5310, y:0.8237, title:'대전시청사' },
+  { x:0.7070, y:0.8553, title:'대흥로터리' },
+  { x:0.5525, y:0.5044, title:'중앙극장' },
+  { x:0.5405, y:0.5341, title:'산업은행' },
+  { x:0.0875, y:0.5341, title:'대전공업학교' },
+  { x:0.2918, y:0.4056, title:'삼성국교' },
+  { x:0.6872, y:0.5466, title:'원동국교' },
+  { x:0.3633, y:0.8380, title:'선화국교' },
+  { x:0.6390, y:0.9339, title:'대전여중' },
+  { x:0.8172, y:0.2311, title:'신흥초' },
+  { x:0.2255, y:0.1774, title:'이연회사' },
+  { x:0.3900, y:0.2944, title:'화차' },
+  { x:0.2337, y:0.0288, title:'대동천' },
+  { x:0.8212, y:0.4477, title:'차량행렬(20~30대)' },
 ];
 /* 떨림 줄이기(화면 좌표 필터): MIN_CUTOFF 를 낮추면 더 안정적이고 느려지며, BETA 를 높이면 움직일 때 덜 늦습니다.
    주소 뒤에 ?mc=0.8&beta=0.05 처럼 붙여 현장에서 바로 시험할 수 있습니다. */
@@ -238,7 +254,7 @@ const cornF = [0, 1, 2, 3].map(() => [new OneEuro(), new OneEuro()]);
 const pinEls = PINS.map((p, i) => {
   const el = document.createElement('button');
   el.className = 'pin';
-  el.innerHTML = `<span class="dot">${i + 1}</span><span class="lab"></span>`;
+  el.innerHTML = `<span class="dot"></span><span class="lab"></span>`;
   el.querySelector('.lab').textContent = p.title;
   el.addEventListener('click', e => { e.stopPropagation(); select(i); });
   pinsEl.appendChild(el);
@@ -255,7 +271,7 @@ function select(i){
   if (i < 0){ $('card').classList.remove('show'); body.dataset.card = 'closed'; return; }
   const p = PINS[i];
   $('cEb').textContent = `지점 ${String(i + 1).padStart(2, '0')} / ${String(PINS.length).padStart(2, '0')}`;
-  $('cT').textContent = p.title; $('cP').textContent = p.text;
+  $('cT').textContent = p.title; $('cP').textContent = p.text || ''; $('cP').hidden = !p.text;
   $('card').classList.add('show'); body.dataset.card = 'open';
 }
 $('cX').onclick = () => select(-1);
@@ -297,13 +313,30 @@ function tick(){
   });
   frame.style.opacity = behind ? 0 : 1;
   poly.setAttribute('points', corners.join(' '));
+  const pos = [];
   PINS.forEach((p, i) => {
     const s = toScreen(...local(p.x, p.y, t), g), el = pinEls[i];
-    const ok = s.z < 1 && s.x > -40 && s.x < W + 40 && s.y > -40 && s.y < Hh + 40;
+    const ok = s.z < 1 && s.x > -20 && s.x < W + 20 && s.y > -20 && s.y < Hh + 20;
     const x = pinF[i][0].f(s.x, now), y = pinF[i][1].f(s.y, now);
     el.style.opacity = ok ? 1 : 0;
-    el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(-50%,-50%)`;
-    el.classList.toggle('flip', x > W - 170);
+    el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
+    pos[i] = { x, y, ok };
+  });
+  /* 이름표 겹침 정리: 선택한 지점 → 앞쪽 항목 순으로 자리를 잡고, 겹치면 이름표만 숨김(점은 항상 보임) */
+  const boxes = [], order = PINS.map((_, i) => i).sort((a, b) => (b === sel) - (a === sel) || a - b);
+  const hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
+  order.forEach(i => {
+    const el = pinEls[i], q = pos[i];
+    let show = false, flip = false;
+    if (q.ok){
+      const w = PINS[i].title.length * 13.5 + 22, y0 = q.y - 13, y1 = q.y + 13;
+      const R = [q.x + 16, y0, q.x + 16 + w, y1], L = [q.x - 16 - w, y0, q.x - 16, y1];
+      const fits = r => r[0] > 4 && r[2] < W - 4 && !boxes.some(b => hit(r, b));
+      if (fits(R)){ show = true; boxes.push(R); }
+      else if (fits(L)){ show = true; flip = true; boxes.push(L); }
+    }
+    el.classList.toggle('lb', show);
+    el.classList.toggle('flip', flip);
   });
 }
 
