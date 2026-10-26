@@ -1,268 +1,329 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0c">
-<title>하늘에서 본 대전展 — 해방과 전쟁 사이</title>
-<meta name="description" content="미 공군 정찰사진으로 다시 보는 해방과 전쟁 사이의 대전. 2026.10.29–11.30 테미마을박물관">
-<meta property="og:title" content="하늘에서 본 대전展 — 해방과 전쟁 사이">
-<meta property="og:description" content="NARA에서 발굴한 항공사진으로 재구성한 1950년 7월 20일 대전전투와 그 전후">
-<meta property="og:image" content="img/battle_full.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>:root{--bg:#0b0b0c;--bg2:#141416;--line:#2a2a2d;--tx:#f2eee6;--dim:#a39f96;--ac:#e0583a;--ac2:#f08a6e;
---serif:'IBM Plex Sans KR',system-ui,sans-serif;--disp:'Black Han Sans','IBM Plex Sans KR',sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--tx);font:400 16px/1.85 var(--serif);word-break:keep-all;overflow-wrap:break-word;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-[hidden]{display:none!important}
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%;height:auto}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-.bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:transparent}
-.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .15s}
-.top{position:fixed;top:3px;left:0;right:0;z-index:50;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:linear-gradient(#0b0b0cf2,#0b0b0c00)}
-.brand{font:400 15px var(--disp);letter-spacing:.02em}
-#menuBtn{width:40px;height:40px;display:flex;flex-direction:column;justify-content:center;gap:7px;align-items:flex-end}
-#menuBtn span{display:block;height:2px;width:24px;background:var(--tx);transition:.2s}
-#menuBtn span+span{width:16px}
-#menuBtn[aria-expanded=true] span:first-child{transform:translateY(4.5px) rotate(45deg)}
-#menuBtn[aria-expanded=true] span+span{width:24px;transform:translateY(-4.5px) rotate(-45deg)}
-.menu{position:fixed;inset:0;z-index:45;background:#0b0b0cf7;padding:90px 24px 40px;overflow:auto}
-.menu ol{list-style:none;max-width:520px;margin:0 auto}
-.menu a{display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font:400 24px/1.3 var(--disp)}
-.menu a span{font:500 13px var(--mono);color:var(--ac)}
-.zone{animation:in .35s ease}
-@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.wrap{max-width:760px;margin:0 auto;padding:0 20px}
-/* hero */
-.hero{position:relative;min-height:88svh;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--line)}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:58% 50%;filter:grayscale(.6) contrast(1.05)}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0b0b0c99 0%,#0b0b0c66 35%,#0b0b0cf2 88%,#0b0b0c 100%)}
-.ring{position:absolute;right:-18vmin;top:12svh;width:min(86vmin,520px);aspect-ratio:1;border-radius:50%;border:clamp(10px,3vmin,22px) solid var(--ac);padding:0;overflow:hidden;opacity:.92}
-.ring span{display:block;width:100%;height:100%;background-size:cover;background-position:center;filter:grayscale(1) contrast(1.15) brightness(.75)}
-.hero-in{position:relative;padding:0 20px 48px;max-width:760px;margin:0 auto;width:100%}
-.eyebrow{font:500 12px var(--mono);letter-spacing:.14em;color:var(--ac2);margin-bottom:14px}
-h1{font:400 clamp(52px,15vw,104px)/1.02 var(--disp);letter-spacing:-.01em}
-.hero-sub{font:300 clamp(20px,5vw,28px)/1.3 var(--serif);margin-top:16px;letter-spacing:.2em}
-.hero-date{margin-top:22px;font:500 14px var(--mono);color:var(--ac)}
-.meta{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);margin:36px 0;border:1px solid var(--line)}
-.meta>div{background:var(--bg);padding:16px}
-.meta dt{font:500 11px var(--mono);letter-spacing:.14em;color:var(--ac);margin-bottom:6px}
-.meta dd{font-size:14.5px;line-height:1.6}.dim{color:var(--dim)}
-@media(max-width:520px){.meta{grid-template-columns:1fr}}
-.label{font:500 12px var(--mono);letter-spacing:.14em;color:var(--ac);margin:30px 0 14px;text-transform:uppercase}
-.toc{list-style:none;margin-bottom:48px}
-.toc a{display:grid;grid-template-columns:44px 1fr auto;align-items:baseline;gap:6px;padding:15px 0;border-bottom:1px solid var(--line)}
-.tn{font:500 13px var(--mono);color:var(--ac)}.tk{font:400 20px/1.3 var(--disp)}.te{font:400 10.5px var(--mono);color:var(--dim);letter-spacing:.08em;text-align:right}
-.toc a:active .tk{color:var(--ac)}
-/* zone head */
-.zh{display:flex;gap:16px;align-items:flex-end;max-width:760px;margin:0 auto;padding:96px 20px 28px}
-.zn{font:400 64px/0.8 var(--disp);color:var(--ac)}
-.zen{font:500 11px var(--mono);letter-spacing:.16em;color:var(--dim);margin-bottom:8px}
-.zh h2{font:400 clamp(34px,9vw,52px)/1.1 var(--disp)}
-.sec{font:400 22px/1.4 var(--disp);margin:48px 0 18px;padding-top:22px;border-top:1px solid var(--line)}
-.sec::before{content:"";display:block;width:36px;height:3px;background:var(--ac);margin:-23px 0 18px}
-.lead{font:400 clamp(24px,6.4vw,34px)/1.4 var(--disp);margin:8px 0 28px}
-.read p{margin:0 0 1.15em;color:#e6e1d8;font-size:16.5px}
-.read p:last-child{margin-bottom:0}
-blockquote{margin:34px 0;padding:6px 0 6px 18px;border-left:3px solid var(--ac);font:300 18px/1.8 var(--serif);color:var(--tx)}
-.credits{margin-top:40px;border-top:1px solid var(--line)}
-.credits div{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
-.credits dt{font:500 12px var(--mono);color:var(--ac);padding-top:3px}
-/* figures */
-.ph{margin:0 0 26px}
-.ph .zoom{display:block;width:100%;background:#000;position:relative}
-.ph .zoom::after{content:"＋";position:absolute;right:8px;bottom:8px;width:28px;height:28px;border-radius:50%;background:#000a;color:#fff;display:grid;place-items:center;font-size:16px;line-height:1}
-.ph img{width:100%}
-figcaption{padding:10px 2px 0;font-size:13.5px;line-height:1.65}
-.cap{display:block;color:var(--tx)}.src{display:block;color:var(--dim);font-size:12.5px;margin-top:4px;line-height:1.6}
-p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
-.ph.narrow{max-width:420px}
-.ph.report{max-width:520px}
-.pair{display:grid;gap:18px}
-@media(min-width:640px){.pair{grid-template-columns:1fr 1fr}}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid2 .ph{margin:0}
-.item{margin-bottom:34px}
-.item .read{margin-top:4px}
-.slot:empty{display:none}
-.strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:0 20px 10px;-webkit-overflow-scrolling:touch}
-.strip .zoom{flex:0 0 62%;max-width:300px;scroll-snap-align:start}
-@media(min-width:640px){.strip{display:grid;grid-template-columns:repeat(5,1fr);margin:0;padding:0}.strip .zoom{max-width:none}}
-.strip-cap{margin-top:8px}
-/* timeline */
-.tl{list-style:none;position:relative;margin:6px 0 20px;padding-left:26px}
-.tl::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:var(--line)}
-.tl li{position:relative;padding:11px 0}
-.tl li::before{content:"";position:absolute;left:-26px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ac)}
-.tl li:last-child::before{background:var(--ac);box-shadow:0 0 0 5px #e0583a33}
-.tl time{display:block;font:500 13px var(--mono);color:var(--ac);letter-spacing:.02em}
-.tl span{display:block;font-size:16px;line-height:1.55}
-/* station */
-.steps{list-style:none;display:grid;gap:10px;margin:22px 0 28px}
-.steps li{border:1px solid var(--line);border-left:3px solid var(--ac);padding:14px 16px;background:var(--bg2)}
-.sd{font:400 20px var(--disp)}.sk{font:500 12px var(--mono);color:var(--ac);letter-spacing:.06em;margin:2px 0 4px}.sx{font-size:14.5px;color:#d6d1c8;line-height:1.6}
-.enko{display:grid;gap:14px}
-.card{border:1px solid var(--line);background:var(--bg2);padding:16px}
-.en{font:400 13.5px/1.7 var(--mono);color:var(--dim);padding-bottom:12px;margin-bottom:12px;border-bottom:1px dashed var(--line);word-break:normal}
-.ko{font-size:15px;line-height:1.8}
-/* AR */
-.ar-btn{display:flex;align-items:center;gap:14px;padding:16px 18px;margin:0 0 24px;background:var(--ac);color:#fff;border-radius:2px}
-.ar-btn b{display:block;font:400 19px/1.2 var(--disp)}.ar-btn small{display:block;font-size:12.5px;opacity:.92;margin-top:2px}
-.ar-ic{width:46px;height:46px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;font:500 14px var(--mono);flex:none}
-.ar-btn:active{filter:brightness(.92)}
-/* prev next */
-.pn{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:space-between;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(#0b0b0c00,#0b0b0cf5 40%)}
-.pn a{display:flex;flex-direction:column;max-width:48%;padding:8px 14px;border:1px solid var(--line);background:#0b0b0cdd;backdrop-filter:blur(6px);font-size:14px;line-height:1.3}
-.pn a small{font:500 10px var(--mono);letter-spacing:.14em;color:var(--ac)}
-.pn a.n{margin-left:auto;text-align:right}
-.foot{max-width:760px;margin:60px auto 0;padding:24px 20px;border-top:1px solid var(--line);font-size:12px;line-height:1.7;color:var(--dim)}
-/* lightbox */
-.lb{position:fixed;inset:0;z-index:100;background:#000f}
-.lbs{position:absolute;inset:0;overflow:auto;display:flex;-webkit-overflow-scrolling:touch}
-.lbs img{margin:auto;max-width:100%;max-height:100%;width:auto;height:auto;cursor:zoom-in}
-.lb.z .lbs img{max-width:none;max-height:none;width:220%;cursor:zoom-out}
-.lbx{position:absolute;top:calc(10px + env(safe-area-inset-top));right:12px;z-index:2;width:44px;height:44px;border-radius:50%;background:#000a;border:1px solid #fff5;font-size:18px}
-</style>
-</head>
-<body>
-<div class="bar"><i id="bar"></i></div>
-<nav class="top">
-  <a class="brand" href="#home">하늘에서 본 대전展</a>
-  <button id="menuBtn" aria-label="메뉴" aria-expanded="false"><span></span><span></span></button>
-</nav>
-<div class="menu" id="menu" hidden><ol><li><a href="#home"><span>00</span>홈</a></li><li><a href="#prologue"><span>01</span>프롤로그</a></li><li><a href="#timeline"><span>02</span>연표</a></li><li><a href="#station"><span>03</span>전쟁 전 대전역</a></li><li><a href="#battle"><span>04</span>대전전투</a></li><li><a href="#bombing"><span>05</span>항공폭격</a></li><li><a href="#targets"><span>06</span>미공군 공격목표</a></li><li><a href="#airfield"><span>07</span>대전 비행장</a></li><li><a href="#now"><span>08</span>그때와 지금</a></li><li><a href="#epilogue"><span>09</span>에필로그</a></li></ol></div>
-<main class="zone" id="z-home" data-id="home" hidden>
-<section class="hero">
-  <div class="hero-bg" style="background-image:url(img/battle_full.jpg)"></div>
-  <div class="hero-shade"></div>
-  <div class="ring" aria-hidden="true"><span style="background-image:url(img/ring.jpg)"></span></div>
-  <div class="hero-in">
-    <div class="eyebrow">미 공군 정찰사진 · NARA 발굴 기록</div>
-    <h1>하늘에서 본<br>대전展</h1>
-    <p class="hero-sub">해방과 전쟁 사이</p>
-    <p class="hero-date">2026.10.29(목) – 11.30(월)</p>
-  </div>
-</section>
-<section class="wrap">
-  <dl class="meta">
-    <div><dt>전시기간</dt><dd>2026년 10월 29일(목) ~ 11월 30일(월)</dd></div>
-    <div><dt>관람시간</dt><dd>10:00 ~ 16:00 · 휴관 토·일</dd></div>
-    <div><dt>장소</dt><dd>테미마을박물관 1층<br><span class="dim">대전 중구 보문로 184</span></dd></div>
-    <div><dt>주최</dt><dd>(사)평화통일교육문화센터<br>(사)대전문화유산울림</dd></div>
-  </dl>
-  <div class="label">전시 안내 · 구역별 도슨트</div>
-  <ol class="toc">
-<li><a href="#prologue"><span class="tn">01</span><span class="tk">프롤로그</span><span class="te">PROLOGUE</span></a></li><li><a href="#timeline"><span class="tn">02</span><span class="tk">연표</span><span class="te">TIMELINE</span></a></li><li><a href="#station"><span class="tn">03</span><span class="tk">전쟁 전 대전역</span><span class="te">1948 · TAEJON STATION</span></a></li><li><a href="#battle"><span class="tn">04</span><span class="tk">대전전투</span><span class="te">1950.7.20 · BATTLE</span></a></li><li><a href="#bombing"><span class="tn">05</span><span class="tk">항공폭격</span><span class="te">AIR RAIDS</span></a></li><li><a href="#targets"><span class="tn">06</span><span class="tk">미공군 공격목표</span><span class="te">AIR OBJECTIVES</span></a></li><li><a href="#airfield"><span class="tn">07</span><span class="tk">대전 비행장</span><span class="te">TAEJON AIRFIELD</span></a></li><li><a href="#now"><span class="tn">08</span><span class="tk">그때와 지금</span><span class="te">THEN & NOW</span></a></li><li><a href="#epilogue"><span class="tn">09</span><span class="tk">에필로그</span><span class="te">EPILOGUE</span></a></li>
-  </ol>
-</section>
-</main><main class="zone" id="z-prologue" data-id="prologue" hidden><header class="zh"><div class="zn">01</div><div class="zt"><div class="zen">PROLOGUE</div><h2>프롤로그</h2></div></header>
-<section class="wrap read">
-  <h3 class="lead">기록되지 않으면 오래도록 기억되기 어렵다.</h3>
-  <p>1945년 일제는 패망하였지만, 우리는 안타깝게도 미군정 3년을 살았다. 1948년 미군정은 끝났지만, 자주독립국가의 꿈을 이루지 못한 채, 단독정부가 수립되었다. 그리고 우리는 전쟁을 맞이했다.</p><p>대한민국 현대사 속에서 해방과 전쟁은 매우 중차대한 사건이었다. 하지만 당시 상황은 제대로 기록되지 않았다. 사실 그 혼란한 상황 속에서 기록할 정신이 어디 있었겠는가? 나름 해방사와 전쟁사가 편찬되었지만 기록이 부족해 빈틈이 많았다. 특히 지역사 입장에서 기록은 턱없이 부족했다. 세월의 흐름은 기억의 오류를 덧붙이기도 했다.</p><p>그러던 중 미국에 의해 생산된 기록이 의외로 많다는 것을 알게 되었다. 미국은 해방 전부터 하늘에서 대전을 촬영했고, 해방 후에도 항공사진 촬영을 이어갔다. 뿐만 아니라 전쟁 시기에도 수많은 사진을 생산해냈다.</p><p>이 전시는 해방 전후뿐 아니라 한국전쟁 초기 격전지였던 대전전투(1950년 7월) 당시의 항공사진을 통해, 전쟁이 남긴 도시의 상흔과 지역사적 의미를 재조명하는 데 목적이 있다. 해방과 전쟁 사이 하늘에서 기록된 대전 모습은 개인의 기억을 넘어, 도시와 국가의 집단 기억을 시각적으로 증언하는 역사적 기록물이다. 이를 통해 전쟁의 참상과 평화의 가치를 되새기고, 대전이 지닌 전쟁사적·도시사적 위치를 시민과 함께 공유하고자 한다.</p><p>그리고 오래도록 기억하기 위해 기록의 중요함을 다시 한번 인식하는 계기가 되기를 바란다.</p>
-</section></main><main class="zone" id="z-timeline" data-id="timeline" hidden><header class="zh"><div class="zn">02</div><div class="zt"><div class="zen">TIMELINE</div><h2>연표</h2></div></header>
-<section class="wrap">
-  <div class="label">해방 전 항공촬영 이미지</div>
-  <div class="strip"><button class="zoom" data-src="img/strip1945_1.jpg"><img src="img/strip1945_1.jpg" alt="1945년 1월 30일 항공사진 1" loading="lazy"></button><button class="zoom" data-src="img/strip1945_2.jpg"><img src="img/strip1945_2.jpg" alt="1945년 1월 30일 항공사진 2" loading="lazy"></button><button class="zoom" data-src="img/strip1945_3.jpg"><img src="img/strip1945_3.jpg" alt="1945년 1월 30일 항공사진 3" loading="lazy"></button><button class="zoom" data-src="img/strip1945_4.jpg"><img src="img/strip1945_4.jpg" alt="1945년 1월 30일 항공사진 4" loading="lazy"></button><button class="zoom" data-src="img/strip1945_5.jpg"><img src="img/strip1945_5.jpg" alt="1945년 1월 30일 항공사진 5" loading="lazy"></button></div>
-  <p class="cap strip-cap">미군은 1945년 1월 30일에 공주에서 대전, 금산 방향으로 서쪽에서 동쪽으로 비행하며 여러 장의 항공사진을 촬영했다. 촬영고도 2만 8천 피트(8,534 미터)</p>
-  <p class="src">출처: RG 373, ON053757, NAID 34605832, 미국 NARA. (제공: 전갑생)</p>
-  <h3 class="sec">8.15해방~1950년 한국전쟁…</h3>
-  <ol class="tl"><li><time>1945년 8월 15일</time><span>해방</span></li><li><time>1946년 2월 28일</time><span>국방경비대 제2연대 창설(대전비행장 부근)</span></li><li><time>1946년 8월 15일</time><span>을유해방기념비 건립</span></li><li><time>1948년 5월 10일</time><span>제헌의회의원 선거(5·10 총선)(대전부 성낙서, 대덕군 송진백 당선)</span></li><li><time>1948년 8월 15일</time><span>대한민국 정부 수립</span></li><li><time>1948년 10월 18일</time><span>제1대 이영진 충남도지사 취임</span></li><li><time>1949년 8월 15일</time><span>대전부에서 대전시로 개칭</span></li><li><time>1949년 10월 30일</time><span>초대 대전시장 손영도 임명</span></li><li><time>1949년 12월 27일</time><span>충청남도 보도연맹 결성</span></li><li><time>1950년 2월 14일</time><span>대전시 보도연맹 결성</span></li><li><time>1950년 5월 30일</time><span>제2대 국회의원 선거(5·30 총선)(대전시 김종열, 대덕군 김종회 당선)</span></li><li><time>1950년 6월 25일</time><span>한국전쟁 발발</span></li></ol>
-</section></main><main class="zone" id="z-station" data-id="station" hidden><header class="zh"><div class="zn">03</div><div class="zt"><div class="zen">1948 · TAEJON STATION</div><h2>전쟁 전 대전역</h2></div></header>
-<section class="wrap">
-  <div class="pair">
-    <figure class="ph "><button class="zoom" data-src="img/station1948_a.jpg" aria-label="사진 확대"><img src="img/station1948_a.jpg" alt="철도 조차장 · 흰 선은 미군이 그린 표적 표시" loading="lazy"></button><figcaption><span class="cap">철도 조차장 · 흰 선은 미군이 그린 표적 표시</span></figcaption></figure>
-    <figure class="ph "><button class="zoom" data-src="img/station1948_b.jpg" aria-label="사진 확대"><img src="img/station1948_b.jpg" alt="대전역과 대전천 일대" loading="lazy"></button><figcaption><span class="cap">대전역과 대전천 일대</span></figcaption></figure>
-  </div>
-  <p class="src">출처: RG 319, NM3 82, Box 1177, 미국 NARA. (제공: 전갑생)</p>
+import {
+	Matrix4,
+	Object3D,
+	Quaternion,
+	Vector3
+} from 'three';
 
-  <h3 class="sec">판독 보고서</h3>
-  <figure class="ph report"><button class="zoom" data-src="img/report1949.jpg" aria-label="사진 확대"><img src="img/report1949.jpg" alt="" loading="lazy"></button></figure>
-  <ol class="steps">
-    <li><div class="sd">1948년 9월 24일</div><div class="sk">사진 촬영 날짜</div><div class="sx">제25전술정찰비행대대, 임무 R90-2를 통해 촬영</div></li>
-    <li><div class="sd">1949년 11월 16일</div><div class="sk">보고서 작성 날짜</div><div class="sx">극동공군 제6사진기술전대에 의해 작성</div></li>
-    <li><div class="sd">1950년 9월 5일</div><div class="sk">보고서 최종 접수(전달) 날짜</div><div class="sx">미 육군참모부 정보차장실 문서 보관 섹션에 접수</div></li>
-  </ol>
-  <div class="enko"><div class="card"><p class="en" lang="en">CHARACTERISTICS OF SITE: The RR yard is in the E section of the city of Taejon. Direction of the yard is NNW-SSE. It is 30 tracks wide and 3,492 ft between choke points.</p><p class="ko">현장 특성: 철도 조차장은 대전시의 동쪽 구역에 위치함. 조차장의 방향은 북북서-남남동 임. 선로는 30개 레일 규모이며, 병목 지점 간의 거리는 3,492피트(약 1,064m)임.</p></div><div class="card"><p class="en" lang="en">The yard consists of 5 through lines, 7 holding lines, 9 classification lines and 8 storage lines. The passenger station is on the W side of the yard. The car repair section is on the E side of the yard and consists of one building 72′ × 232′ of gable type construction. The turntable and roundhouse are adjacent to the car repair section. The roundhouse has 18 stalls. The power source is not visible. Storage facilities for water, coal, etc. are on the east side of the yard, near the roundhouse.</p><p class="ko">조차장(대전역)은 5개의 통과선, 7개의 대기선, 9개의 분류선(classification line), 8개의 유치선으로 구성되어 있다. 여객 역사(역 건물)는 조차장의 서쪽에 위치한다. 차량 정비 구역은 조차장의 동쪽에 있으며, 박공지붕 구조로 된 72′ × 232′ 피트 크기의 건물 한 동으로 이루어져 있다. 전차대(턴테이블)와 차량기지(선상차고)는 차량 정비 구역에 인접해 있다. 선상차고는 18개의 칸(stalls)을 가지고 있다. 동력원은 보이지 않는다. 물, 석탄 등의 저장 시설은 조차장의 동쪽, 선상차고 근처에 위치한다.</p></div><div class="card"><p class="en" lang="en">The Taejon RR yard is on the Keifu Main Line which is a double line running between Seoul and Pusan. The Konan Main Line serving southwest Korea joins the Keifu Main Line just north of Taejon. There is a RR bridge 80 ft long, 4 tracks wide 1,000' N of the choke point and a RR over-pass at the south end of the yard.</p><p class="ko">대전 철도 조차장은 서울과 부산을 잇는 복선인 경부본선 상에 있다. 한국 남서부 지역을 운행하는 호남본선은 대전 바로 북쪽에서 경부본선과 합류한다. 병목 지점 북쪽 1,000피트 위치에는 길이 80피트, 4개 선로 폭의 철교가 있으며, 조차장의 남쪽 끝에는 철도 고가교가 있다.</p></div></div>
-</section></main><main class="zone" id="z-battle" data-id="battle" hidden><header class="zh"><div class="zn">04</div><div class="zt"><div class="zen">1950.7.20 · BATTLE</div><h2>대전전투</h2></div></header>
-<section class="wrap">
-  <a class="ar-btn" href="./ar.html"><span class="ar-ic">AR</span><span><b>AR로 보기</b><small>전시장 대형 사진에 카메라를 비춰보세요</small></span></a>
-  <figure class="ph wide"><button class="zoom" data-src="img/battle_full.jpg" aria-label="사진 확대"><img src="img/battle_full.jpg" alt="1950년 7월 20일 17시 30분, 대전" loading="lazy"></button><figcaption><span class="cap">1950년 7월 20일 17시 30분, 대전</span><span class="src">촬영 미 제5공군 제8전술정찰비행대대 · 초점 거리 152밀리미터 · 고도 5,000피트(약 1,524미터)<br>출처: RG 373, NAID 34605832, ON018703, 미국 NARA. (제공: 전갑생)</span></figcaption></figure>
-  <h3 class="sec">1950년 7월 20일 대전전투</h3>
-  <div class="read"><p>인민군 주력부대의 총공격은 7월 20일 새벽에 시작되었다. 7월 20일 03:00, 유성을 점령하고 있던 인민군 제4사단 제5연대는 신호탄을 쏘아 올리면서 야간공격을 개시했다. 그들은 야음을 이용하여 갑천을 건넌 다음 일부 병력은 갑천 방어진지를 구축하고 있던 미군 제34연대 1대대의 A중대와 B중대 1개 소대 등을 공격하고 다른 일부 병력은 전차와 함께 유성-대전 도로를 따라 공격해 왔다. 개활지에 배치된 B중대의 1개 소대가 유린되어 대대지휘소는 우측방이 노출되었고, 04:00경에는 대대지휘소가 공격당했다. 결국 05:00경 미군 제34연대 1대대는 통신두절로 연대에 철수상황을 보고하지 못한 채 철수를 하게 되었다. 당초 대전 시내로 철수하려 했던 1대대는 통로가 차단되었다는 정보를 입수하게 되어 보문산을 경유해 남쪽으로 철수했다. 미군 제34연대지휘소에서는 이러한 제1대대의 철수상황을 알지 못하여 연대장이나 사단장의 상황판단에 중대한 착오를 하는 요인이 되었다.</p><p>가수원 가도 양쪽에 진지를 구축했던 미군 제19연대 2대대는 19일부터 갑천을 사이에 두고 인민군 제4사단 16연대와 밤새도록 사격전을 전개했다. 20일 새벽에 후방이 뚫리고, 인민군의 정면 공격도 강하게 압박해 오자 퇴각하게 되었다. 미군 제19연대 2대대도 제34연대 1대대와 마찬가지로 통신이 두절되어 연대사령부와 연락하지 못한 채 보문산을 경유하여 철수했다.</p><p>인민군은 총공격을 앞두고 두 대의 전차와 보병 한 개 구분대 및 정찰소대들이 기습적으로 대전 시내에 들어와 교란작전을 폈다. 2대의 전차가 거리에 몰려 있는 20여 대의 미군 자동차를 파괴하면서 시내로 돌진했고, 중요 건물에 대한 공격을 감행했다. 제418호 전차는 대전역으로 달려가 기관차(군수열차)와 연유창고를 폭파시켰고, 제422호 전차도 미군의 차량들과 집결지에 대한 공격에 나섰다. 선발 습격대는 미군 제24사단이 지휘부로 사용하던 대전군시제사공장을 습격해 지휘체계를 마비시켰고, 155mm 곡사포 진지도 파괴했다.</p><p>대전 시내에 있던 미군 제24사단 사단장과 제34연대 지휘부와 인민군 전차로 인해 골치를 앓고 있었다. 총공격에 앞서 2대의 전차를 먼저 대전 시내로 들여보낸 이후에도 인민군 전차들이 수시로 진입해 왔다. 그동안 인민군의 T-34 전차를 파괴할 대전차무기를 보유하지 못했던 미군은 사단장인 딘 소장마저 신형 대전차 무기인 3.5인치 로켓포 팀을 꾸려 전차 공격에 나섰다. 그동안 미군 보병들은 인민군 전차를 파괴시킬 대전차무기가 없어 고전을 면치 못해왔었다. 이 대전차무기는 2차대전 말기부터 연구되어 오다가 포탄의 부적합으로 인하여 전투부대에 장비치 못하고 있었는데, 1950년 7월 3일 맥아더 장군의 대전차무기 보급을 요청받고서야 생산을 시작했다. 7월 8일 캘리포니아(California) 트레이비스(Travis) 공군기지를 떠난 3.5인치 로켓포는 7월 10일에는 대전에 도착하여 7월 12일에 부대에 배치되었고, 이날 처음으로 인민군 전차를 파괴해 보았다.</p><p>이날 대전 시내에 들어온 인민군 전차 중 3.5인치 로켓에 의해서 8대가 파괴되고 야포에 의해서 2대가 파괴되었다. 이날 오전에만 미군 제5공군의 공중공격으로 유성 가도에서 대전으로 진출하는 인민군 전차 15대를 발견하여 이 중 5대를 파괴하였다니 15대 이상의 전차를 파괴한 셈이다.</p><p>7월 20일 늦은 오후가 되자 미군 제24사단은 전면 퇴각을 준비했다. 퇴각 명령을 내린 딘 소장이 지휘소 정문을 나올 때 시간은 17:55였고, 차량 종대가 움직이기 시작한 것은 직후인 18:00였다. 차량의 종대는 옥천 방향으로 향하였으나, 차량 선두는 옥천 방향의 대전 동단에서 인민군의 사격을 받아 50여대의 차량 종대는 완전히 저지되었다. 옥천 가도가 차단되어 금산방면으로 방향을 전향한 미군 제19연대 2대대의 차량 종대도 역시 전날부터 매복해 있던 인민군의 박격포 사격을 받아 저지당했다.</p><p>7월 20일 늦은 오후가 되자 미군 제24사단은 전면 퇴각을 준비에 나섰다. 제24사단의 차량철수를 엄호하기 위해 M-24 경전차 5대를 이끌고 제1기병사단 전차대대 A중대의 전차 1개 소대가 대전에 도착했다. 딘 소장은 철수명령을 받고 지휘소 부근에 이미 집결한 제34연대 제3대대 I중대, 제13포병대대 B포대, 제63포병대대 B포대 일부 등 50여대의 차량을 15:30경에 전차소대와 함께 영동으로 출발시켰다. 시가지를 천천히 빠져나와 외곽 5〜6km에서는 매복 중이었던 인민군의 사격으로 선두차량 2대가 파괴되어 행군이 정지되곤 하였으나 전차 소대의 응전으로 도로 봉쇄선을 돌파해 나갔다. 철수부대로부터 “적으로부터 맹렬한 사격을 받고 있다”는 무전보고를 받은 사단장은, 영동의 사단지휘소에 “적이 대전 동쪽 출구를 차단, 즉시 증원부대 파견 요망. 딘”이라는 전문을 보내도록 하였다.</p><p>7월 20일 17:30경, 미군 제34연대장과 연락이 닿지 않자 딘 소장은 철수를 더 이상 지체해서는 안되겠다고 판단하고 부연대장 와링턴 중령에게 “즉시 지휘소를 폐쇄하고 옥천 가도를 따라 철수하라”고 명령하였다. 이리하여 연대는 차량종대를 편성하는 등 철수준비를 서둘렀다. 사단장이 연대지휘소 정문을 통과하여 철수 길에 오른 것은 17:55이고, 18:00 정각, 250여대의 철수 차량이 “출발”명령을 받고 움직이기 시작했다. 250여대의 철수 차량이 종대로 철수하는 과정에 이런 과정에서 종대가 몇 개로 분리되었으며, 선두에 있던 50여대의 차량과 그 이후에 있던 200여대의 차량이 다른 길로 철수하게 되었다.</p><p>50여대의 선두 차량은 대전역 앞까지 와서 우회전하여 남으로 향하다가 옥천 가도가 나오기 전에 좌회전을 하여 대전역 동남쪽에 위치한 막다른 골목에 막혔고, 18:30경에 이 골목길의 끝에 있는 학교운동장(대전여고)에 집결하였다. 이들은 차량을 그대로 방치한 채 도보로 철수했다. 대열의 중간 및 후반부에 있던 200여 대의 차량은 옥천 가도에 접어들었으나 매복한 인민군 제4사단 18연대의 공격을 받아 인명 피해가 컸다. 본대 철수에 앞서 제34연대 지휘소를 출발하여 철수 길에 오른 딘 소장은 대전역에서 남으로 달리던 앞장섰던 경호차가 옥천 가도로 접어드는 네거리에서 좌회전하지 않고 그대로 전진함으로써 금산 가도로 접어들게 되었다. 금산 가도를 통해 영동으로 가려고 했던 딘 소장 일행도 전날부터 매복해 있던 인민군 제4사단 18연대가 도로를 봉쇄했기 때문에 차량으로 돌파하지 못하고 뿔뿔이 흩어져 산으로 후퇴하였으나, 이 과정에서 딘 소장은 실종되었다.</p><p>인민군은 대전을 삼면에서 포위해 들어가면서 군종, 병종들간의 긴밀한 협동작전으로 미군을 100㎢ 지역에, 그리고 마지막에는 대전 시내의 6～7㎢의 좁은 지역에 포위해 압박해 놓고, 하루 사이에 총공격에 나섰던 것이다. 대전 방어에 나섰던 미군 제24사단은 제대로 된 방어전을 치르지도 못했고, 퇴로가 막힌 것도 모른 채 퇴각하다 인적, 물적으로 큰 손실을 입게 되었다. 퇴각하던 미군 제24사단장 딘 소장은 실종되었다가 인민군의 포로가 되었다. 대전이 완전히 인민군의 수중에 들어간 것은 7월 21일 아침 6시 무렵에 이었고, 북한은 이보다 앞선 7월 20일 정오에 대전을 해방했다고 선포했다.</p></div>
-</section></main><main class="zone" id="z-bombing" data-id="bombing" hidden><header class="zh"><div class="zn">05</div><div class="zt"><div class="zen">AIR RAIDS</div><h2>항공폭격</h2></div></header>
-<section class="wrap">
-  <figure class="ph "><button class="zoom" data-src="img/bombing_andong.jpg" aria-label="사진 확대"><img src="img/bombing_andong.jpg" alt="" loading="lazy"></button><figcaption><span class="src">출처: RG 342, FH, Box 3058, 미국 NARA.</span></figcaption></figure>
-  <div class="read"><p>1950년 9월 15일 극동공군 폭격기사령부의 B-29 17대는 전선과 무관한 남한 지역 후방 도시인 대전과 안동의 조차장과 창고를 공격했다. 이 사진은 안동역 폭격사진이지만, 같은 날 폭격 당한 대전역도 비슷한 모습이었을 것으로 보인다.</p></div>
-  <figure class="ph narrow"><button class="zoom" data-src="img/bombing_map.jpg" aria-label="사진 확대"><img src="img/bombing_map.jpg" alt="" loading="lazy"></button><figcaption><span class="src">출처: RG 342, FH, Box 3053, 미국 NARA.</span></figcaption></figure>
-  <figure class="ph narrow"><button class="zoom" data-src="img/bombing_taejon.jpg" aria-label="사진 확대"><img src="img/bombing_taejon.jpg" alt="" loading="lazy"></button></figure>
-  <div class="read"><p>‘스피릿 오브 프리포트(Spirit of Freeport)’라는 별칭이 붙은 B-29 폭격기가 폭격한 목표물을 보여주는 지도에 대전(TAEJON)이 표시되어 있다. 당시 대전은 전선은 아니었지만, 철도 교통의 중심이었던 대전은 전선으로 가는 물자와 병력을 차단하기 위한 목적으로 폭격 대상이 되었다.</p></div>
-</section></main><main class="zone" id="z-targets" data-id="targets" hidden><header class="zh"><div class="zn">06</div><div class="zt"><div class="zen">AIR OBJECTIVES</div><h2>미공군 공격목표</h2></div></header>
-<section class="wrap">
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/targets_tl.jpg" aria-label="사진 확대"><img src="img/targets_tl.jpg" alt="" loading="lazy"></button></figure><div class="read"><p>미 공군 정찰기가 대전 시가지와 대전역 철도 조차장 일대를 수직 촬영한 정밀 항공 정찰 사진.</p><p>대전이 함락된 지 불과 나흘 뒤인 1950년 7월 24일, 미 제5공군 정찰기가 대전 상공으로 다시 날아와 시가지의 화재/파괴 상태, 북한군의 대전역 조차장 점거 및 철도 이용 상태, 북한군 전차 및 병력 집결 여부를 파악하기 위해 촬영한 핵심 전술 정찰 사진이다.</p></div></div>
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/targets_bl.jpg" aria-label="사진 확대"><img src="img/targets_bl.jpg" alt="" loading="lazy"></button></figure><div class="read"><p>비스듬한 각도에서 촬영한 ‘사선(경사) 항공사진(Oblique Photo)’에는 호남선 유등천철교에서 계족산 방향으로 굽이굽이 흐르는 유등천이 담겨 있다. 1:100,000 축척의 좌측 지형도에도 두 갈래로 선이 넓게 뻗어 나가는 형태로 촬영 범위가 표시되어 있다.</p><p>이 항공사진에도 구체적인 타격 목표물이 화살표로 지정되어 있는데, a가 가리키는 것은 호남선 유등천철교이고, b가 가리키는 것은 유등교이다. 이 자료는 1950년 7월에 제작되었다.</p></div></div>
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/targets_tr.jpg" aria-label="사진 확대"><img src="img/targets_tr.jpg" alt="" loading="lazy"></button></figure><div class="read"><p>좌측 하단의 축척 1:100,000 개황도는 이 자료가 대전의 어느 위치를 확대한 것인지 보여준다. 축척 1:10,000의 수직 항공사진에는 중앙을 대각선으로 가로지르는 유등천과 우측의 대전천이 담겨 있으며, 미 공군의 구체적인 타격 목표물이 화살표로 지정되어 있다. 표적 a가 가리키는 곳은 호남선 대전천철교이고, b가 가리키는 곳은 유등천을 건너는 수침교이다. 이 문서는 1950년 7월 대전 함락 직후, 북한군의 남하 보급로를 차단하기 위해 미 극동공군 정보국 공중목표과에서 제작한 표적 도해(USAF Target Illustration)이다.</p></div></div>
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/targets_br.jpg" aria-label="사진 확대"><img src="img/targets_br.jpg" alt="" loading="lazy"></button></figure><div class="read"><p>1:100,000 축척의 좌측 지형도를 보면 대전천이 유등천과 합류하는 방향(북쪽)으로 두 갈래로 선이 넓게 뻗어 나가는 형태로 촬영 범위를 표시해 두었다. 비스듬한 각도에서 촬영한 ‘사선(경사) 항공사진(Oblique Photo)’에도 구체적인 타격 목표물이 화살표로 지정되어 있다. 전면에 대전천이 흐르고, 중앙에서 유등천과 만나며, 북쪽 원경에서 갑천으로 합류하는 3대 하천의 형세가 뚜렷하다. 화살표 a가 가리키는 곳은 대전역과 서대전역을 잇는 호남선 대전천철교이다. 이 자료는 1950년 7월에 제작되었다.</p></div></div>
-  <p class="src">출처(4점 공통): RG 554, A1 79, Box 650, 미국 NARA. (제공: 전갑생)</p>
-</section></main><main class="zone" id="z-airfield" data-id="airfield" hidden><header class="zh"><div class="zn">07</div><div class="zt"><div class="zen">TAEJON AIRFIELD</div><h2>대전 비행장</h2></div></header>
-<section class="wrap">
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/airfield_1947.jpg" aria-label="사진 확대"><img src="img/airfield_1947.jpg" alt="" loading="lazy"></button><figcaption><span class="src">출처: RG 342, FH, Box 3033, NASM 4A 32840, 미국 NARA</span></figcaption></figure><div class="read"><p>이 항공사진은 제25전술정찰비행대대(25TRS)가 1947년 4월 22일 14시 50분에 대전비행장을 촬영한 것이다. 사진을 촬영한 제25전술정찰비행대대는 1948년 9월 24일에 대전역 인근을 촬영한 동일한 정찰대대다.</p><p>촬영은 3,500피트(약 1,067m 상공)에서 저고도로 사선(경사)으로 진행했다. 왼편으로 유등천이, 오른편으로 갑천이 보인다.</p><p>이 사진은 대전비행장 인프라 점검을 위해 촬영해 평시 군사 기지 도감으로 보관되다가 1950년 7월 21일 대전 함락 직후 미 국방부가 군사 보안을 해제하여 대전 전황 설명 및 언론 공보용으로 공식 활용했다.</p></div></div>
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/airfield_1948_pair.jpg" aria-label="사진 확대"><img src="img/airfield_1948_pair.jpg" alt="" loading="lazy"></button><figcaption><span class="src">출처: RG 319, NM3 82, Box 2725, ID 677485 (2매), 미국 NARA. (제공: 전갑생)</span></figcaption></figure><div class="read"><p>이 사진은 제71전술정찰비행전대(71TRG) 예하 제25전술정찰비행대대(25TRS)가 1948년 9월 30일에 수직 카메라(Vertical Visual) 촬영한 후, 1949년 11월 16일 보고서에 첨부되었다. 이 보고서는 대전 조차장 보고서(1948년 9월 24일 촬영, 1949년 11월 16일 보고서 발간)와 완벽히 궤를 같이 한다. 미군은 1948년 9월 말 제25정찰대대를 투입해 대전의 철도 조차장(Target No. 551-J52T-1)과 대전비행장(Target No. 551-J52T-5)을 연달아 정밀 촬영한 뒤, 1949년 11월에 일련의 표적 보고서 세트로 완성해 두었다.</p></div></div>
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/airfield_1950.jpg" aria-label="사진 확대"><img src="img/airfield_1950.jpg" alt="" loading="lazy"></button><figcaption><span class="src">출처: RG 342, EN P29, B 144, 미국 NARA. (제공: 전갑생)</span></figcaption></figure><div class="read"><p>1950년 8월 13일 제8전술비행대대(8TRS, 8th Tactical Reconnaissance Squadron)에서 촬영한 것이며 임무번호 R-43-B이다. 수직(VV)으로 촬영한 17번째 사진이다.</p><p>1950년 9월에 제548정찰기술비행대대(548th Reconnaissance Technical Squadron)에 의해 편집되었다.</p></div></div>
-  <div class="item"><figure class="ph "><button class="zoom" data-src="img/airfield_life1.jpg" aria-label="사진 확대"><img src="img/airfield_life1.jpg" alt="" loading="lazy"></button></figure><figure class="ph "><button class="zoom" data-src="img/airfield_life2.jpg" aria-label="사진 확대"><img src="img/airfield_life2.jpg" alt="1951년 6월 · LIFE 촬영" loading="lazy"></button><figcaption><span class="cap">1951년 6월 · LIFE 촬영</span></figcaption></figure><div class="read"><p>1951년 6월 LIFE에서 촬영한 항공사진을 통해 대전비행장의 변화된 모습을 확인할 수 있다. 전쟁 전에는 활주로 옆으로 직사각형 건물 수십 동이 바둑판 형태로 질서정연하게 도열해 있었던 데 반해, 1951년 사진에서는 폭격과 화재로 인해 파괴되어 임시로 설치한 야전 막사와 소형 가건물이 배치되어 있는 모습을 확인할 수 있다. 표면과 경계선이 비교적 매끄럽고 명확하며, 남북 유도로와 정비 공간이 일정한 규격을 유지했던 활주로도, 폭탄 피탄 후 메운 자국, 중장비 및 군용 차량의 무질서한 이동으로 인해 지표면이 심하게 패이고 긁힌 궤적으로 뒤덮여 있다.</p></div></div>
-</section></main><main class="zone" id="z-now" data-id="now" hidden><header class="zh"><div class="zn">08</div><div class="zt"><div class="zen">THEN & NOW</div><h2>그때와 지금</h2></div></header>
-<section class="wrap">
-  <figure class="ph "><button class="zoom" data-src="img/now_top.jpg" aria-label="사진 확대"><img src="img/now_top.jpg" alt="1950년 9월 30일, 불탄 대전 시가지 — AP Photo/Jim Pringle&lt;br&gt;2020년 9월 8일, 대전 원도심 — photo by 임재근" loading="lazy"></button><figcaption><span class="cap">1950년 9월 30일, 불탄 대전 시가지 — AP Photo/Jim Pringle<br>2020년 9월 8일, 대전 원도심 — photo by 임재근</span></figcaption></figure>
-  <!-- DESCRIPTION-SLOT now-top : 상단 이미지 설명 (추후 삽입) -->
-  <div class="grid2">
-    <figure class="ph "><button class="zoom" data-src="img/now_1.jpg" aria-label="사진 확대"><img src="img/now_1.jpg" alt="" loading="lazy"></button></figure><figure class="ph "><button class="zoom" data-src="img/now_2.jpg" aria-label="사진 확대"><img src="img/now_2.jpg" alt="" loading="lazy"></button></figure><figure class="ph "><button class="zoom" data-src="img/now_3.jpg" aria-label="사진 확대"><img src="img/now_3.jpg" alt="" loading="lazy"></button></figure><figure class="ph "><button class="zoom" data-src="img/now_4.jpg" aria-label="사진 확대"><img src="img/now_4.jpg" alt="" loading="lazy"></button></figure>
-  </div>
-  <p class="cap">1951년 6월, 폭격 이후의 대전 — LIFE가 촬영한 항공사진으로 폭격의 결과를 확인할 수 있다.</p>
-  <!-- DESCRIPTION-SLOT now-1..4 : 하단 4장 설명 (추후 삽입) -->
-</section></main><main class="zone" id="z-epilogue" data-id="epilogue" hidden><header class="zh"><div class="zn">09</div><div class="zt"><div class="zen">EPILOGUE</div><h2>에필로그</h2></div></header>
-<section class="wrap read">
-  <h3 class="lead">하늘의 시선이 머문 자리, 폐허를 넘어 삶으로</h3>
-  <p>1945년 해방의 환희부터 1950년 7월 전쟁의 포화에 이르기까지, 대전의 상공을 가르던 정찰기의 렌즈는 냉혹한 군사적 시선이었다. 철도 조차장의 선로 수와 교각의 두께, 비행장의 활주로는 타격과 차단을 위한 좌표로 계산되었고, 그 냉정한 기록의 이면에서 대전의 도심과 삶의 터전은 검은 연기와 폐허 속으로 가라앉았다.</p><p>그로부터 70여 년이 흐른 오늘, 우리는 다시 같은 하늘 아래에서 대전을 내려다본다. 폭격으로 패이고 그을렸던 흑백의 대지 위에는 새로운 건물이 들어서고 도로가 놓이며, 지워지지 않을 것 같던 전쟁의 상흔 위로 다채로운 삶의 빛깔들이 덧칠해졌다. 그러나 화려하게 변모한 오늘의 시가지 밑바닥에는 여전히 대전역과 둔산의 옛 비행장, 그리고 유등천과 대전천을 따라 흘렀던 그날의 역사가 지층처럼 단단히 새겨져 있다.</p><p>우리가 해방과 전쟁 사이에 남겨진 공중의 기록들을 다시 펼쳐 든 까닭은 단지 파괴의 참상을 되짚기 위함만이 아니다. 가장 가혹했던 하늘 아래에서도 삶을 포기하지 않고 폐허를 일구어 낸 사람들의 끈질긴 숨결을 기억하고, 오늘 우리가 누리는 평범한 일상이 얼마나 깊은 시련과 재건의 역사 위에 서 있는지를 마주하기 위함이다.</p>
-  <blockquote>하늘에서 기록된 1950년의 상흔과 지상에서 일구어 낸 오늘의 풍경이 나란히 묻고 답한다. 폐허를 딛고 피어난 이 도시의 기억은, 오늘을 살아가는 우리에게 평화와 내일을 향한 가장 단단한 이정표가 되어줄 것이다.</blockquote>
-  <dl class="credits">
-    <div><dt>전시 기획</dt><dd>안여종, 임재근, 임지선, 정성일</dd></div>
-    <div><dt>자료 제공 및 자문</dt><dd>전갑생(성공회대학교 동아시아연구소 연구교수)</dd></div>
-    <div><dt>전시 설치</dt><dd>광고기획 푸른솔</dd></div>
-    <div><dt>주최</dt><dd>(사)평화통일교육문화센터 · (사)대전문화유산울림</dd></div>
-  </dl>
-</section></main>
-<nav class="pn" id="pn"></nav>
-<footer class="foot">「하늘에서 본 대전展」 해방과 전쟁 사이 · 주최 (사)평화통일교육문화센터 · (사)대전문화유산울림<br>사진 출처: 미국 국립문서기록관리청(NARA) 등 · 자료 제공 전갑생</footer>
-<div class="lb" id="lb" hidden><button class="lbx" aria-label="닫기">✕</button><div class="lbs"><img alt=""></div></div>
-<script>(function(){
-var Z=[["home","홈"],["prologue","프롤로그"],["timeline","연표"],["station","전쟁 전 대전역"],["battle","대전전투"],["bombing","항공폭격"],["targets","미공군 공격목표"],["airfield","대전 비행장"],["now","그때와 지금"],["epilogue","에필로그"]], ids=Z.map(function(z){return z[0]});
-var $=function(s,r){return (r||document).querySelector(s)};
-var zones=document.querySelectorAll('.zone');
-function cur(){var h=(location.hash||'').replace('#','');return ids.indexOf(h)>=0?h:'home'}
-function show(){
-  var id=cur(), i=ids.indexOf(id);
-  zones.forEach(function(z){z.hidden=z.dataset.id!==id});
-  $('#bar').style.width=((i)/(ids.length-1)*100)+'%';
-  var p=Z[i-1],n=Z[i+1],h='';
-  h+=p?'<a class="p" href="#'+p[0]+'"><small>← PREV</small>'+p[1]+'</a>':'<span></span>';
-  h+=n?'<a class="n" href="#'+n[0]+'"><small>NEXT →</small>'+n[1]+'</a>':'';
-  $('#pn').innerHTML=h;
-  closeMenu(); window.scrollTo(0,0);
-  document.title=(id==='home'?'':Z[i][1]+' · ')+'하늘에서 본 대전展';
+/**
+ * Based on http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
+ */
+
+const _position = new Vector3();
+const _quaternion = new Quaternion();
+const _scale = new Vector3();
+
+class CSS3DObject extends Object3D {
+
+	constructor( element = document.createElement( 'div' ) ) {
+
+		super();
+
+		this.isCSS3DObject = true;
+
+		this.element = element;
+		this.element.style.position = 'absolute';
+		this.element.style.pointerEvents = 'auto';
+		this.element.style.userSelect = 'none';
+
+		this.element.setAttribute( 'draggable', false );
+
+		this.addEventListener( 'removed', function () {
+
+			this.traverse( function ( object ) {
+
+				if ( object.element instanceof Element && object.element.parentNode !== null ) {
+
+					object.element.parentNode.removeChild( object.element );
+
+				}
+
+			} );
+
+		} );
+
+	}
+
+	copy( source, recursive ) {
+
+		super.copy( source, recursive );
+
+		this.element = source.element.cloneNode( true );
+
+		return this;
+
+	}
+
 }
-function closeMenu(){$('#menu').hidden=true;$('#menuBtn').setAttribute('aria-expanded','false');document.body.style.overflow=''}
-$('#menuBtn').onclick=function(){var o=$('#menu').hidden;$('#menu').hidden=!o;this.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
-window.addEventListener('hashchange',show);show();
-/* lightbox */
-var lb=$('#lb'),lbi=$('img',lb);
-document.addEventListener('click',function(e){
-  var b=e.target.closest&&e.target.closest('.zoom');
-  if(b){lbi.src=b.dataset.src;lb.classList.remove('z');lb.hidden=false;document.body.style.overflow='hidden';return}
-});
-lbi.onclick=function(){lb.classList.toggle('z')};
-$('.lbx').onclick=function(){lb.hidden=true;document.body.style.overflow=''};
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){lb.hidden=true;closeMenu();document.body.style.overflow=''}});
-})();
-</script>
-</body></html>
+
+class CSS3DSprite extends CSS3DObject {
+
+	constructor( element ) {
+
+		super( element );
+
+		this.isCSS3DSprite = true;
+
+		this.rotation2D = 0;
+
+	}
+
+	copy( source, recursive ) {
+
+		super.copy( source, recursive );
+
+		this.rotation2D = source.rotation2D;
+
+		return this;
+
+	}
+
+}
+
+//
+
+const _matrix = new Matrix4();
+const _matrix2 = new Matrix4();
+
+class CSS3DRenderer {
+
+	constructor( parameters = {} ) {
+
+		const _this = this;
+
+		let _width, _height;
+		let _widthHalf, _heightHalf;
+
+		const cache = {
+			camera: { style: '' },
+			objects: new WeakMap()
+		};
+
+		const domElement = parameters.element !== undefined ? parameters.element : document.createElement( 'div' );
+
+		domElement.style.overflow = 'hidden';
+
+		this.domElement = domElement;
+
+		const viewElement = document.createElement( 'div' );
+		viewElement.style.transformOrigin = '0 0';
+		viewElement.style.pointerEvents = 'none';
+		domElement.appendChild( viewElement );
+
+		const cameraElement = document.createElement( 'div' );
+
+		cameraElement.style.transformStyle = 'preserve-3d';
+
+		viewElement.appendChild( cameraElement );
+
+		this.getSize = function () {
+
+			return {
+				width: _width,
+				height: _height
+			};
+
+		};
+
+		this.render = function ( scene, camera ) {
+
+			const fov = camera.projectionMatrix.elements[ 5 ] * _heightHalf;
+
+			if ( camera.view && camera.view.enabled ) {
+
+				// view offset
+				viewElement.style.transform = `translate( ${ - camera.view.offsetX * ( _width / camera.view.width ) }px, ${ - camera.view.offsetY * ( _height / camera.view.height ) }px )`;
+
+				// view fullWidth and fullHeight, view width and height
+				viewElement.style.transform += `scale( ${ camera.view.fullWidth / camera.view.width }, ${ camera.view.fullHeight / camera.view.height } )`;
+
+			} else {
+
+				viewElement.style.transform = '';
+
+			}
+
+			if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
+			if ( camera.parent === null && camera.matrixWorldAutoUpdate === true ) camera.updateMatrixWorld();
+
+			let tx, ty;
+
+			if ( camera.isOrthographicCamera ) {
+
+				tx = - ( camera.right + camera.left ) / 2;
+				ty = ( camera.top + camera.bottom ) / 2;
+
+			}
+
+			const scaleByViewOffset = camera.view && camera.view.enabled ? camera.view.height / camera.view.fullHeight : 1;
+			const cameraCSSMatrix = camera.isOrthographicCamera ?
+				`scale( ${ scaleByViewOffset } )` + 'scale(' + fov + ')' + 'translate(' + epsilon( tx ) + 'px,' + epsilon( ty ) + 'px)' + getCameraCSSMatrix( camera.matrixWorldInverse ) :
+				`scale( ${ scaleByViewOffset } )` + 'translateZ(' + fov + 'px)' + getCameraCSSMatrix( camera.matrixWorldInverse );
+			const perspective = camera.isPerspectiveCamera ? 'perspective(' + fov + 'px) ' : '';
+
+			const style = perspective + cameraCSSMatrix +
+				'translate(' + _widthHalf + 'px,' + _heightHalf + 'px)';
+
+			if ( cache.camera.style !== style ) {
+
+				cameraElement.style.transform = style;
+
+				cache.camera.style = style;
+
+			}
+
+			renderObject( scene, scene, camera, cameraCSSMatrix );
+
+		};
+
+		this.setSize = function ( width, height ) {
+
+			_width = width;
+			_height = height;
+			_widthHalf = _width / 2;
+			_heightHalf = _height / 2;
+
+			domElement.style.width = width + 'px';
+			domElement.style.height = height + 'px';
+
+			viewElement.style.width = width + 'px';
+			viewElement.style.height = height + 'px';
+
+			cameraElement.style.width = width + 'px';
+			cameraElement.style.height = height + 'px';
+
+		};
+
+		function epsilon( value ) {
+
+			return Math.abs( value ) < 1e-10 ? 0 : value;
+
+		}
+
+		function getCameraCSSMatrix( matrix ) {
+
+			const elements = matrix.elements;
+
+			return 'matrix3d(' +
+				epsilon( elements[ 0 ] ) + ',' +
+				epsilon( - elements[ 1 ] ) + ',' +
+				epsilon( elements[ 2 ] ) + ',' +
+				epsilon( elements[ 3 ] ) + ',' +
+				epsilon( elements[ 4 ] ) + ',' +
+				epsilon( - elements[ 5 ] ) + ',' +
+				epsilon( elements[ 6 ] ) + ',' +
+				epsilon( elements[ 7 ] ) + ',' +
+				epsilon( elements[ 8 ] ) + ',' +
+				epsilon( - elements[ 9 ] ) + ',' +
+				epsilon( elements[ 10 ] ) + ',' +
+				epsilon( elements[ 11 ] ) + ',' +
+				epsilon( elements[ 12 ] ) + ',' +
+				epsilon( - elements[ 13 ] ) + ',' +
+				epsilon( elements[ 14 ] ) + ',' +
+				epsilon( elements[ 15 ] ) +
+			')';
+
+		}
+
+		function getObjectCSSMatrix( matrix ) {
+
+			const elements = matrix.elements;
+			const matrix3d = 'matrix3d(' +
+				epsilon( elements[ 0 ] ) + ',' +
+				epsilon( elements[ 1 ] ) + ',' +
+				epsilon( elements[ 2 ] ) + ',' +
+				epsilon( elements[ 3 ] ) + ',' +
+				epsilon( - elements[ 4 ] ) + ',' +
+				epsilon( - elements[ 5 ] ) + ',' +
+				epsilon( - elements[ 6 ] ) + ',' +
+				epsilon( - elements[ 7 ] ) + ',' +
+				epsilon( elements[ 8 ] ) + ',' +
+				epsilon( elements[ 9 ] ) + ',' +
+				epsilon( elements[ 10 ] ) + ',' +
+				epsilon( elements[ 11 ] ) + ',' +
+				epsilon( elements[ 12 ] ) + ',' +
+				epsilon( elements[ 13 ] ) + ',' +
+				epsilon( elements[ 14 ] ) + ',' +
+				epsilon( elements[ 15 ] ) +
+			')';
+
+			return 'translate(-50%,-50%)' + matrix3d;
+
+		}
+
+		function renderObject( object, scene, camera, cameraCSSMatrix ) {
+
+			if ( object.isCSS3DObject ) {
+
+				const visible = ( object.visible === true ) && ( object.layers.test( camera.layers ) === true );
+				object.element.style.display = ( visible === true ) ? '' : 'none';
+
+				if ( visible === true ) {
+
+					object.onBeforeRender( _this, scene, camera );
+
+					let style;
+
+					if ( object.isCSS3DSprite ) {
+
+						// http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
+
+						_matrix.copy( camera.matrixWorldInverse );
+						_matrix.transpose();
+
+						if ( object.rotation2D !== 0 ) _matrix.multiply( _matrix2.makeRotationZ( object.rotation2D ) );
+
+						object.matrixWorld.decompose( _position, _quaternion, _scale );
+						_matrix.setPosition( _position );
+						_matrix.scale( _scale );
+
+						_matrix.elements[ 3 ] = 0;
+						_matrix.elements[ 7 ] = 0;
+						_matrix.elements[ 11 ] = 0;
+						_matrix.elements[ 15 ] = 1;
+
+						style = getObjectCSSMatrix( _matrix );
+
+					} else {
+
+						style = getObjectCSSMatrix( object.matrixWorld );
+
+					}
+
+					const element = object.element;
+					const cachedObject = cache.objects.get( object );
+
+					if ( cachedObject === undefined || cachedObject.style !== style ) {
+
+						element.style.transform = style;
+
+						const objectData = { style: style };
+						cache.objects.set( object, objectData );
+
+					}
+
+					if ( element.parentNode !== cameraElement ) {
+
+						cameraElement.appendChild( element );
+
+					}
+
+					object.onAfterRender( _this, scene, camera );
+
+				}
+
+			}
+
+			for ( let i = 0, l = object.children.length; i < l; i ++ ) {
+
+				renderObject( object.children[ i ], scene, camera, cameraCSSMatrix );
+
+			}
+
+		}
+
+	}
+
+}
+
+export { CSS3DObject, CSS3DSprite, CSS3DRenderer };
