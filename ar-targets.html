@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>미공군 공격목표 AR · 하늘에서 본 대전展</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b0c; --surface:#141b23; --surface-2:#1a232d; --fg:#e2e6ea; --muted:#8794a1;
+  --line:#26313c; --accent:#e0583a; --accent-ink:#ffffff;
+  --sans:'IBM Plex Sans KR','Noto Sans CJK KR',system-ui,sans-serif;
+  --serif:'Black Han Sans','IBM Plex Sans KR',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--fg);font-family:var(--sans);overflow:hidden;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+
+/* 카메라 + 3D 캔버스가 들어가는 영역 */
+#stage{position:fixed;inset:0;overflow:hidden;background:#000}
+
+/* 인식된 사진 테두리 */
+#frame{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .25s}
+#frame polygon{fill:rgba(224,88,58,.08);stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+
+/* 핀 */
+#pins{position:fixed;inset:0;pointer-events:none}
+.pin{position:absolute;left:0;top:0;display:block;width:0;height:0;pointer-events:auto;will-change:transform;opacity:0;padding:0}
+.pin::before{content:"";position:absolute;left:-20px;top:-20px;width:40px;height:40px}
+.pin .dot{position:absolute;left:-8px;top:-8px;width:16px;height:16px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 2px rgba(11,11,12,.8),0 0 0 3px var(--accent)}
+.pin .lab{position:absolute;left:16px;top:-13px;white-space:nowrap;height:26px;line-height:24px;
+  padding:0 9px;border-radius:3px;background:rgba(11,11,12,.86);border:1px solid var(--line);
+  font-size:13px;font-weight:500;letter-spacing:-.01em;display:none}
+.pin.lb .lab,.pin.on .lab{display:block}
+.pin.flip .lab{left:auto;right:16px}
+.pin.on{z-index:2}
+.pin.on .dot{background:#fff;box-shadow:0 0 0 2px rgba(11,11,12,.8),0 0 0 3px #fff}
+.pin.on .lab{border-color:var(--accent);color:var(--accent)}
+
+/* 상단 바 */
+#bar{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
+  background:linear-gradient(180deg,rgba(13,18,24,.92),rgba(13,18,24,0))}
+#bar .ttl{font:500 11px var(--mono);letter-spacing:.14em;color:var(--accent)}
+#bar .ttl b{display:block;margin-top:3px;font:700 15px var(--serif);letter-spacing:-.01em;color:var(--fg)}
+#back{font-size:13px;padding:8px 12px;border:1px solid var(--line);border-radius:3px;background:rgba(13,18,24,.7);text-decoration:none;white-space:nowrap}
+
+/* 상태 칩 */
+#status{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 70px);transform:translateX(-50%);z-index:5;
+  padding:7px 14px;border-radius:99px;background:rgba(13,18,24,.88);border:1px solid var(--line);
+  font-size:13px;white-space:nowrap;transition:all .25s}
+#status i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin-right:8px;vertical-align:1px}
+body[data-state=found] #status{border-color:var(--accent);color:var(--accent)}
+body[data-state=found] #status i{background:var(--accent)}
+
+/* 인식 전 안내 프레임 */
+#reticle{position:fixed;left:50%;top:50%;width:min(78vw,520px);aspect-ratio:3/2;transform:translate(-50%,-56%);pointer-events:none;
+  transition:opacity .25s}
+#reticle i{position:absolute;width:30px;height:30px;border:3px solid var(--accent)}
+#reticle i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}
+#reticle i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+#reticle i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}
+#reticle i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+body[data-state=found] #reticle{opacity:0}
+
+/* 하단 카드 */
+#card{position:fixed;left:0;right:0;bottom:0;z-index:6;padding:16px 18px calc(env(safe-area-inset-bottom) + 18px);
+  background:rgba(20,27,35,.97);border-top:1px solid var(--line);
+  transform:translateY(100%);transition:transform .28s ease}
+#card.show{transform:none}
+#card .row{display:flex;justify-content:space-between;align-items:center}
+#card .eb{font:500 11px var(--mono);letter-spacing:.14em;color:var(--accent)}
+#card h2{margin:8px 0 8px;font:700 21px/1.3 var(--serif);letter-spacing:-.01em}
+#card p{font-size:14.5px;line-height:1.7;color:#c4cbd2;font-weight:300}
+#card .nav{display:flex;gap:8px;margin-top:14px}
+#card .nav button{flex:1;padding:11px 0;border:1px solid var(--line);border-radius:3px;font-size:14px;background:var(--surface-2)}
+#card .x{padding:4px 8px;color:var(--muted);font-size:20px;line-height:1}
+#hint{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 26px);transform:translateX(-50%);z-index:5;
+  padding:9px 16px;border-radius:99px;background:rgba(13,18,24,.88);border:1px solid var(--line);font-size:13px;white-space:nowrap;
+  opacity:0;transition:opacity .25s;pointer-events:none}
+body[data-state=found]:not([data-card=open]) #hint{opacity:1}
+
+/* 시작 / 오류 화면 */
+.overlay{position:fixed;inset:0;z-index:10;background:var(--bg);display:flex;flex-direction:column;justify-content:center;
+  padding:max(28px,env(safe-area-inset-top)) 26px max(28px,env(safe-area-inset-bottom));overflow:auto}
+.overlay[hidden]{display:none}
+.overlay .eb{font:500 11px var(--mono);letter-spacing:.16em;color:var(--accent)}
+.overlay h1{margin:12px 0 6px;font:700 30px/1.25 var(--serif);letter-spacing:-.02em}
+.overlay .sub{font:500 17px var(--serif);color:var(--accent);margin-bottom:22px}
+.overlay ol{margin:0 0 22px 18px;color:#c4cbd2;font-size:15px;line-height:1.8;font-weight:300}
+.overlay .note{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:22px}
+.btn{display:block;width:100%;padding:15px 0;border-radius:3px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;text-align:center;text-decoration:none}
+.btn.ghost{background:none;color:var(--fg);border:1px solid var(--line);margin-top:10px;font-weight:400;font-size:14px;padding:13px 0}
+#loading .spin{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:s 1s linear infinite;margin-bottom:18px}
+@keyframes s{to{transform:rotate(360deg)}}
+
+/* 편집 모드(?edit=1) */
+#coord{position:fixed;left:12px;top:calc(env(safe-area-inset-top) + 108px);z-index:7;padding:8px 12px;border-radius:3px;
+  background:#000;border:1px solid var(--accent);font:13px var(--mono);color:var(--accent);display:none}
+body.edit #coord{display:block}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+</head>
+<body data-state="idle" data-card="closed">
+
+<div id="stage"></div>
+<svg id="frame"><polygon points=""/></svg>
+<div id="pins"></div>
+<div id="reticle"><i></i><i></i><i></i><i></i></div>
+
+<header id="bar">
+  <div class="ttl">AR · 미공군 공격목표<b>하늘에서 본 대전展</b></div>
+  <a id="back" href="./#targets">도슨트로</a>
+</header>
+<div id="status"><i></i><span>사진을 비춰 주세요</span></div>
+<div id="coord">탭한 위치 —</div>
+<div id="hint">지점을 눌러 보세요</div>
+
+<aside id="card" aria-live="polite">
+  <div class="row"><span class="eb" id="cEb"></span><button class="x" id="cX" aria-label="닫기">×</button></div>
+  <h2 id="cT"></h2>
+  <p id="cP"></p>
+  <div class="nav"><button id="cPrev">← 이전</button><button id="cNext">다음 →</button></div>
+</aside>
+
+<section id="start" class="overlay">
+  <div class="eb">AR · 미공군 공격목표 구역</div>
+  <h1>하늘에서 본<br>미공군 공격목표</h1>
+  <div class="sub">사진에 휴대폰을 비춰 보세요</div>
+  <ol>
+    <li>아래 버튼으로 카메라를 켭니다.</li>
+    <li>전시장의 공격목표 사진 네 장 중 아무거나 비춥니다. 사진마다 지점 이름이 다르게 나타납니다.</li>
+    <li>사진 위에 나타나는 점을 누르면 그 지점의 이름이 열립니다.</li>
+  </ol>
+  <p class="note">카메라 영상은 휴대폰 안에서만 처리되며 어디에도 저장·전송되지 않습니다. 카카오톡·네이버 앱 안에서 열었다면 카메라가 막힐 수 있으니 사파리나 크롬으로 열어 주세요.</p>
+  <button class="btn" id="go">카메라 켜기</button>
+  <a class="btn ghost" href="./#targets">AR 없이 도슨트 글로 보기</a>
+</section>
+
+<section id="loading" class="overlay" hidden>
+  <div class="spin"></div>
+  <div class="eb">LOADING</div>
+  <h1 style="font-size:22px">AR 준비 중…</h1>
+  <p class="note" style="margin:0">처음 한 번만 몇 초 걸립니다. 카메라 허용 창이 뜨면 &lsquo;허용&rsquo;을 눌러 주세요.</p>
+</section>
+
+<section id="error" class="overlay" hidden>
+  <div class="eb">CAMERA</div>
+  <h1 id="eT" style="font-size:24px">카메라를 켤 수 없습니다</h1>
+  <p class="note" id="eP"></p>
+  <button class="btn" id="retry">다시 시도</button>
+  <a class="btn ghost" href="./#targets">AR 없이 도슨트 글로 보기</a>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+import { MindARThree } from './vendor/mindar-image-three.prod.js';
+
+/* ════════ 설정 영역 ════════
+   TARGET  : 사진을 컴파일한 .mind 파일 (전체 사진 1개 + 겹치는 조각 8개가 한 파일에 들어 있음)
+   TARGETS : 각 인식 대상이 전체 사진에서 차지하는 범위(0~1 비율). 첫째가 전체 사진, 나머지는 조각.
+             조각 덕분에 사진에 가까이 가도(한 조각이 화면에 일부만 보여도) 인식이 이어집니다.
+   PINS    : x, y 는 사진 왼쪽 위를 (0,0), 오른쪽 아래를 (1,1)로 본 비율 좌표
+             ?edit=1 로 열고 사진 위를 탭하면 좌표가 화면에 표시됩니다. */
+const TARGET = './targets/panels.mind';
+const TARGETS = [   // 각 사진(인식 대상). aspect = 사진의 세로/가로 비율
+  {x0:0,y0:0,x1:1,y1:1,aspect:0.97480},   // 0: targets_tl.jpg
+  {x0:0,y0:0,x1:1,y1:1,aspect:0.71724},   // 1: targets_tr.jpg
+  {x0:0,y0:0,x1:1,y1:1,aspect:0.71609},   // 2: targets_bl.jpg
+  {x0:0,y0:0,x1:1,y1:1,aspect:0.71293},   // 3: targets_br.jpg
+];
+const PINS = [   // t = 어느 사진의 지점인지(위 TARGETS 번호). 설명(text)은 비워 두면 이름만 표시됩니다.
+  { t:0, x:0.2183, y:0.2885, title:'대전선철교' },
+  { t:0, x:0.5367, y:0.4121, title:'공업학교' },
+  { t:0, x:0.7649, y:0.4052, title:'대동천' },
+  { t:0, x:0.1541, y:0.4478, title:'대전형무소' },
+  { t:0, x:0.2541, y:0.4185, title:'대전천' },
+  { t:0, x:0.1206, y:0.4954, title:'파괴?' },
+  { t:0, x:0.6546, y:0.5466, title:'삼성초' },
+  { t:0, x:0.5511, y:0.6986, title:'선화교(파괴?)' },
+  { t:0, x:0.3376, y:0.7306, title:'대전법원' },
+  { t:0, x:0.7742, y:0.7380, title:'대전역' },
+  { t:0, x:0.0361, y:0.7389, title:'목동성당' },
+  { t:0, x:0.2398, y:0.7563, title:'중앙초' },
+  { t:0, x:0.6539, y:0.8020, title:'목척교' },
+  { t:0, x:0.1496, y:0.7929, title:'대전사범' },
+  { t:0, x:0.5715, y:0.8570, title:'대전시청' },
+  { t:0, x:0.1239, y:0.8981, title:'서대전초' },
+  { t:0, x:0.4028, y:0.9215, title:'충남도청' },
+  { t:1, x:0.4008, y:0.2013, title:'대전비행장' },
+  { t:1, x:0.8883, y:0.2305, title:'대전천' },
+  { t:1, x:0.9123, y:0.3487, title:'대전선교' },
+  { t:1, x:0.7023, y:0.3788, title:'유등천' },
+  { t:1, x:0.8447, y:0.5429, title:'대전형무소' },
+  { t:1, x:0.5898, y:0.6951, title:'수침교' },
+  { t:1, x:0.6324, y:0.8477, title:'호남선 철도' },
+  { t:2, x:0.6351, y:0.2575, title:'계족산' },
+  { t:2, x:0.5438, y:0.3555, title:'수침교' },
+  { t:2, x:0.3922, y:0.5218, title:'유등교' },
+  { t:2, x:0.5853, y:0.6764, title:'유등천' },
+  { t:2, x:0.6272, y:0.8945, title:'호남선철교' },
+  { t:3, x:0.4324, y:0.1044, title:'금병산' },
+  { t:3, x:0.5152, y:0.1836, title:'갑천' },
+  { t:3, x:0.3873, y:0.2843, title:'유등천' },
+  { t:3, x:0.4071, y:0.4500, title:'서대전역' },
+  { t:3, x:0.6265, y:0.4841, title:'대전선교' },
+  { t:3, x:0.8964, y:0.4928, title:'대전역' },
+  { t:3, x:0.5807, y:0.6239, title:'대전천' },
+];
+/* 떨림 줄이기(화면 좌표 필터): MIN_CUTOFF 를 낮추면 더 안정적이고 느려지며, BETA 를 높이면 움직일 때 덜 늦습니다.
+   주소 뒤에 ?mc=0.8&beta=0.05 처럼 붙여 현장에서 바로 시험할 수 있습니다. */
+const Q = new URLSearchParams(location.search);
+const MIN_CUTOFF = parseFloat(Q.get('mc')) || 0.7;
+const BETA = parseFloat(Q.get('beta')) || 0.03;
+const MISS_TOLERANCE = parseInt(Q.get('miss')) || 12;   // 인식을 잠깐 놓쳐도 유지하는 프레임 수
+/* ═══════════════════════════ */
+
+/* ?hq=1 : 카메라를 1280×720 으로 요청(정밀도↑, 휴대폰 부하↑) */
+if (Q.has('hq') && navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+  const orig = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+  navigator.mediaDevices.getUserMedia = c => {
+    if (c && c.video && typeof c.video === 'object') c.video = { ...c.video, width:{ ideal:1280 }, height:{ ideal:720 } };
+    return orig(c);
+  };
+}
+
+const $ = id => document.getElementById(id);
+const body = document.body, stage = $('stage'), pinsEl = $('pins');
+const poly = document.querySelector('#frame polygon'), frame = $('frame');
+const statusTxt = $('status').querySelector('span');
+if (Q.has('edit')) body.classList.add('edit');
+
+let mindar, anchors = [], active = -1, sel = -1, started = false;
+const foundSet = new Set();
+const isFound = () => active >= 0;
+
+/* One-Euro 필터: 가만히 있을 땐 강하게 매끈하게, 빠르게 움직일 땐 덜 늦게 */
+class OneEuro{
+  constructor(){ this.t = null; this.x = 0; this.dx = 0; }
+  static a(c, dt){ const tau = 1 / (2 * Math.PI * c); return 1 / (1 + tau / dt); }
+  f(x, now){
+    if (this.t === null){ this.t = now; this.x = x; this.dx = 0; return x; }
+    const dt = Math.max(1e-3, (now - this.t) / 1000); this.t = now;
+    this.dx += OneEuro.a(1, dt) * ((x - this.x) / dt - this.dx);
+    this.x += OneEuro.a(MIN_CUTOFF + BETA * Math.abs(this.dx), dt) * (x - this.x);
+    return this.x;
+  }
+  reset(){ this.t = null; }
+}
+const pinF = PINS.map(() => [new OneEuro(), new OneEuro()]);
+const cornF = [0, 1, 2, 3].map(() => [new OneEuro(), new OneEuro()]);
+
+const pinEls = PINS.map((p, i) => {
+  const el = document.createElement('button');
+  el.className = 'pin';
+  el.innerHTML = `<span class="dot"></span><span class="lab"></span>`;
+  el.querySelector('.lab').textContent = p.title;
+  el.addEventListener('click', e => { e.stopPropagation(); select(i); });
+  pinsEl.appendChild(el);
+  return el;
+});
+
+function setState(s){
+  body.dataset.state = s;
+  statusTxt.textContent = s === 'found' ? '사진을 인식했습니다' : '사진을 비춰 주세요';
+}
+const grp = i => PINS.map((_, k) => k).filter(k => PINS[k].t === PINS[i].t);
+function select(i){
+  sel = i;
+  pinEls.forEach((el, k) => el.classList.toggle('on', k === i));
+  if (i < 0){ $('card').classList.remove('show'); body.dataset.card = 'closed'; return; }
+  const p = PINS[i], gr = grp(i);
+  $('cEb').textContent = `지점 ${String(gr.indexOf(i) + 1).padStart(2, '0')} / ${String(gr.length).padStart(2, '0')}`;
+  $('cT').textContent = p.title; $('cP').textContent = p.text || ''; $('cP').hidden = !p.text;
+  $('card').classList.add('show'); body.dataset.card = 'open';
+}
+$('cX').onclick = () => select(-1);
+$('cPrev').onclick = () => { if (sel < 0) return; const g = grp(sel); select(g[(g.indexOf(sel) - 1 + g.length) % g.length]); };
+$('cNext').onclick = () => { if (sel < 0) return; const g = grp(sel); select(g[(g.indexOf(sel) + 1) % g.length]); };
+
+/* 사진 전체 기준 비율 좌표 → 현재 인식 중인 대상(전체/조각)의 로컬 좌표 */
+function local(nx, ny, t){
+  const w = t.x1 - t.x0, cx = (t.x0 + t.x1) / 2, cy = (t.y0 + t.y1) / 2;
+  return [(nx - cx) / w, -(ny - cy) * t.aspect / w];
+}
+const v = new THREE.Vector3();
+function toScreen(lx, ly, g){
+  v.set(lx, ly, 0).applyMatrix4(g.matrix).project(mindar.camera);
+  return { x:(v.x + 1) / 2 * stage.clientWidth, y:(1 - v.y) / 2 * stage.clientHeight, z:v.z };
+}
+
+function hideAll(){
+  frame.style.opacity = 0;
+  pinEls.forEach(el => el.style.opacity = 0);
+  pinF.concat(cornF).forEach(a => a.forEach(f => f.reset()));
+}
+function refreshActive(){
+  active = foundSet.size ? [...foundSet].pop() : -1;
+  if (sel >= 0 && active >= 0 && PINS[sel].t !== active) select(-1);
+  if (active >= 0){ setState('found'); }
+  else { hideAll(); setState('lost'); }
+}
+
+function tick(){
+  mindar.renderer.render(mindar.scene, mindar.camera);
+  if (active < 0) return;
+  const now = performance.now(), t = TARGETS[active], g = anchors[active].group;
+  const W = stage.clientWidth, Hh = stage.clientHeight;
+  let behind = false;
+  const corners = [[0,0],[1,0],[1,1],[0,1]].map(([a,b], k) => {
+    const s = toScreen(...local(a, b, t), g);
+    if (s.z >= 1) behind = true;
+    return `${cornF[k][0].f(s.x, now).toFixed(1)},${cornF[k][1].f(s.y, now).toFixed(1)}`;
+  });
+  frame.style.opacity = behind ? 0 : 1;
+  poly.setAttribute('points', corners.join(' '));
+  const pos = [];
+  PINS.forEach((p, i) => {
+    const el = pinEls[i];
+    if (p.t !== active){ el.style.opacity = 0; pos[i] = { x:0, y:0, ok:false }; return; }
+    const s = toScreen(...local(p.x, p.y, t), g);
+    const ok = s.z < 1 && s.x > -20 && s.x < W + 20 && s.y > -20 && s.y < Hh + 20;
+    const x = pinF[i][0].f(s.x, now), y = pinF[i][1].f(s.y, now);
+    el.style.opacity = ok ? 1 : 0;
+    el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
+    pos[i] = { x, y, ok };
+  });
+  /* 이름표 겹침 정리: 선택한 지점 → 앞쪽 항목 순으로 자리를 잡고, 겹치면 이름표만 숨김(점은 항상 보임) */
+  const boxes = [], order = PINS.map((_, i) => i).sort((a, b) => (b === sel) - (a === sel) || a - b);
+  const hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
+  order.forEach(i => {
+    const el = pinEls[i], q = pos[i];
+    let show = false, flip = false;
+    if (q.ok){
+      const w = PINS[i].title.length * 13.5 + 22, y0 = q.y - 13, y1 = q.y + 13;
+      const R = [q.x + 16, y0, q.x + 16 + w, y1], L = [q.x - 16 - w, y0, q.x - 16, y1];
+      const fits = r => r[0] > 4 && r[2] < W - 4 && !boxes.some(b => hit(r, b));
+      if (fits(R)){ show = true; boxes.push(R); }
+      else if (fits(L)){ show = true; flip = true; boxes.push(L); }
+    }
+    el.classList.toggle('lb', show);
+    el.classList.toggle('flip', flip);
+  });
+}
+
+/* 편집 모드: 인식된 사진 위를 탭하면 전체 사진 기준 비율 좌표 표시 */
+stage.addEventListener('click', e => {
+  if (!body.classList.contains('edit') || active < 0) return;
+  const t = TARGETS[active], g = anchors[active].group;
+  const r = stage.getBoundingClientRect();
+  const nx = ((e.clientX - r.left) / r.width) * 2 - 1, ny = -((e.clientY - r.top) / r.height) * 2 + 1;
+  const inv = g.matrix.clone().invert();
+  const p = new THREE.Vector3(nx, ny, 0.5).unproject(mindar.camera).applyMatrix4(inv);
+  const o = new THREE.Vector3(0, 0, 0).applyMatrix4(inv), d = p.sub(o);
+  const k = -o.z / d.z, lx = o.x + k * d.x, ly = o.y + k * d.y;
+  const w = t.x1 - t.x0, cx = (t.x0 + t.x1) / 2, cy = (t.y0 + t.y1) / 2;
+  const X = (lx * w + cx).toFixed(3), Y = (cy - ly * w / t.aspect).toFixed(3);
+  $('coord').textContent = `x: ${X}   y: ${Y}   (대상 ${active})`; console.log(`PIN x:${X}, y:${Y}`);
+});
+
+function showErr(e){
+  console.error(e);
+  const name = e && e.name, insecure = !window.isSecureContext;
+  let t = '카메라를 켤 수 없습니다', m;
+  if (insecure) m = '보안 연결(https) 주소에서만 카메라를 쓸 수 있습니다. 전시 안내 QR의 주소가 https로 시작하는지 확인해 주세요.';
+  else if (name === 'NotAllowedError' || name === 'SecurityError') { t = '카메라 권한이 필요합니다'; m = '브라우저 설정에서 이 사이트의 카메라를 허용한 뒤 다시 시도해 주세요. 카카오톡·네이버 앱 안에서는 막힐 수 있으니 사파리나 크롬으로 열어 보세요.'; }
+  else if (name === 'NotFoundError') m = '사용할 수 있는 카메라를 찾지 못했습니다.';
+  else m = 'AR 엔진을 시작하지 못했습니다. 잠시 뒤 다시 시도하거나 도슨트 글로 보세요. (' + (name || 'error') + ')';
+  $('eT').textContent = t; $('eP').textContent = m;
+  $('loading').hidden = true; $('error').hidden = false;
+}
+
+async function start(){
+  $('start').hidden = true; $('error').hidden = true; $('loading').hidden = false;
+  try{
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw Object.assign(new Error('no mediaDevices'), { name:'SecurityError' });
+    if (!mindar){
+      mindar = new MindARThree({ container:stage, imageTargetSrc:TARGET, maxTrack:1,
+        uiLoading:'no', uiScanning:'no', uiError:'no', missTolerance:MISS_TOLERANCE });
+      TARGETS.forEach((_, i) => {
+        const a = mindar.addAnchor(i); anchors.push(a);
+        a.onTargetFound = () => { foundSet.delete(i); foundSet.add(i); refreshActive(); };
+        a.onTargetLost = () => { foundSet.delete(i); refreshActive(); };
+      });
+    }
+    await mindar.start();
+    started = true; setState('lost');
+    $('loading').hidden = true;
+    mindar.renderer.setAnimationLoop(tick);
+  }catch(e){ showErr(e); }
+}
+$('go').onclick = start;
+$('retry').onclick = start;
+document.addEventListener('visibilitychange', () => {
+  if (!mindar || !started) return;
+  if (document.hidden) mindar.renderer.setAnimationLoop(null); else mindar.renderer.setAnimationLoop(tick);
+});
+window.__ar = { get found(){ return isFound(); }, get active(){ return active; } };
+</script>
+</body>
+</html>
