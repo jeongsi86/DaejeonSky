@@ -153,6 +153,26 @@ p.cap{font-size:13.5px;margin:10px 0 0}p.src{margin:6px 0 26px}
 #vframe{flex:1;width:100%;border:0;background:#111}
 body.vmode{overflow:hidden;padding-bottom:0}
 body.vmode .top,body.vmode .pn,body.vmode .foot,body.vmode .bar{display:none}
+
+/* 특강 안내 카드 */
+.lecture{display:grid;grid-template-columns:34% 1fr;gap:18px;margin:26px 0 0;padding:16px;border:1px solid var(--line);background:var(--bg2);border-top:3px solid var(--ac)}
+.lec-img{display:block;align-self:start;background:#000}
+.lec-tag{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lec-tag b{font:400 14px/1 var(--disp);background:var(--ac);color:#fff;padding:5px 10px 4px}
+.lec-state{font:500 11px var(--mono);letter-spacing:.12em;color:var(--ac2)}
+.lecture h3{font:400 20px/1.35 var(--disp);margin-bottom:12px}
+.lecture h3 em{font-style:normal;color:var(--ac2)}
+.lecture dl>div{display:grid;grid-template-columns:44px 1fr;gap:8px;padding:5px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.6}
+.lecture dt{font:500 11px/2 var(--mono);letter-spacing:.1em;color:var(--ac)}
+.lecture dd .dim{display:block;font-size:12.5px}
+.lec-apply{display:block;margin:14px 0 0;padding:13px 16px;background:var(--ac);color:#fff;border-radius:2px}
+.lec-apply b{display:block;font:400 18px/1.2 var(--disp)}.lec-apply small{display:block;font-size:12px;opacity:.92;margin-top:2px}
+.lec-apply:active{filter:brightness(.92)}
+.lec-note{margin-top:10px;font-size:12px;color:var(--dim);line-height:1.6}
+.lecture.ended .lec-apply{display:none}
+.lecture.ended .lec-state{color:var(--dim)}
+.lecture.ended{opacity:.78}
+@media(max-width:520px){.lecture{grid-template-columns:1fr}.lec-img{max-width:56%}}
 </style>
 </head>
 <body>
@@ -167,6 +187,23 @@ body.vmode .top,body.vmode .pn,body.vmode .foot,body.vmode .bar{display:none}
   <div class="poster-bg" style="background-image:url(img/poster.jpg)"></div>
   <h1 class="sr">하늘에서 본 대전展 — 해방과 전쟁 사이</h1>
   <button class="zoom poster" data-src="img/poster.jpg" aria-label="포스터 크게 보기"><img src="img/poster.jpg" alt="「하늘에서 본 대전展」 해방과 전쟁 사이 포스터 — 2026.10.29–11.30 테미마을박물관"></button>
+</section>
+<section class="wrap">
+  <article class="lecture" id="lecture">
+    <button class="zoom lec-img" data-src="img/lecture.jpg" aria-label="특강 포스터 크게 보기"><img src="img/lecture_s.jpg" alt="특강 포스터 — 한국전쟁기 미 ‘군사활동’ 자료의 가치와 한계, 11월 9일 월요일 19시" loading="lazy"></button>
+    <div class="lec-tx">
+      <div class="lec-tag"><b>특강</b><span class="lec-state" data-open="신청 받는 중" data-closed="종료된 행사">신청 받는 중</span></div>
+      <h3>한국전쟁기 미 ‘군사활동’ 자료의 <em>가치와 한계</em></h3>
+      <dl>
+        <div><dt>강사</dt><dd>전갑생<span class="dim"> 성공회대 동아시아연구소 연구교수</span></dd></div>
+        <div><dt>일시</dt><dd>2026년 11월 9일(월) 저녁 7시</dd></div>
+        <div><dt>장소</dt><dd>테미마을박물관 1층<span class="dim"> 대전 중구 보문로 184</span></dd></div>
+        <div><dt>인원</dt><dd>선착순 20명<span class="dim"> 공간이 좁아 참석하려면 꼭 신청해 주세요.</span></dd></div>
+      </dl>
+      <a class="lec-apply" href="https://forms.gle/T1vpVTQs91hZMVmZA" target="_blank" rel="noopener"><b>특강 참석 신청</b><small>구글 폼으로 이동합니다</small></a>
+      <p class="lec-note">공동주최 (사)평화통일교육문화센터 · (사)대전문화유산울림</p>
+    </div>
+  </article>
 </section>
 <section class="wrap">
   <a class="virtual-btn" href="#virtual"><span class="vi" aria-hidden="true">▶</span><span><b>가상 전시 관람</b><small>전시장에 가지 않아도 온라인으로 둘러보세요</small></span></a>
@@ -295,6 +332,9 @@ function show(){
 }
 function closeMenu(){$('#menu').hidden=true;$('#menuBtn').setAttribute('aria-expanded','false');document.body.style.overflow=''}
 $('#menuBtn').onclick=function(){var o=$('#menu').hidden;$('#menu').hidden=!o;this.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+/* 특강: 2026-11-09 21:00(KST) 이후에는 '종료된 행사'로 표시하고 신청 버튼을 숨김 */
+(function(){var L=document.getElementById('lecture');if(!L)return;
+ if(Date.now()>Date.UTC(2026,10,9,12,0)){L.classList.add('ended');var s=L.querySelector('.lec-state');if(s)s.textContent=s.dataset.closed}})();
 window.addEventListener('hashchange',show);show();
 /* lightbox */
 var lb=$('#lb'),lbi=$('img',lb);
