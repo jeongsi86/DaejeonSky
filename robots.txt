@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jeongsi86.github.io/DaejeonSky/sitemap.xml
